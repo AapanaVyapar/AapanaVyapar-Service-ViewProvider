@@ -9,27 +9,19 @@ import (
 )
 
 type DataBase struct {
-	mutex          sync.RWMutex
-	UserData       *mongo.Collection
-	OrderData      *mongo.Collection
-	ShopData       *mongo.Collection
-	ProductData    *mongo.Collection
-	AnalyticalData *mongo.Collection
-	Cash           *redis.Client
+	mutex sync.RWMutex
+	Data  *mongo.Database
+	Cash  *redis.Client
 }
 
 func NewDataBase() *DataBase {
 
-	rdb := redisDb.InitRedis()
-
 	database := mongodb.InitMongo()
 
+	rdb := redisDb.InitRedis()
+
 	return &DataBase{
-		UserData:       mongodb.OpenUserDataCollection(database),
-		OrderData:      mongodb.OpenOrderDataCollection(database),
-		ShopData:       mongodb.OpenShopDataCollection(database),
-		ProductData:    mongodb.OpenProductDataCollection(database),
-		AnalyticalData: mongodb.OpenAnalyticalDataCollection(database),
-		Cash:           rdb,
+		Data: database,
+		Cash: rdb,
 	}
 }

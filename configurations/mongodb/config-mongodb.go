@@ -10,28 +10,23 @@ import (
 
 func InitMongo() *mongo.Database {
 
-	ctx, err := context.WithTimeout(context.Background(), 10*time.Second)
-	if err != nil {
-		panic(err)
-	}
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	credential := options.Credential{
 		Username: os.Getenv("MONGODB_USER"),
 		Password: os.Getenv("MONGODB_PASSWORD"),
 	}
 
-	client, errc := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")).SetAuth(credential))
-	if errc != nil {
-		panic(errc)
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")).SetAuth(credential))
+	if err != nil {
+		panic(err)
 	}
-	defer client.Disconnect(ctx)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()
-	errp := client.Ping(ctx, nil)
+	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
+	err = client.Ping(ctx, nil)
 
-	if errp != nil {
-		panic(errp)
+	if err != nil {
+		panic(err)
 	}
 
 	database := client.Database("db_aapanavypar")

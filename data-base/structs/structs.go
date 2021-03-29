@@ -9,105 +9,105 @@ import (
 )
 
 type UserData struct {
-	Id        primitive.ObjectID `bson:"_id" validate:"required"`
-	UserId    string             `bson:"user_id" validate:"required"`
-	UserName  string             `bson:"user_name" validate:"required"`
-	Address   Address            `bson:"address"`
-	Cart      ShopAndProductIds  `bson:"cart,omitempty"`
-	Favorites ShopAndProductIds  `bson:"favorites,omitempty"`
-	Orders    ShopAndProductIds  `bson:"orders,omitempty"`
+	Id        primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
+	UserId    string             `bson:"user_id" json:"user_id" validate:"required"`
+	UserName  string             `bson:"user_name" json:"user_name" validate:"required"`
+	Address   Address            `bson:"address" json:"address"`
+	Cart      ShopAndProductIds  `bson:"cart,omitempty" json:"cart"`
+	Favorites ShopAndProductIds  `bson:"favorites,omitempty" json:"favorites"`
+	Orders    ShopAndProductIds  `bson:"orders,omitempty" json:"orders"`
 }
 
 type ShopAndProductIds struct {
-	Product []string `bson:"products"`
+	Product []string `bson:"products" json:"products"`
 }
 
 type OrderData struct {
-	OrderId          primitive.ObjectID  `bson:"_id" validate:"required"`
-	UserId           string              `bson:"user_id" validate:"required"`
-	Status           constants.Status    `bson:"status" validate:"required"`
-	ShopAndProductId string              `bson:"shop_and_product_id" validate:"required"`
-	TimeStamp        primitive.Timestamp `bson:"timestamp" validate:"required"`
-	Price            string              `bson:"price" validate:"required"`
-	Quantity         int64               `bson:"price" validate:"required"`
+	OrderId          primitive.ObjectID  `bson:"_id" json:"_id" validate:"required"`
+	UserId           string              `bson:"user_id" json:"user_id" validate:"required"`
+	Status           constants.Status    `bson:"status" json:"status" validate:"required"`
+	ShopAndProductId string              `bson:"shop_and_product_id" json:"shop_and_product_id" validate:"required"`
+	TimeStamp        primitive.Timestamp `bson:"timestamp" json:"timestamp" validate:"required"`
+	Price            string              `bson:"price" json:"price" validate:"required"`
+	Quantity         int64               `bson:"quantity" json:"quantity" validate:"required"`
 }
 
 type Address struct {
-	FullName      string `bson:"name" validate:"required,min=2,max=100"`
-	HouseDetails  string `bson:"house_details" validate:"required,max=100"`
-	StreetDetails string `bson:"street_details" validate:"required,max=100"`
-	LandMark      string `bson:"land_mark" validate:"required,max=100"`
-	PinCode       string `bson:"code" validate:"required,max=6"`
-	City          string `bson:"city" validate:"required,max=90"`
-	State         string `bson:"state" validate:"required,max=90"`
-	Country       string `bson:"country" validate:"required,max=90"`
-	PhoneNo       string `bson:"phone_no" validate:"required,max=10"`
+	FullName      string `bson:"name" json:"name" validate:"required,min=2,max=100"`
+	HouseDetails  string `bson:"house_details" json:"house_details" validate:"required,max=100"`
+	StreetDetails string `bson:"street_details" json:"street_details" validate:"required,max=100"`
+	LandMark      string `bson:"land_mark" json:"land_mark" validate:"required,max=100"`
+	PinCode       string `bson:"code" json:"code" validate:"required,max=6"`
+	City          string `bson:"city" json:"city" validate:"required,max=90"`
+	State         string `bson:"state" json:"state" validate:"required,max=90"`
+	Country       string `bson:"country" json:"country" validate:"required,max=90"`
+	PhoneNo       string `bson:"phone_no" json:"phone_no" validate:"required,max=10"`
 }
 
 type Location struct {
-	Longitude string `bson:"longitude" validate:"required,longitude"`
-	Latitude  string `bson:"latitude" validate:"required,latitude"`
+	Longitude string `bson:"longitude" json:"longitude" validate:"required,longitude"`
+	Latitude  string `bson:"latitude" json:"latitude" validate:"required,latitude"`
 }
 
 type OperationalHours struct {
-	Sunday    [2]time.Time `validate:"required"`
-	Monday    [2]time.Time `validate:"required"`
-	Tuesday   [2]time.Time `validate:"required"`
-	Wednesday [2]time.Time `validate:"required"`
-	Thursday  [2]time.Time `validate:"required"`
-	Friday    [2]time.Time `validate:"required"`
-	Saturday  [2]time.Time `validate:"required"`
+	Sunday    [2]time.Time `json:"sunday" validate:"required"`
+	Monday    [2]time.Time `json:"monday" validate:"required"`
+	Tuesday   [2]time.Time `json:"tuesday" validate:"required"`
+	Wednesday [2]time.Time `json:"wednesday" validate:"required"`
+	Thursday  [2]time.Time `json:"thursday" validate:"required"`
+	Friday    [2]time.Time `json:"friday" validate:"required"`
+	Saturday  [2]time.Time `json:"saturday" validate:"required"`
 }
 
 type Rating struct {
-	UserId    string              `bson:"user_id" validate:"required"`
-	UserName  string              `bson:"user_name" validate:"required"`
-	Comment   string              `bson:"comment" validate:"required,max=100"`
-	Rating    constants.Ratings   `bson:"rating" validate:"required"`
-	Timestamp primitive.Timestamp `bson:"timestamp" validate:"required"`
+	UserId    string              `bson:"user_id" json:"user_id" validate:"required"`
+	UserName  string              `bson:"user_name" json:"user_name" validate:"required"`
+	Comment   string              `bson:"comment" json:"comment" validate:"required,max=100"`
+	Rating    constants.Ratings   `bson:"rating" json:"rating" validate:"required"`
+	Timestamp primitive.Timestamp `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 
 type ShopData struct {
-	ShopId              primitive.ObjectID     `bson:"shop_id" validate:"required"`
-	ShopName            string                 `bson:"shop_name" validate:"required,max=50"`
-	ShopKeeperName      string                 `bson:"shop_keeper_name" validate:"required,min=2,max=100"`
-	Images              []url.URL              `bson:"images" validate:"required"`
-	PrimaryImages       url.URL                `bson:"primary_images" validate:"required"`
-	Address             Address                `bson:"address" validate:"required"`
-	Location            Location               `bson:"location" validate:"required"`
-	SectorNo            int64                  `bson:"sector_no" validate:"required"`
-	Category            []constants.Categories `bson:"category" validate:"required"`
-	BusinessInformation string                 `bson:"business_information" validate:"required,max=500"`
-	Currency            currency.Type          `bson:"currency" validate:"required"`
-	OperationalHours    OperationalHours       `bson:"operational_hours" validate:"required"`
-	Ratings             Rating                 `bson:"ratings"`
-	Timestamp           primitive.Timestamp    `bson:"timestamp" validate:"required"`
+	ShopId              primitive.ObjectID     `bson:"shop_id" json:"shop_id" validate:"required"`
+	ShopName            string                 `bson:"shop_name" json:"shop_name" validate:"required,max=50"`
+	ShopKeeperName      string                 `bson:"shop_keeper_name" json:"shop_keeper_name" validate:"required,min=2,max=100"`
+	Images              []url.URL              `bson:"images" json:"images" validate:"required"`
+	PrimaryImages       url.URL                `bson:"primary_images" json:"primary_images" validate:"required"`
+	Address             Address                `bson:"address" json:"address" validate:"required"`
+	Location            Location               `bson:"location" json:"location" validate:"required"`
+	SectorNo            int64                  `bson:"sector_no" json:"sector_no" validate:"required"`
+	Category            []constants.Categories `bson:"category" json:"category" validate:"required"`
+	BusinessInformation string                 `bson:"business_information" json:"business_information" validate:"required,max=500"`
+	Currency            currency.Type          `bson:"currency" json:"currency" validate:"required"`
+	OperationalHours    OperationalHours       `bson:"operational_hours" json:"operational_hours" validate:"required"`
+	Ratings             Rating                 `bson:"ratings" json:"ratings"`
+	Timestamp           primitive.Timestamp    `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 
 type ProductData struct {
-	ShopId       primitive.ObjectID  `bson:"shop_id" validate:"required"`
-	ProductId    primitive.ObjectID  `bson:"product_id" validate:"required"`
-	Title        string              `bson:"title" validate:"required"`
-	Description  string              `bson:"description" validate:"required"`
-	ShippingInfo string              `bson:"shipping_info" validate:"required"`
-	Stock        string              `bson:"stock" validate:"required"`
-	Price        string              `bson:"price" validate:"required"`
-	Offer        uint8               `bson:"offer" validate:"required"`
-	Images       []url.URL           `bson:"images" validate:"required"`
-	Timestamp    primitive.Timestamp `bson:"timestamp" validate:"required"`
+	ShopId       primitive.ObjectID  `bson:"shop_id" json:"shop_id" validate:"required"`
+	ProductId    primitive.ObjectID  `bson:"product_id" json:"product_id" validate:"required"`
+	Title        string              `bson:"title" json:"title" validate:"required"`
+	Description  string              `bson:"description" json:"description" validate:"required"`
+	ShippingInfo string              `bson:"shipping_info" json:"shipping_info" validate:"required"`
+	Stock        string              `bson:"stock" json:"stock" validate:"required"`
+	Price        string              `bson:"price" json:"price" validate:"required"`
+	Offer        uint8               `bson:"offer" json:"offer" validate:"required"`
+	Images       []url.URL           `bson:"images" json:"images" validate:"required"`
+	Timestamp    primitive.Timestamp `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 
 type AnalyticalClickData struct {
-	ShopAndProductId string                 `bson:"shop_and_product_id" validate:"required"`
-	Timestamp        primitive.Timestamp    `bson:"timestamp" validate:"required"`
-	Category         []constants.Categories `bson:"category" validate:"required"`
+	ShopAndProductId string                 `bson:"shop_and_product_id" json:"shop_and_product_id" validate:"required"`
+	Timestamp        primitive.Timestamp    `bson:"timestamp" json:"timestamp" validate:"required"`
+	Category         []constants.Categories `bson:"category" json:"category" validate:"required"`
 }
 
 type MostVisited struct {
-	Product []AnalyticalClickData `bson:"analytical_click_data" validate:"required"`
+	Product []AnalyticalClickData `bson:"analytical_click_data" json:"analytical_click_data" validate:"required"`
 }
 
 type AnalyticalData struct {
-	UserId      string      `bson:"user_id" validate:"required"`
-	MostVisited MostVisited `bson:"most_visited" validate:"required"`
+	UserId      string      `bson:"user_id" json:"user_id" validate:"required"`
+	MostVisited MostVisited `bson:"most_visited" json:"most_visited" validate:"required"`
 }

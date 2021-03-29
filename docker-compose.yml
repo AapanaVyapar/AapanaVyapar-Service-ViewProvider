@@ -23,3 +23,12 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
+
+  redis:
+    image: redis
+    restart: on-failure
+    ports:
+      - "6389:6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    container_name: redis_cash

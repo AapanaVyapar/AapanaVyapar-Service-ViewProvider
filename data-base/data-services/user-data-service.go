@@ -88,9 +88,15 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 	defer dataBase.mutex.Unlock()
 
 	_, err := userData.UpdateOne(context,
-		bson.M{"user_id": userId},
+		bson.M{
+			"user_id": userId,
+		},
 		bson.D{
-			{"$set", bson.D{{"address", structs.Address{}}}},
+			{"$set",
+				bson.D{
+					{"address", structs.Address{}},
+				},
+			},
 		},
 	)
 	if err != nil {
@@ -100,7 +106,7 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 	return nil
 }
 
-func (dataBase *DataBase) GetAddressUserData(context context.Context, userId string) *structs.Address {
+func (dataBase *DataBase) GetAddressUserData(context context.Context, userId string) (*structs.Address, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -110,10 +116,131 @@ func (dataBase *DataBase) GetAddressUserData(context context.Context, userId str
 	err := userData.FindOne(context, filter).Decode(&data)
 
 	if err != nil {
+		return nil, err
+	}
+
+	return data.Address, nil
+}
+
+func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ShopAndProductIds, error) {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	filter := bson.D{{"user_id", userId}}
+
+	data := structs.UserData{}
+	err := userData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Cart, nil
+}
+
+func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
+	data := structs.UserData{}
+	err := userData.FindOne(context, bson.M{"user_id": userId}).Decode(&data)
+	if err != nil {
+		return err
+	}
+
+	if data.Cart == nil {
+		// User Want To Add Product First Time
+		cart := &structs.ShopAndProductIds{
+			Product: []structs.ProductCartData{
+				{
+					ProductId:   productId,
+					NoOfProduct: 0,
+				},
+			},
+		}
+		_, err = userData.UpdateOne(context, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"cart": cart}})
+		if err != nil {
+			return err
+		}
 		return nil
 	}
 
-	return data.Address
+	for _, prod := range data.Cart.Product {
+		if prod.ProductId == productId {
+			// User Want To Increase Count Of Product
+			_, err = userData.UpdateOne(context,
+				bson.M{
+					"user_id":                  userId,
+					"cart.products.product_id": productId,
+				},
+				bson.D{
+					{"$set",
+						bson.M{
+							"cart.products.$": bson.D{
+								{"product_id", productId},
+								{"no_product", prod.NoOfProduct + 1},
+							},
+						},
+					},
+				},
+			)
+
+			if err != nil {
+				return err
+			}
+
+			return nil
+		}
+	}
+
+	// Means User Want To Add New Product In Cart
+
+	_, err = userData.UpdateOne(context,
+		bson.M{
+			"user_id": userId,
+		},
+		bson.D{
+			{"$push",
+				bson.M{
+					"cart.products": bson.D{
+						{"product_id", productId},
+						{"no_product", 0},
+					},
+				},
+			},
+		},
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	_, err := userData.UpdateOne(context,
+		bson.M{
+			"user_id": userId,
+		},
+		bson.M{"$pull": bson.M{
+			"cart.products": bson.D{
+				{"product_id", productId},
+			},
+		},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 /*

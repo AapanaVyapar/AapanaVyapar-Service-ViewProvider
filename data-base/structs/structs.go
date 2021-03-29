@@ -17,8 +17,13 @@ type UserData struct {
 	Orders    *ShopAndProductIds `bson:"orders,omitempty" json:"orders"`
 }
 
+type ProductCartData struct {
+	ProductId   string `bson:"product_id" json:"product_id"`
+	NoOfProduct uint8  `bson:"no_product" json:"no_product" validate:"required,min=0,max=200"`
+}
+
 type ShopAndProductIds struct {
-	Product []string `bson:"products" json:"products"`
+	Product []ProductCartData `bson:"products" json:"products"`
 }
 
 type OrderData struct {

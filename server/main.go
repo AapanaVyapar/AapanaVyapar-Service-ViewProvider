@@ -2,7 +2,6 @@ package main
 
 import (
 	data_base "aapanavyapar-service-viewprovider/data-base/data-services"
-	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
 	_ "github.com/joho/godotenv/autoload"
@@ -22,31 +21,57 @@ func main() {
 	//	panic(err)
 	//}
 
-	address := structs.Address{
-		FullName:      "Shitij Shailendra Agrawal",
-		HouseDetails:  "B.K Road Chopda",
-		StreetDetails: "B.K Road Chopda",
-		LandMark:      "HDFC Bank",
-		PinCode:       "425107",
-		City:          "Chopda",
-		State:         "Maharastra",
-		Country:       "India",
-		PhoneNo:       "9172879779",
+	//address := structs.Address{
+	//	FullName:      "Shitij Shailendra Agrawal",
+	//	HouseDetails:  "B.K Road Chopda",
+	//	StreetDetails: "B.K Road Chopda",
+	//	LandMark:      "HDFC Bank",
+	//	PinCode:       "425107",
+	//	City:          "Chopda",
+	//	State:         "Maharastra",
+	//	Country:       "India",
+	//	PhoneNo:       "9172879779",
+	//}
+	//
+	//err := database.SetAddressInUserData(ctx, "101", "", address)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//address1 := database.GetAddressUserData(ctx, "1")
+	//if address1 == nil {
+	//	fmt.Println("Party")
+	//}
+	//
+	//err = database.DelAddressInUserData(ctx, "100")
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	_, err := database.CreateUser(ctx, "11", "test")
+	if err != nil {
+		//		panic(err)
 	}
 
-	err := database.SetAddressInUserData(ctx, "101", "", address)
+	err = database.AddToCartUserData(ctx, "11", "1")
 	if err != nil {
 		panic(err)
 	}
 
-	address1 := database.GetAddressUserData(ctx, "1")
-	if address1 == nil {
-		fmt.Println("Party")
-	}
-
-	err = database.DelAddressInUserData(ctx, "100")
+	err = database.AddToCartUserData(ctx, "11", "1")
 	if err != nil {
 		panic(err)
 	}
+
+	err = database.DelFromCartUserData(ctx, "11", "1")
+	if err != nil {
+		panic(err)
+	}
+
+	products, err := database.GetCartUserData(ctx, "11")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(products)
 
 }

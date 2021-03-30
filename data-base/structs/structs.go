@@ -8,22 +8,26 @@ import (
 )
 
 type UserData struct {
-	Id        primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
-	UserId    string             `bson:"user_id" json:"user_id" validate:"required"`
-	UserName  string             `bson:"user_name" json:"user_name" validate:"required"`
-	Address   *Address           `bson:"address" json:"address"`
-	Cart      *ShopAndProductIds `bson:"cart,omitempty" json:"cart"`
-	Favorites *ShopAndProductIds `bson:"favorites,omitempty" json:"favorites"`
-	Orders    *ShopAndProductIds `bson:"orders,omitempty" json:"orders"`
+	Id        primitive.ObjectID             `bson:"_id" json:"_id" validate:"required"`
+	UserId    string                         `bson:"user_id" json:"user_id" validate:"required"`
+	UserName  string                         `bson:"user_name" json:"user_name" validate:"required"`
+	Address   *Address                       `bson:"address,omitempty" json:"address"`
+	Cart      *ShopAndProductIdsForCart      `bson:"cart,omitempty" json:"cart"`
+	Favorites *ShopAndProductIdsForFavAndOrd `bson:"favorites,omitempty" json:"favorites"`
+	Orders    *ShopAndProductIdsForFavAndOrd `bson:"orders,omitempty" json:"orders"`
 }
 
 type ProductCartData struct {
 	ProductId   string `bson:"product_id" json:"product_id"`
-	NoOfProduct uint8  `bson:"no_product" json:"no_product" validate:"required,min=0,max=200"`
+	NoOfProduct uint8  `bson:"no_product" json:"no_product" validate:"required,min=1,max=200"`
 }
 
-type ShopAndProductIds struct {
-	Product []ProductCartData `bson:"products" json:"products"`
+type ShopAndProductIdsForCart struct {
+	Product []ProductCartData `bson:"products,omitempty" json:"products"`
+}
+
+type ShopAndProductIdsForFavAndOrd struct {
+	Product []string `bson:"products,omitempty" json:"products"`
 }
 
 type OrderData struct {
@@ -76,15 +80,15 @@ type ShopData struct {
 	ShopName            string                 `bson:"shop_name" json:"shop_name" validate:"required,max=50"`
 	ShopKeeperName      string                 `bson:"shop_keeper_name" json:"shop_keeper_name" validate:"required,min=2,max=100"`
 	Images              []string               `bson:"images" json:"images" validate:"required"`
-	PrimaryImages       string                 `bson:"primary_images" json:"primary_images" validate:"required"`
+	PrimaryImage        string                 `bson:"primary_image" json:"primary_images" validate:"required,url"`
 	Address             *Address               `bson:"address" json:"address" validate:"required"`
 	Location            *Location              `bson:"location" json:"location" validate:"required"`
-	SectorNo            int64                  `bson:"sector_no" json:"sector_no" validate:"required"`
+	SectorNo            int64                  `bson:"sector_no" json:"sector_no"`
 	Category            []constants.Categories `bson:"category" json:"category" validate:"required"`
 	BusinessInformation string                 `bson:"business_information" json:"business_information" validate:"required,max=500"`
 	Currency            currency.Type          `bson:"currency" json:"currency" validate:"required"`
 	OperationalHours    *OperationalHours      `bson:"operational_hours" json:"operational_hours" validate:"required"`
-	Ratings             *Rating                `bson:"ratings" json:"ratings"`
+	Ratings             *[]Rating              `bson:"ratings,omitempty" json:"ratings"`
 	Timestamp           time.Time              `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 
@@ -108,10 +112,10 @@ type AnalyticalClickData struct {
 }
 
 type MostVisited struct {
-	Product []AnalyticalClickData `bson:"analytical_click_data" json:"analytical_click_data" validate:"required"`
+	Product []AnalyticalClickData `bson:"analytical_click_data,omitempty" json:"analytical_click_data" validate:"required"`
 }
 
 type AnalyticalData struct {
 	UserId      string       `bson:"user_id" json:"user_id" validate:"required"`
-	MostVisited *MostVisited `bson:"most_visited" json:"most_visited" validate:"required"`
+	MostVisited *MostVisited `bson:"most_visited,omitempty" json:"most_visited" validate:"required"`
 }

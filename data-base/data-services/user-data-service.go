@@ -2,6 +2,7 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
+	"aapanavyapar-service-viewprovider/data-base/helpers"
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
@@ -53,6 +54,10 @@ func (dataBase *DataBase) IsExistInUserData(context context.Context, key string,
 
 func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId string, userName string, address structs.Address) error {
 
+	if err := helpers.Validate(address); err != nil {
+		return err
+	}
+
 	_, err := dataBase.CreateUser(context, userId, userName) // If already exist not going to create.
 	if err != nil {
 		return err
@@ -94,7 +99,7 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 		bson.D{
 			{"$set",
 				bson.D{
-					{"address", structs.Address{}},
+					{"address", nil},
 				},
 			},
 		},
@@ -122,7 +127,7 @@ func (dataBase *DataBase) GetAddressUserData(context context.Context, userId str
 	return data.Address, nil
 }
 
-func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ShopAndProductIds, error) {
+func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForCart, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -138,6 +143,38 @@ func (dataBase *DataBase) GetCartUserData(context context.Context, userId string
 	return data.Cart, nil
 }
 
+func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForFavAndOrd, error) {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	filter := bson.D{{"user_id", userId}}
+
+	data := structs.UserData{}
+	err := userData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Favorites, nil
+}
+
+func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForFavAndOrd, error) {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	filter := bson.D{{"user_id", userId}}
+
+	data := structs.UserData{}
+	err := userData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data.Orders, nil
+}
+
 func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId string) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
@@ -145,71 +182,38 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	data := structs.UserData{}
-	err := userData.FindOne(context, bson.M{"user_id": userId}).Decode(&data)
-	if err != nil {
-		return err
-	}
+	result := userData.FindOne(context, bson.M{"user_id": userId, "cart.products.product_id": productId})
 
-	if data.Cart == nil {
-		// User Want To Add Product First Time
-		cart := &structs.ShopAndProductIds{
-			Product: []structs.ProductCartData{
-				{
-					ProductId:   productId,
-					NoOfProduct: 0,
+	// Error will be thrown if cart is null or product is not in cart in both cases we have to just add product
+	if result.Err() != nil {
+		_, err := userData.UpdateOne(context,
+			bson.M{
+				"user_id": userId,
+			},
+			bson.M{
+				"$push": bson.M{
+					"cart.products": bson.D{
+						{"product_id", productId},
+						{"no_product", 1},
+					},
 				},
 			},
-		}
-		_, err = userData.UpdateOne(context, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"cart": cart}})
+		)
 		if err != nil {
 			return err
 		}
+
 		return nil
 	}
 
-	for _, prod := range data.Cart.Product {
-		if prod.ProductId == productId {
-			// User Want To Increase Count Of Product
-			_, err = userData.UpdateOne(context,
-				bson.M{
-					"user_id":                  userId,
-					"cart.products.product_id": productId,
-				},
-				bson.D{
-					{"$set",
-						bson.M{
-							"cart.products.$": bson.D{
-								{"product_id", productId},
-								{"no_product", prod.NoOfProduct + 1},
-							},
-						},
-					},
-				},
-			)
-
-			if err != nil {
-				return err
-			}
-
-			return nil
-		}
-	}
-
-	// Means User Want To Add New Product In Cart
-
-	_, err = userData.UpdateOne(context,
+	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id": userId,
+			"user_id":                  userId,
+			"cart.products.product_id": productId,
 		},
-		bson.D{
-			{"$push",
-				bson.M{
-					"cart.products": bson.D{
-						{"product_id", productId},
-						{"no_product", 0},
-					},
-				},
+		bson.M{
+			"$inc": bson.M{
+				"cart.products.$.no_product": 1,
 			},
 		},
 	)
@@ -220,6 +224,72 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 	return nil
 }
 
+func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
+	result := userData.FindOne(context, bson.M{"user_id": userId, "favorites.products": productId})
+
+	// Error will be thrown if favorites is null or product is not in favorites in both cases we have to just add product
+	if result.Err() != nil {
+		_, err := userData.UpdateOne(context,
+			bson.M{
+				"user_id": userId,
+			},
+			bson.D{
+				{"$push",
+					bson.M{
+						"favorites.products": productId,
+					},
+				},
+			},
+		)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	return fmt.Errorf("product alredy exist")
+}
+
+func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
+	result := userData.FindOne(context, bson.M{"user_id": userId, "orders.products": orderId})
+
+	// Error will be thrown if favorites in null or product is not in favorites in both cases we have to just add product
+	if result.Err() != nil {
+		_, err := userData.UpdateOne(context,
+			bson.M{
+				"user_id": userId,
+			},
+			bson.D{
+				{"$push",
+					bson.M{
+						"orders.products": orderId,
+					},
+				},
+			},
+		)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	return fmt.Errorf("order alredy exist")
+}
+
 func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId string, productId string) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
@@ -228,11 +298,12 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 		bson.M{
 			"user_id": userId,
 		},
-		bson.M{"$pull": bson.M{
-			"cart.products": bson.D{
-				{"product_id", productId},
+		bson.M{
+			"$pull": bson.M{
+				"cart.products": bson.D{
+					{"product_id", productId},
+				},
 			},
-		},
 		},
 	)
 
@@ -241,6 +312,81 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 	}
 
 	return nil
+}
+
+func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	_, err := userData.UpdateOne(context,
+		bson.M{
+			"user_id": userId,
+		},
+		bson.M{
+			"$pull": bson.M{
+				"favorites.products": productId,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	_, err := userData.UpdateOne(context,
+		bson.M{
+			"user_id": userId,
+		},
+		bson.M{
+			"$pull": bson.M{
+				"orders.products": productId,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId string, productId string) error {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	result, err := userData.UpdateOne(context,
+		bson.M{
+			"user_id":                  userId,
+			"cart.products.product_id": productId,
+			"cart.products.no_product": bson.M{"$gt": 1},
+		},
+		bson.M{
+			"$inc": bson.M{
+				"cart.products.$.no_product": -1,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(result.ModifiedCount)
+
+	if result.ModifiedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("minimum quantity for cart is one")
+
 }
 
 /*
@@ -271,3 +417,77 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 	}
 
 */
+
+//func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId string) error {
+//
+//	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+//
+//	data := structs.UserData{}
+//	err := userData.FindOne(context, bson.M{"user_id": userId}).Decode(&data)
+//	if err != nil {
+//		return err
+//	}
+//
+//	dataBase.mutex.Lock()
+//	defer dataBase.mutex.Unlock()
+//
+//	if data.Cart == nil {
+//		// User Want To Add Product First Time
+//		cart := &structs.ShopAndProductIdsForCart{
+//			Product: []structs.ProductCartData{
+//				{
+//					ProductId:   productId,
+//					NoOfProduct: 1,
+//				},
+//			},
+//		}
+//		_, err = userData.UpdateOne(context, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"cart": cart}})
+//		if err != nil {
+//			return err
+//		}
+//		return nil
+//	}
+//
+//	// User Want To Increase Count Of Product
+//	// Only going to increment if product is there.
+//	result, err := userData.UpdateOne(context,
+//		bson.M{
+//			"user_id":                  userId,
+//			"cart.products.product_id": productId,
+//		},
+//		bson.M{"$inc": bson.M{
+//			"cart.products.$.no_product": 1,
+//		},
+//		},
+//	)
+//
+//	if err != nil {
+//		return err
+//	}
+//	if result.ModifiedCount > 0 {
+//		return nil
+//	}
+//
+//	// Means User Want To Add New Product In Cart
+//
+//	_, err = userData.UpdateOne(context,
+//		bson.M{
+//			"user_id": userId,
+//		},
+//		bson.D{
+//			{"$push",
+//				bson.M{
+//					"cart.products": bson.D{
+//						{"product_id", productId},
+//						{"no_product", 1},
+//					},
+//				},
+//			},
+//		},
+//	)
+//	if err != nil {
+//		return err
+//	}
+//
+//	return nil
+//}

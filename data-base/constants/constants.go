@@ -34,3 +34,10 @@ const (
 	TOYS
 	ELECTRONIC
 )
+
+const (
+	MAX_CATEGORY = 10
+	MAX_RATINGS  = 4
+	MAX_STATUS   = 3
+	MAX_CURRENCY = 299
+)

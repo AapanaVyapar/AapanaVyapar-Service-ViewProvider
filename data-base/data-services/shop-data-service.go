@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/url"
+	"time"
 )
 
 func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs.ShopData) (primitive.ObjectID, error) {
@@ -29,6 +30,7 @@ func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
 	dataInsert.SectorNo = mapper.MapLocationToSector(dataInsert.Location)
+	dataInsert.Timestamp = time.Now().UTC()
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()

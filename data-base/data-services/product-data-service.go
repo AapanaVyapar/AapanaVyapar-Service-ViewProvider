@@ -43,11 +43,11 @@ func (dataBase *DataBase) GetAllProductsOfShopByFunctionFromProductData(context 
 
 	filter := bson.D{{"shop_id", shopId}}
 	cursor, err := productData.Find(context, filter)
-	defer cursor.Close(context)
 
 	if err != nil {
 		return err
 	}
+	defer cursor.Close(context)
 
 	for cursor.Next(context) {
 		result := structs.ProductData{}
@@ -77,11 +77,11 @@ func (dataBase *DataBase) GetAllProductsOfShopByArrayFromProductData(context con
 
 	filter := bson.D{{"shop_id", shopId}}
 	cursor, err := productData.Find(context, filter)
-	defer cursor.Close(context)
 
 	if err != nil {
 		return []structs.ProductData{}, err
 	}
+	defer cursor.Close(context)
 
 	if err := cursor.Err(); err != nil {
 		return []structs.ProductData{}, err

@@ -41,6 +41,11 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 		return primitive.ObjectID{}, err
 	}
 
+	err = dataBase.AddToOrdersUserData(context, userId, id.InsertedID.(primitive.ObjectID))
+	if err != nil {
+		return primitive.ObjectID{}, err
+	}
+
 	return id.InsertedID.(primitive.ObjectID), nil
 }
 

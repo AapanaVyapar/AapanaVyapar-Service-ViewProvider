@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func (dataBase *DataBase) CreateUser(context context.Context, userId string, userName string) (string, error) {
@@ -181,7 +182,7 @@ func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId stri
 	return data.Orders, nil
 }
 
-func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -239,7 +240,7 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 	return fmt.Errorf("unable to add to cart")
 }
 
-func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -276,12 +277,12 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 	return fmt.Errorf("alredy exist in faviroute")
 }
 
-func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId string) error {
+func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	dataBase.mutex.Lock()
-	defer dataBase.mutex.Unlock()
+	//dataBase.mutex.Lock()
+	//defer dataBase.mutex.Unlock()
 
 	result := userData.FindOne(context, bson.M{"_id": userId, "orders.products": orderId})
 
@@ -313,7 +314,7 @@ func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId st
 	return fmt.Errorf("order alredy exist")
 }
 
-func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -341,7 +342,7 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 	return fmt.Errorf("unable to delete from cart")
 }
 
-func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -367,7 +368,7 @@ func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, user
 	return fmt.Errorf("unable to delete from faviroute")
 }
 
-func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -393,7 +394,7 @@ func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId 
 	return fmt.Errorf("unable to delete from order")
 }
 
-func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId string, productId string) error {
+func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -452,7 +453,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 
 */
 
-//func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId string) error {
+//func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 //
 //	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 //

@@ -17,8 +17,8 @@ type UserData struct {
 }
 
 type ProductCartData struct {
-	ProductId   string `bson:"product_id" json:"product_id"`
-	NoOfProduct uint8  `bson:"no_product" json:"no_product" validate:"required,min=1,max=200"`
+	ProductId   primitive.ObjectID `bson:"product_id" json:"product_id"`
+	NoOfProduct uint32             `bson:"no_product" json:"no_product" validate:"required,min=1,max=200"`
 }
 
 type ProductIdsForCart struct {
@@ -26,7 +26,7 @@ type ProductIdsForCart struct {
 }
 
 type ProductIdsForFavAndOrd struct {
-	Product []string `bson:"products,omitempty" json:"products"`
+	Product []primitive.ObjectID `bson:"products,omitempty" json:"products"`
 }
 
 type OrderData struct {
@@ -105,7 +105,7 @@ type ProductData struct {
 }
 
 type AnalyticalClickData struct {
-	ProductId string                 `bson:"product_id" json:"product_id" validate:"required"`
+	ProductId primitive.ObjectID     `bson:"product_id" json:"product_id" validate:"required"`
 	Timestamp time.Time              `bson:"timestamp" json:"timestamp" validate:"required"`
 	Category  []constants.Categories `bson:"category" json:"category" validate:"required"`
 }

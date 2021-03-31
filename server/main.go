@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/go-playground/locales/currency"
 	_ "github.com/joho/godotenv/autoload"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
@@ -22,93 +23,96 @@ func main() {
 		panic(err)
 	}
 
-	//address := structs.Address{
-	//	FullName:      "Shitij Shailendra Agrawal",
-	//	HouseDetails:  "B.K Road Chopda",
-	//	StreetDetails: "B.K Road Chopda",
-	//	LandMark:      "HDFC Bank",
-	//	PinCode:       "425107",
-	//	City:          "Chopda",
-	//	State:         "Maharastra",
-	//	Country:       "India",
-	//	PhoneNo:       "9172879779",
-	//}
-	//
-	//err = database.SetAddressInUserData(ctx, "101", "abc", address)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//address1, err := database.GetAddressUserData(ctx, "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//if address1 == nil {
-	//	fmt.Println("Party")
-	//}
-	//
-	//err = database.DelAddressInUserData(ctx, "101")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//_, err = database.CreateUser(ctx, "11", "test")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.AddToCartUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.AddToCartUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.AddToCartUserData(ctx, "11", "2")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.RemoveFromCartUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.DelFromCartUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//products, err := database.GetCartUserData(ctx, "11")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(products)
-	//
-	////	Favorite
-	//err = database.AddToFavoritesUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.DelFromFavoritesUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	////	Order
-	//err = database.AddToOrdersUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.DelFromOrdersUserData(ctx, "11", "1")
-	//if err != nil {
-	//	panic(err)
-	//}
+	address := structs.Address{
+		FullName:      "Shitij Shailendra Agrawal",
+		HouseDetails:  "B.K Road Chopda",
+		StreetDetails: "B.K Road Chopda",
+		LandMark:      "HDFC Bank",
+		PinCode:       "425107",
+		City:          "Chopda",
+		State:         "Maharastra",
+		Country:       "India",
+		PhoneNo:       "9172879779",
+	}
+
+	tempProduct1 := primitive.NewObjectID()
+	tempProduct2 := primitive.NewObjectID()
+
+	err = database.SetAddressInUserData(ctx, "101", "abc", address)
+	if err != nil {
+		panic(err)
+	}
+
+	address1, err := database.GetAddressUserData(ctx, "1")
+	if err != nil {
+		panic(err)
+	}
+	if address1 == nil {
+		fmt.Println("Party")
+	}
+
+	err = database.DelAddressInUserData(ctx, "101")
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = database.CreateUser(ctx, "11", "test")
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.AddToCartUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.AddToCartUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.AddToCartUserData(ctx, "11", tempProduct2)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.RemoveFromCartUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.DelFromCartUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	products, err := database.GetCartUserData(ctx, "11")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(products)
+
+	//	Favorite
+	err = database.AddToFavoritesUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.DelFromFavoritesUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	//	Order
+	err = database.AddToOrdersUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.DelFromOrdersUserData(ctx, "11", tempProduct1)
+	if err != nil {
+		panic(err)
+	}
 
 	dataInsert := structs.ShopData{
 		ShopName:       "Milap Stores",
@@ -303,10 +307,10 @@ func main() {
 		panic(err)
 	}
 
-	//err = database.IncreaseStockFromProductData(ctx, productId1)
-	//if err != nil {
-	//	panic(err)
-	//}
+	err = database.IncreaseStockFromProductData(ctx, productId1)
+	if err != nil {
+		panic(err)
+	}
 
 	err = database.GetAllProductsOfShopByFunctionFromProductData(ctx, dataInsert.ShopId, func(data structs.ProductData) error {
 		// Here send the data to client in stream one by one if error occurred while sending then return form here.
@@ -317,48 +321,40 @@ func main() {
 		panic(err)
 	}
 
-	//err = database.AddProductImageInProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductTitleInProductData(ctx, dataInsert.ShopId, productId1, "Orange Shirt")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "Best")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductOfferInProductData(ctx, dataInsert.ShopId, productId1, 25)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductPriceInProductData(ctx, dataInsert.ShopId, productId1, 100)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductShippingInfoInProductData(ctx, dataInsert.ShopId, productId1, "500x500")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 10)
-	//if err != nil {
-	//	panic(err)
-	//}
+	err = database.AddProductImageInProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
+	if err != nil {
+		panic(err)
+	}
 
-	//price, offer, err := database.DecreaseStockToMakeOrderFromProductData(ctx, productId1, 1)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//fmt.Println(price)
-	//fmt.Println(offer)
+	err = database.UpdateProductTitleInProductData(ctx, dataInsert.ShopId, productId1, "Orange Shirt")
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "Best")
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductOfferInProductData(ctx, dataInsert.ShopId, productId1, 25)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductPriceInProductData(ctx, dataInsert.ShopId, productId1, 100)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductShippingInfoInProductData(ctx, dataInsert.ShopId, productId1, "500x500")
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 10)
+	if err != nil {
+		panic(err)
+	}
 
 	orderId, err := database.CreateOrder(ctx, "1", productId1, 5)
 	if err != nil {
@@ -366,22 +362,22 @@ func main() {
 	}
 	fmt.Println(orderId)
 
-	//err = database.DelProductImageFromProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//dataP, err := database.GetProductFromProductData(ctx, productId1)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(dataP)
-	//
-	//dataP, err = database.GetSpecificProductsOfShopFromProductData(ctx, dataInsert.ShopId, productId1)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(dataP)
+	err = database.DelProductImageFromProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
+	if err != nil {
+		panic(err)
+	}
+
+	dataP, err := database.GetProductFromProductData(ctx, productId1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(dataP)
+
+	dataP, err = database.GetSpecificProductsOfShopFromProductData(ctx, dataInsert.ShopId, productId1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(dataP)
 
 	//err = database.DelProductFromProductData(ctx, dataInsert.ShopId, productId1)
 	//if err != nil {

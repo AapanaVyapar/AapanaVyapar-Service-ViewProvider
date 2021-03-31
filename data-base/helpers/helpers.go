@@ -20,6 +20,7 @@ func Validate(s interface{}) error {
 			myErr += " " + err.Field()
 		}
 
+		fmt.Println(err)
 		return fmt.Errorf("Error in validating :" + myErr)
 	}
 

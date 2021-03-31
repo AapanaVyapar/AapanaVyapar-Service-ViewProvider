@@ -15,15 +15,15 @@ import (
 	"time"
 )
 
-func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs.ShopData) error {
+func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs.ShopData) (primitive.ObjectID, error) {
 
 	if err := helpers.Validate(dataInsert); err != nil {
-		return err
+		return primitive.ObjectID{}, err
 	}
 
 	for _, i := range dataInsert.Images {
 		if _, err := url.ParseRequestURI(i); err != nil {
-			return fmt.Errorf("invalid url")
+			return primitive.ObjectID{}, fmt.Errorf("invalid url")
 		}
 	}
 
@@ -35,22 +35,22 @@ func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.InsertOne(context, dataInsert)
+	id, err := shopData.InsertOne(context, dataInsert)
 	if err != nil {
-		return err
+		return primitive.ObjectID{}, err
 	}
 
-	return nil
+	return id.InsertedID.(primitive.ObjectID), nil
 }
 
 func (dataBase *DataBase) GetShopFromShopData(context context.Context, shopId primitive.ObjectID) (structs.ShopData, error) {
 
-	userData := mongodb.OpenShopDataCollection(dataBase.Data)
+	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
-	filter := bson.D{{"shop_id", shopId}}
+	filter := bson.D{{"_id", shopId}}
 
 	data := structs.ShopData{}
-	err := userData.FindOne(context, filter).Decode(&data)
+	err := shopData.FindOne(context, filter).Decode(&data)
 
 	if err != nil {
 		return structs.ShopData{}, err
@@ -65,18 +65,18 @@ func (dataBase *DataBase) AddRatingInShopData(context context.Context, shopId pr
 		return err
 	}
 
-	userData := mongodb.OpenShopDataCollection(dataBase.Data)
+	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	result := userData.FindOne(context, bson.M{"shop_id": shopId, "ratings.user_id": rating.UserId})
+	result := shopData.FindOne(context, bson.M{"_id": shopId, "ratings.user_id": rating.UserId})
 
 	// Error will be thrown if rating is null or rating is already present in both cases we have to just add product
 	if result.Err() != nil {
-		_, err := userData.UpdateOne(context,
+		_, err := shopData.UpdateOne(context,
 			bson.M{
-				"shop_id": shopId,
+				"_id": shopId,
 			},
 			bson.D{
 				{"$push",
@@ -100,12 +100,12 @@ func (dataBase *DataBase) AddRatingInShopData(context context.Context, shopId pr
 
 func (dataBase *DataBase) GetRatingsFromShopData(context context.Context, shopId primitive.ObjectID) (*[]structs.Rating, error) {
 
-	userData := mongodb.OpenShopDataCollection(dataBase.Data)
+	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
-	filter := bson.D{{"shop_id", shopId}}
+	filter := bson.D{{"_id", shopId}}
 
 	data := structs.ShopData{}
-	err := userData.FindOne(context, filter).Decode(&data)
+	err := shopData.FindOne(context, filter).Decode(&data)
 
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (dataBase *DataBase) IsExistShopExist(context context.Context, key string, 
 func (dataBase *DataBase) DelShopFromShopData(context context.Context, shopId primitive.ObjectID) error {
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
-	filter := bson.M{"shop_id": shopId}
+	filter := bson.M{"_id": shopId}
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
@@ -153,7 +153,7 @@ func (dataBase *DataBase) DelShopImageFromShopData(context context.Context, shop
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$pull": bson.M{
@@ -182,7 +182,7 @@ func (dataBase *DataBase) AddShopImageInShopData(context context.Context, shopId
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$push": bson.M{
@@ -211,7 +211,7 @@ func (dataBase *DataBase) UpdateShopPrimaryImageInShopData(context context.Conte
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -236,7 +236,7 @@ func (dataBase *DataBase) UpdateShopKeeperNameInShopData(context context.Context
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -269,7 +269,7 @@ func (dataBase *DataBase) UpdateShopAddressAndLocationInShopData(context context
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -300,7 +300,7 @@ func (dataBase *DataBase) UpdateShopLocationInShopData(context context.Context, 
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -337,7 +337,7 @@ func (dataBase *DataBase) UpdateCategoryInShopData(context context.Context, shop
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -363,7 +363,7 @@ func (dataBase *DataBase) GetCategoryFromShopData(context context.Context, shopI
 	shop := structs.ShopData{}
 	err := shopData.FindOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 	).Decode(&shop)
 
@@ -387,7 +387,7 @@ func (dataBase *DataBase) UpdateBusinessInfoInShopData(context context.Context, 
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -416,7 +416,7 @@ func (dataBase *DataBase) UpdateCurrencyInShopData(context context.Context, shop
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -445,7 +445,7 @@ func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Conte
 
 	_, err := shopData.UpdateOne(context,
 		bson.M{
-			"shop_id": shopId,
+			"_id": shopId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -463,7 +463,7 @@ func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Conte
 
 /*
 	dataInsert := structs.ShopData{
-		ShopId:         primitive.NewObjectID(),
+		_Id:            primitive.NewObjectID(), //shopId
 		ShopName:       "Milap Stores",
 		ShopKeeperName: "ABC Person",
 		Images:         []string{"https://www.google.com", "https://www.google.com"},

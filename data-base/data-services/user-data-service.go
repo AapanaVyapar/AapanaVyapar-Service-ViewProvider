@@ -7,22 +7,20 @@ import (
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func (dataBase *DataBase) CreateUser(context context.Context, userId string, userName string) (primitive.ObjectID, error) {
+func (dataBase *DataBase) CreateUser(context context.Context, userId string, userName string) (string, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	if dataBase.IsExistInUserData(context, "user_id", userId) {
-		return primitive.ObjectID{}, fmt.Errorf("already exist")
+	if dataBase.IsExistInUserData(context, "_id", userId) {
+		return "", fmt.Errorf("already exist")
 	}
 
 	dataInsert := structs.UserData{
-		Id:        primitive.NewObjectID(),
 		UserId:    userId,
 		UserName:  userName,
 		Address:   nil,
@@ -33,10 +31,10 @@ func (dataBase *DataBase) CreateUser(context context.Context, userId string, use
 
 	id, err := userData.InsertOne(context, dataInsert)
 	if err != nil {
-		return primitive.ObjectID{}, err
+		return "", err
 	}
 
-	return id.InsertedID.(primitive.ObjectID), nil
+	return id.InsertedID.(string), nil
 }
 
 func (dataBase *DataBase) IsExistInUserData(context context.Context, key string, value interface{}) bool {
@@ -69,7 +67,7 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 	defer dataBase.mutex.Unlock()
 
 	_, err = userData.UpdateOne(context,
-		bson.M{"user_id": userId},
+		bson.M{"_id": userId},
 		bson.D{
 			{"$set", bson.D{{"address", address}}},
 		},
@@ -83,7 +81,7 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 
 func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId string) error {
 
-	if !dataBase.IsExistInUserData(context, "user_id", userId) {
+	if !dataBase.IsExistInUserData(context, "_id", userId) {
 		return fmt.Errorf("user does not exist")
 	}
 
@@ -94,7 +92,7 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 
 	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id": userId,
+			"_id": userId,
 		},
 		bson.D{
 			{"$set",
@@ -115,7 +113,7 @@ func (dataBase *DataBase) GetAddressUserData(context context.Context, userId str
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	filter := bson.D{{"user_id", userId}}
+	filter := bson.D{{"_id", userId}}
 
 	data := structs.UserData{}
 	err := userData.FindOne(context, filter).Decode(&data)
@@ -131,7 +129,7 @@ func (dataBase *DataBase) GetCartUserData(context context.Context, userId string
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	filter := bson.D{{"user_id", userId}}
+	filter := bson.D{{"_id", userId}}
 
 	data := structs.UserData{}
 	err := userData.FindOne(context, filter).Decode(&data)
@@ -147,7 +145,7 @@ func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId s
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	filter := bson.D{{"user_id", userId}}
+	filter := bson.D{{"_id", userId}}
 
 	data := structs.UserData{}
 	err := userData.FindOne(context, filter).Decode(&data)
@@ -163,7 +161,7 @@ func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId stri
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	filter := bson.D{{"user_id", userId}}
+	filter := bson.D{{"_id", userId}}
 
 	data := structs.UserData{}
 	err := userData.FindOne(context, filter).Decode(&data)
@@ -182,13 +180,13 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	result := userData.FindOne(context, bson.M{"user_id": userId, "cart.products.product_id": productId})
+	result := userData.FindOne(context, bson.M{"_id": userId, "cart.products.product_id": productId})
 
 	// Error will be thrown if cart is null or product is not in cart in both cases we have to just add product
 	if result.Err() != nil {
 		_, err := userData.UpdateOne(context,
 			bson.M{
-				"user_id": userId,
+				"_id": userId,
 			},
 			bson.M{
 				"$push": bson.M{
@@ -208,7 +206,7 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 
 	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id":                  userId,
+			"_id":                      userId,
 			"cart.products.product_id": productId,
 		},
 		bson.M{
@@ -231,13 +229,13 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	result := userData.FindOne(context, bson.M{"user_id": userId, "favorites.products": productId})
+	result := userData.FindOne(context, bson.M{"_id": userId, "favorites.products": productId})
 
 	// Error will be thrown if favorites is null or product is not in favorites in both cases we have to just add product
 	if result.Err() != nil {
 		_, err := userData.UpdateOne(context,
 			bson.M{
-				"user_id": userId,
+				"_id": userId,
 			},
 			bson.D{
 				{"$push",
@@ -264,13 +262,13 @@ func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId st
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	result := userData.FindOne(context, bson.M{"user_id": userId, "orders.products": orderId})
+	result := userData.FindOne(context, bson.M{"_id": userId, "orders.products": orderId})
 
 	// Error will be thrown if favorites in null or product is not in favorites in both cases we have to just add product
 	if result.Err() != nil {
 		_, err := userData.UpdateOne(context,
 			bson.M{
-				"user_id": userId,
+				"_id": userId,
 			},
 			bson.D{
 				{"$push",
@@ -296,7 +294,7 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 
 	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id": userId,
+			"_id": userId,
 		},
 		bson.M{
 			"$pull": bson.M{
@@ -320,7 +318,7 @@ func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, user
 
 	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id": userId,
+			"_id": userId,
 		},
 		bson.M{
 			"$pull": bson.M{
@@ -342,7 +340,7 @@ func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId 
 
 	_, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id": userId,
+			"_id": userId,
 		},
 		bson.M{
 			"$pull": bson.M{
@@ -364,7 +362,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 
 	result, err := userData.UpdateOne(context,
 		bson.M{
-			"user_id":                  userId,
+			"_id":                      userId,
 			"cart.products.product_id": productId,
 			"cart.products.no_product": bson.M{"$gt": 1},
 		},
@@ -391,8 +389,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 
 /*
 	dataInsert := structs.UserData{
-		Id:        primitive.ObjectID{},
-		UserId:    "1",
+		_Id:        "1", //userid
 		UserName:  "Shitij",
 		Address:   structs.Address{
 			FullName:      "Shitij Shailendra Agrawal",

@@ -12,14 +12,14 @@ import (
 	"time"
 )
 
-func (dataBase *DataBase) CreateProduct(context context.Context, shopId primitive.ObjectID, dataInsert structs.ProductData) error {
+func (dataBase *DataBase) CreateProduct(context context.Context, dataInsert structs.ProductData) (primitive.ObjectID, error) {
 
 	if err := helpers.Validate(dataInsert); err != nil {
-		return err
+		return primitive.ObjectID{}, err
 	}
 
-	if !dataBase.IsExistShopExist(context, "shop_id", shopId) {
-		return fmt.Errorf("shop with specified id does not exist")
+	if !dataBase.IsExistShopExist(context, "_id", dataInsert.ShopId) {
+		return primitive.ObjectID{}, fmt.Errorf("shop with specified id does not exist")
 	}
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
@@ -29,12 +29,12 @@ func (dataBase *DataBase) CreateProduct(context context.Context, shopId primitiv
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.InsertOne(context, dataInsert)
+	id, err := productData.InsertOne(context, dataInsert)
 	if err != nil {
-		return err
+		return primitive.ObjectID{}, err
 	}
 
-	return nil
+	return id.InsertedID.(primitive.ObjectID), nil
 }
 
 func (dataBase *DataBase) GetAllProductsOfShopByFunctionFromProductData(context context.Context, shopId primitive.ObjectID, sendData func(data structs.ProductData) error) error {
@@ -101,7 +101,7 @@ func (dataBase *DataBase) GetSpecificProductsOfShopFromProductData(context conte
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
-	filter := bson.D{{"shop_id", shopId}, {"product_id", productId}}
+	filter := bson.D{{"shop_id", shopId}, {"_id", productId}}
 
 	var data structs.ProductData
 	err := productData.FindOne(context, filter).Decode(&data)
@@ -117,7 +117,7 @@ func (dataBase *DataBase) GetSpecificProductsOfShopFromProductData(context conte
 func (dataBase *DataBase) DelProductFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID) error {
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
-	filter := bson.M{"shop_id": shopId, "product_id": productId}
+	filter := bson.M{"shop_id": shopId, "_id": productId}
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
@@ -143,8 +143,8 @@ func (dataBase *DataBase) AddProductImageInProductData(context context.Context, 
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$push": bson.M{
@@ -173,8 +173,8 @@ func (dataBase *DataBase) DelProductImageFromProductData(context context.Context
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$pull": bson.M{
@@ -203,8 +203,8 @@ func (dataBase *DataBase) UpdateProductTitleInProductData(context context.Contex
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -233,8 +233,8 @@ func (dataBase *DataBase) UpdateProductDescriptionInProductData(context context.
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -263,8 +263,8 @@ func (dataBase *DataBase) UpdateProductShippingInfoInProductData(context context
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -289,8 +289,8 @@ func (dataBase *DataBase) UpdateProductStockInfoInProductData(context context.Co
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -315,8 +315,8 @@ func (dataBase *DataBase) UpdateProductPriceInProductData(context context.Contex
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -341,8 +341,8 @@ func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Contex
 
 	_, err := productData.UpdateOne(context,
 		bson.M{
-			"shop_id":    shopId,
-			"product_id": productId,
+			"shop_id": shopId,
+			"_id":     productId,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -361,7 +361,7 @@ func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Contex
 /*
 	dataProduct := structs.ProductData{
 		ShopId:       dataInsert.ShopId,
-		ProductId:    primitive.NewObjectID(),
+		_id:          primitive.NewObjectID(), //product id
 		Title:        "Yellow Shirt",
 		Description:  "Best in Class Size XL",
 		ShippingInfo: "200x70x10",

@@ -8,8 +8,7 @@ import (
 )
 
 type UserData struct {
-	Id        primitive.ObjectID             `bson:"_id" json:"_id" validate:"required"`
-	UserId    string                         `bson:"user_id" json:"user_id" validate:"required"`
+	UserId    string                         `bson:"_id" json:"_id" validate:"required"`
 	UserName  string                         `bson:"user_name" json:"user_name" validate:"required"`
 	Address   *Address                       `bson:"address,omitempty" json:"address"`
 	Cart      *ShopAndProductIdsForCart      `bson:"cart,omitempty" json:"cart"`
@@ -31,13 +30,13 @@ type ShopAndProductIdsForFavAndOrd struct {
 }
 
 type OrderData struct {
-	OrderId          primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
+	OrderId          primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	UserId           string             `bson:"user_id" json:"user_id" validate:"required"`
 	Status           constants.Status   `bson:"status" json:"status" validate:"required"`
 	ShopAndProductId string             `bson:"shop_and_product_id" json:"shop_and_product_id" validate:"required"`
 	TimeStamp        time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
-	Price            string             `bson:"price" json:"price" validate:"required"`
-	Quantity         int64              `bson:"quantity" json:"quantity" validate:"required"`
+	Price            float64            `bson:"price" json:"price" validate:"required"`
+	Quantity         int32              `bson:"quantity" json:"quantity" validate:"required"`
 }
 
 type Address struct {
@@ -76,7 +75,7 @@ type Rating struct {
 }
 
 type ShopData struct {
-	ShopId              primitive.ObjectID     `bson:"shop_id" json:"shop_id" validate:"required"`
+	ShopId              primitive.ObjectID     `bson:"_id,omitempty" json:"_id"`
 	ShopName            string                 `bson:"shop_name" json:"shop_name" validate:"required,max=50"`
 	ShopKeeperName      string                 `bson:"shop_keeper_name" json:"shop_keeper_name" validate:"required,min=2,max=100"`
 	Images              []string               `bson:"images" json:"images" validate:"required"`
@@ -93,8 +92,8 @@ type ShopData struct {
 }
 
 type ProductData struct {
+	ProductId    primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	ShopId       primitive.ObjectID `bson:"shop_id" json:"shop_id" validate:"required"`
-	ProductId    primitive.ObjectID `bson:"product_id" json:"product_id" validate:"required"`
 	Title        string             `bson:"title" json:"title" validate:"required"`
 	Description  string             `bson:"description" json:"description" validate:"required"`
 	ShippingInfo string             `bson:"shipping_info" json:"shipping_info" validate:"required"`

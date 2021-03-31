@@ -33,10 +33,10 @@ type OrderData struct {
 	OrderId   primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	UserId    string             `bson:"user_id" json:"user_id" validate:"required"`
 	Status    constants.Status   `bson:"status" json:"status" validate:"required"`
-	ProductId string             `bson:"product_id" json:"product_id" validate:"required"`
+	ProductId primitive.ObjectID `bson:"product_id" json:"product_id" validate:"required"`
 	TimeStamp time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
 	Price     float64            `bson:"price" json:"price" validate:"required"`
-	Quantity  int32              `bson:"quantity" json:"quantity" validate:"required"`
+	Quantity  uint32             `bson:"quantity" json:"quantity" validate:"required"`
 }
 
 type Address struct {

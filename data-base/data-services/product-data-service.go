@@ -79,17 +79,20 @@ func (dataBase *DataBase) GetAllProductsOfShopByArrayFromProductData(context con
 	cursor, err := productData.Find(context, filter)
 
 	if err != nil {
+		fmt.Println("HI")
 		return []structs.ProductData{}, err
 	}
 	defer cursor.Close(context)
 
 	if err := cursor.Err(); err != nil {
+		fmt.Println("HII")
 		return []structs.ProductData{}, err
 	}
 
 	var results []structs.ProductData
 	err = cursor.All(context, &results)
 	if err != nil {
+		fmt.Println("HIII")
 		return []structs.ProductData{}, err
 	}
 
@@ -128,6 +131,20 @@ func (dataBase *DataBase) GetProductFromProductData(context context.Context, pro
 	}
 
 	return data, nil
+
+}
+
+func (dataBase *DataBase) IsExistProductExist(context context.Context, key string, value interface{}) bool {
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.D{{key, value}}
+	singleCursor := productData.FindOne(context, filter)
+
+	if singleCursor.Err() != nil {
+		return false
+	}
+
+	return true
 
 }
 
@@ -413,33 +430,35 @@ func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Contex
 
 }
 
-func (dataBase *DataBase) DecreaseStockFromProductData(context context.Context, productId primitive.ObjectID) error {
+func (dataBase *DataBase) DecreaseStockToMakeOrderFromProductData(context context.Context, productId primitive.ObjectID, quantity uint32) (float64, uint8, error) {
+
+	if quantity == 0 {
+		return 0, 0, fmt.Errorf("quantity can not be zero")
+	}
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
-	result, err := productData.UpdateOne(context,
+	var data structs.ProductData
+
+	err := productData.FindOneAndUpdate(context,
 		bson.M{
 			"_id":   productId,
-			"stock": bson.M{"$gt": 0},
+			"stock": bson.M{"$gte": quantity},
 		},
-		bson.M{
-			"$inc": bson.M{
-				"stock": -1,
+		bson.A{
+			bson.M{
+				"$set": bson.M{
+					"stock": bson.M{"$subtract": bson.A{"$stock", quantity}},
+				},
 			},
 		},
-	)
+	).Decode(&data)
 
 	if err != nil {
-		return err
+		return 0, 0, err
 	}
 
-	fmt.Println(result.ModifiedCount)
-
-	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
-		return nil
-	}
-
-	return fmt.Errorf("unable to decrease the stock")
+	return data.Price, data.Offer, nil
 
 }
 

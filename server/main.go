@@ -17,11 +17,11 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
 	defer cancel()
 
-	//_, err := database.CreateUser(ctx, "1", "test")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
+	_, err := database.CreateUser(ctx, "1", "test")
+	if err != nil {
+		panic(err)
+	}
+
 	//address := structs.Address{
 	//	FullName:      "Shitij Shailendra Agrawal",
 	//	HouseDetails:  "B.K Road Chopda",
@@ -270,22 +270,22 @@ func main() {
 	}
 	fmt.Println(shop)
 
-	dataProduct2 := structs.ProductData{
-		ShopId:       dataInsert.ShopId,
-		Title:        "BLACK Shirt",
-		Description:  "Best in Class Size XL",
-		ShippingInfo: "200x70x10",
-		Stock:        10,
-		Price:        100,
-		Offer:        10,
-		Images:       []string{"https://image.com"},
-		Timestamp:    time.Now().UTC(),
-	}
-
-	_, err = database.CreateProduct(ctx, dataProduct2)
-	if err != nil {
-		panic(err)
-	}
+	//dataProduct2 := structs.ProductData{
+	//	ShopId:       dataInsert.ShopId,
+	//	Title:        "BLACK Shirt",
+	//	Description:  "Best in Class Size XL",
+	//	ShippingInfo: "200x70x10",
+	//	Stock:        10,
+	//	Price:        100,
+	//	Offer:        10,
+	//	Images:       []string{"https://image.com"},
+	//	Timestamp:    time.Now().UTC(),
+	//}
+	//
+	//_, err = database.CreateProduct(ctx, dataProduct2)
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	dataProduct1 := structs.ProductData{
 		ShopId:       dataInsert.ShopId,
@@ -303,10 +303,10 @@ func main() {
 		panic(err)
 	}
 
-	err = database.IncreaseStockFromProductData(ctx, productId1)
-	if err != nil {
-		panic(err)
-	}
+	//err = database.IncreaseStockFromProductData(ctx, productId1)
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	err = database.GetAllProductsOfShopByFunctionFromProductData(ctx, dataInsert.ShopId, func(data structs.ProductData) error {
 		// Here send the data to client in stream one by one if error occurred while sending then return form here.
@@ -317,70 +317,71 @@ func main() {
 		panic(err)
 	}
 
-	err = database.AddProductImageInProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
+	//err = database.AddProductImageInProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductTitleInProductData(ctx, dataInsert.ShopId, productId1, "Orange Shirt")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "Best")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductOfferInProductData(ctx, dataInsert.ShopId, productId1, 25)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductPriceInProductData(ctx, dataInsert.ShopId, productId1, 100)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductShippingInfoInProductData(ctx, dataInsert.ShopId, productId1, "500x500")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 10)
+	//if err != nil {
+	//	panic(err)
+	//}
+
+	//price, offer, err := database.DecreaseStockToMakeOrderFromProductData(ctx, productId1, 1)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//fmt.Println(price)
+	//fmt.Println(offer)
+
+	orderId, err := database.CreateOrder(ctx, "1", productId1, 5)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(orderId)
 
-	err = database.UpdateProductTitleInProductData(ctx, dataInsert.ShopId, productId1, "Orange Shirt")
-	if err != nil {
-		panic(err)
-	}
-
-	err = database.UpdateProductDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "Best")
-	if err != nil {
-		panic(err)
-	}
-
-	err = database.UpdateProductOfferInProductData(ctx, dataInsert.ShopId, productId1, 25)
-	if err != nil {
-		panic(err)
-	}
-
-	err = database.UpdateProductPriceInProductData(ctx, dataInsert.ShopId, productId1, 100)
-	if err != nil {
-		panic(err)
-	}
-
-	err = database.UpdateProductShippingInfoInProductData(ctx, dataInsert.ShopId, productId1, "500x500")
-	if err != nil {
-		panic(err)
-	}
-
-	err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 10)
-	if err != nil {
-		panic(err)
-	}
-
-	for i := 1; i <= 10; i++ {
-		err = database.DecreaseStockFromProductData(ctx, productId1)
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	data, err := database.GetAllProductsOfShopByArrayFromProductData(ctx, dataInsert.ShopId)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(data)
-
-	err = database.DelProductImageFromProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
-	if err != nil {
-		panic(err)
-	}
-
-	dataP, err := database.GetProductFromProductData(ctx, productId1)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(dataP)
-
-	dataP, err = database.GetSpecificProductsOfShopFromProductData(ctx, dataInsert.ShopId, productId1)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(dataP)
+	//err = database.DelProductImageFromProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//dataP, err := database.GetProductFromProductData(ctx, productId1)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(dataP)
+	//
+	//dataP, err = database.GetSpecificProductsOfShopFromProductData(ctx, dataInsert.ShopId, productId1)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(dataP)
 
 	//err = database.DelProductFromProductData(ctx, dataInsert.ShopId, productId1)
 	//if err != nil {

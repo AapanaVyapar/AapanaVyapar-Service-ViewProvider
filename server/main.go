@@ -292,13 +292,18 @@ func main() {
 		Title:        "Yellow Shirt",
 		Description:  "Best in Class Size XL",
 		ShippingInfo: "200x70x10",
-		Stock:        0,
+		Stock:        10,
 		Price:        100,
 		Offer:        10,
 		Images:       []string{"https://image.com"},
 		Timestamp:    time.Now().UTC(),
 	}
 	productId1, err := database.CreateProduct(ctx, dataProduct1)
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.IncreaseStockFromProductData(ctx, productId1)
 	if err != nil {
 		panic(err)
 	}
@@ -342,9 +347,16 @@ func main() {
 		panic(err)
 	}
 
-	err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 1)
+	err = database.UpdateProductStockInfoInProductData(ctx, dataInsert.ShopId, productId1, 10)
 	if err != nil {
 		panic(err)
+	}
+
+	for i := 1; i <= 10; i++ {
+		err = database.DecreaseStockFromProductData(ctx, productId1)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	data, err := database.GetAllProductsOfShopByArrayFromProductData(ctx, dataInsert.ShopId)

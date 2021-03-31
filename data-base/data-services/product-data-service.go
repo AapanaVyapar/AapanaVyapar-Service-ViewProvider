@@ -439,7 +439,7 @@ func (dataBase *DataBase) DecreaseStockFromProductData(context context.Context, 
 		return nil
 	}
 
-	return fmt.Errorf("product not avaliable")
+	return fmt.Errorf("unable to decrease the stock")
 
 }
 

@@ -98,9 +98,9 @@ type ProductData struct {
 	Title        string             `bson:"title" json:"title" validate:"required"`
 	Description  string             `bson:"description" json:"description" validate:"required"`
 	ShippingInfo string             `bson:"shipping_info" json:"shipping_info" validate:"required"`
-	Stock        string             `bson:"stock" json:"stock" validate:"required"`
-	Price        string             `bson:"price" json:"price" validate:"required"`
-	Offer        uint8              `bson:"offer" json:"offer" validate:"required"`
+	Stock        uint32             `bson:"stock" json:"stock" validate:"required"`
+	Price        float64            `bson:"price" json:"price" validate:"required"`
+	Offer        uint8              `bson:"offer" json:"offer" validate:"required,max=100"`
 	Images       []string           `bson:"images" json:"images" validate:"required"`
 	Timestamp    time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
 }

@@ -4,6 +4,7 @@ type Status uint8
 
 const (
 	PENDING Status = iota
+	CANCELED
 	CONFORM
 	DISPATCHED
 	DELIVERED
@@ -38,6 +39,6 @@ const (
 const (
 	MAX_CATEGORY = 10
 	MAX_RATINGS  = 4
-	MAX_STATUS   = 3
+	MAX_STATUS   = 4
 	MAX_CURRENCY = 299
 )

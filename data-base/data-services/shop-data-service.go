@@ -15,15 +15,15 @@ import (
 	"time"
 )
 
-func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs.ShopData) (primitive.ObjectID, error) {
+func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs.ShopData) error {
 
 	if err := helpers.Validate(dataInsert); err != nil {
-		return primitive.ObjectID{}, err
+		return err
 	}
 
 	for _, i := range dataInsert.Images {
 		if _, err := url.ParseRequestURI(i); err != nil {
-			return primitive.ObjectID{}, fmt.Errorf("invalid url")
+			return fmt.Errorf("invalid url")
 		}
 	}
 
@@ -35,12 +35,12 @@ func (dataBase *DataBase) CreateShop(context context.Context, dataInsert structs
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	id, err := shopData.InsertOne(context, dataInsert)
+	_, err := shopData.InsertOne(context, dataInsert)
 	if err != nil {
-		return primitive.ObjectID{}, err
+		return err
 	}
 
-	return id.InsertedID.(primitive.ObjectID), nil
+	return nil
 }
 
 func (dataBase *DataBase) GetShopFromShopData(context context.Context, shopId primitive.ObjectID) (structs.ShopData, error) {

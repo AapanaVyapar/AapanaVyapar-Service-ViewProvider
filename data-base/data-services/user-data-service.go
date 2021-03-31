@@ -66,7 +66,7 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err = userData.UpdateOne(context,
+	result, err := userData.UpdateOne(context,
 		bson.M{"_id": userId},
 		bson.D{
 			{"$set", bson.D{{"address", address}}},
@@ -76,7 +76,11 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to set the address")
 }
 
 func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId string) error {
@@ -90,7 +94,7 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := userData.UpdateOne(context,
+	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
 		},
@@ -106,7 +110,11 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to delete address")
 }
 
 func (dataBase *DataBase) GetAddressUserData(context context.Context, userId string) (*structs.Address, error) {
@@ -125,7 +133,7 @@ func (dataBase *DataBase) GetAddressUserData(context context.Context, userId str
 	return data.Address, nil
 }
 
-func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForCart, error) {
+func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ProductIdsForCart, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -141,7 +149,7 @@ func (dataBase *DataBase) GetCartUserData(context context.Context, userId string
 	return data.Cart, nil
 }
 
-func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForFavAndOrd, error) {
+func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -157,7 +165,7 @@ func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId s
 	return data.Favorites, nil
 }
 
-func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId string) (*structs.ShopAndProductIdsForFavAndOrd, error) {
+func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -184,7 +192,7 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 
 	// Error will be thrown if cart is null or product is not in cart in both cases we have to just add product
 	if result.Err() != nil {
-		_, err := userData.UpdateOne(context,
+		result, err := userData.UpdateOne(context,
 			bson.M{
 				"_id": userId,
 			},
@@ -201,10 +209,15 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 			return err
 		}
 
-		return nil
+		if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+			return nil
+		}
+
+		return fmt.Errorf("unable to add to cart")
+
 	}
 
-	_, err := userData.UpdateOne(context,
+	res, err := userData.UpdateOne(context,
 		bson.M{
 			"_id":                      userId,
 			"cart.products.product_id": productId,
@@ -219,7 +232,11 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 		return err
 	}
 
-	return nil
+	if res.ModifiedCount > 0 || res.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to add to cart")
 }
 
 func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId string) error {
@@ -233,7 +250,7 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 
 	// Error will be thrown if favorites is null or product is not in favorites in both cases we have to just add product
 	if result.Err() != nil {
-		_, err := userData.UpdateOne(context,
+		res, err := userData.UpdateOne(context,
 			bson.M{
 				"_id": userId,
 			},
@@ -249,10 +266,14 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 			return err
 		}
 
-		return nil
+		if res.ModifiedCount > 0 || res.MatchedCount > 0 {
+			return nil
+		}
+
+		return fmt.Errorf("unable to add to faviroute")
 	}
 
-	return fmt.Errorf("product alredy exist")
+	return fmt.Errorf("alredy exist in faviroute")
 }
 
 func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId string) error {
@@ -266,7 +287,7 @@ func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId st
 
 	// Error will be thrown if favorites in null or product is not in favorites in both cases we have to just add product
 	if result.Err() != nil {
-		_, err := userData.UpdateOne(context,
+		res, err := userData.UpdateOne(context,
 			bson.M{
 				"_id": userId,
 			},
@@ -282,7 +303,11 @@ func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId st
 			return err
 		}
 
-		return nil
+		if res.ModifiedCount > 0 || res.MatchedCount > 0 {
+			return nil
+		}
+
+		return fmt.Errorf("unable to add order")
 	}
 
 	return fmt.Errorf("order alredy exist")
@@ -292,7 +317,7 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	_, err := userData.UpdateOne(context,
+	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
 		},
@@ -309,14 +334,18 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to delete from cart")
 }
 
 func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, userId string, productId string) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	_, err := userData.UpdateOne(context,
+	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
 		},
@@ -331,14 +360,18 @@ func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, user
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to delete from faviroute")
 }
 
 func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId string, productId string) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
-	_, err := userData.UpdateOne(context,
+	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
 		},
@@ -353,7 +386,11 @@ func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId 
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to delete from order")
 }
 
 func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId string, productId string) error {
@@ -379,7 +416,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 
 	fmt.Println(result.ModifiedCount)
 
-	if result.ModifiedCount > 0 {
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
 		return nil
 	}
 

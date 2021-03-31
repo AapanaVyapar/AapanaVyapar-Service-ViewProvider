@@ -114,6 +114,23 @@ func (dataBase *DataBase) GetSpecificProductsOfShopFromProductData(context conte
 
 }
 
+func (dataBase *DataBase) GetProductFromProductData(context context.Context, productId primitive.ObjectID) (structs.ProductData, error) {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.D{{"_id", productId}}
+
+	var data structs.ProductData
+	err := productData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return structs.ProductData{}, err
+	}
+
+	return data, nil
+
+}
+
 func (dataBase *DataBase) DelProductFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID) error {
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -141,7 +158,7 @@ func (dataBase *DataBase) AddProductImageInProductData(context context.Context, 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -157,7 +174,12 @@ func (dataBase *DataBase) AddProductImageInProductData(context context.Context, 
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update stock")
+
 }
 
 func (dataBase *DataBase) DelProductImageFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, imageURL string) error {
@@ -171,7 +193,7 @@ func (dataBase *DataBase) DelProductImageFromProductData(context context.Context
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -187,7 +209,12 @@ func (dataBase *DataBase) DelProductImageFromProductData(context context.Context
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update stock")
+
 }
 
 func (dataBase *DataBase) UpdateProductTitleInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, title string) error {
@@ -201,7 +228,7 @@ func (dataBase *DataBase) UpdateProductTitleInProductData(context context.Contex
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -217,7 +244,11 @@ func (dataBase *DataBase) UpdateProductTitleInProductData(context context.Contex
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update product title")
 }
 
 func (dataBase *DataBase) UpdateProductDescriptionInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, description string) error {
@@ -231,7 +262,7 @@ func (dataBase *DataBase) UpdateProductDescriptionInProductData(context context.
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -247,7 +278,11 @@ func (dataBase *DataBase) UpdateProductDescriptionInProductData(context context.
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update product description")
 }
 
 func (dataBase *DataBase) UpdateProductShippingInfoInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, shippingInfo string) error {
@@ -261,7 +296,7 @@ func (dataBase *DataBase) UpdateProductShippingInfoInProductData(context context
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -277,7 +312,12 @@ func (dataBase *DataBase) UpdateProductShippingInfoInProductData(context context
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update shipping info")
+
 }
 
 func (dataBase *DataBase) UpdateProductStockInfoInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, stock uint32) error {
@@ -287,10 +327,11 @@ func (dataBase *DataBase) UpdateProductStockInfoInProductData(context context.Co
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
+			//"$expr":   bson.M{"$lte": bson.A{"max_stock", stock}},
 		},
 		bson.M{
 			"$set": bson.M{
@@ -303,7 +344,11 @@ func (dataBase *DataBase) UpdateProductStockInfoInProductData(context context.Co
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update stock")
 }
 
 func (dataBase *DataBase) UpdateProductPriceInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, price float64) error {
@@ -313,7 +358,7 @@ func (dataBase *DataBase) UpdateProductPriceInProductData(context context.Contex
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -329,7 +374,12 @@ func (dataBase *DataBase) UpdateProductPriceInProductData(context context.Contex
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update product price")
+
 }
 
 func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, offer uint8) error {
@@ -339,7 +389,7 @@ func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Contex
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := productData.UpdateOne(context,
+	result, err := productData.UpdateOne(context,
 		bson.M{
 			"shop_id": shopId,
 			"_id":     productId,
@@ -355,13 +405,77 @@ func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Contex
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update offer")
+
+}
+
+func (dataBase *DataBase) DecreaseStockFromProductData(context context.Context, productId primitive.ObjectID) error {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	result, err := productData.UpdateOne(context,
+		bson.M{
+			"_id":   productId,
+			"stock": bson.M{"$gt": 0},
+		},
+		bson.M{
+			"$inc": bson.M{
+				"stock": -1,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(result.ModifiedCount)
+
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("product not avaliable")
+
+}
+
+func (dataBase *DataBase) IncreaseStockFromProductData(context context.Context, productId primitive.ObjectID) error {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	result, err := productData.UpdateOne(context,
+		bson.M{
+			"_id": productId,
+		},
+		bson.M{
+			"$inc": bson.M{
+				"stock": 1,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(result.ModifiedCount)
+
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("max product limit reach") // Check for inconsistency
+
 }
 
 /*
 	dataProduct := structs.ProductData{
-		ShopId:       dataInsert.ShopId,
 		_id:          primitive.NewObjectID(), //product id
+		ShopId:       dataInsert.ShopId,
 		Title:        "Yellow Shirt",
 		Description:  "Best in Class Size XL",
 		ShippingInfo: "200x70x10",

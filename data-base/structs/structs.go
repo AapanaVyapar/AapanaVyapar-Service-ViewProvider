@@ -8,12 +8,12 @@ import (
 )
 
 type UserData struct {
-	UserId    string                         `bson:"_id" json:"_id" validate:"required"`
-	UserName  string                         `bson:"user_name" json:"user_name" validate:"required"`
-	Address   *Address                       `bson:"address,omitempty" json:"address"`
-	Cart      *ShopAndProductIdsForCart      `bson:"cart,omitempty" json:"cart"`
-	Favorites *ShopAndProductIdsForFavAndOrd `bson:"favorites,omitempty" json:"favorites"`
-	Orders    *ShopAndProductIdsForFavAndOrd `bson:"orders,omitempty" json:"orders"`
+	UserId    string                  `bson:"_id" json:"_id" validate:"required"`
+	UserName  string                  `bson:"user_name" json:"user_name" validate:"required"`
+	Address   *Address                `bson:"address,omitempty" json:"address"`
+	Cart      *ProductIdsForCart      `bson:"cart,omitempty" json:"cart"`
+	Favorites *ProductIdsForFavAndOrd `bson:"favorites,omitempty" json:"favorites"`
+	Orders    *ProductIdsForFavAndOrd `bson:"orders,omitempty" json:"orders"`
 }
 
 type ProductCartData struct {
@@ -21,22 +21,22 @@ type ProductCartData struct {
 	NoOfProduct uint8  `bson:"no_product" json:"no_product" validate:"required,min=1,max=200"`
 }
 
-type ShopAndProductIdsForCart struct {
+type ProductIdsForCart struct {
 	Product []ProductCartData `bson:"products,omitempty" json:"products"`
 }
 
-type ShopAndProductIdsForFavAndOrd struct {
+type ProductIdsForFavAndOrd struct {
 	Product []string `bson:"products,omitempty" json:"products"`
 }
 
 type OrderData struct {
-	OrderId          primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
-	UserId           string             `bson:"user_id" json:"user_id" validate:"required"`
-	Status           constants.Status   `bson:"status" json:"status" validate:"required"`
-	ShopAndProductId string             `bson:"shop_and_product_id" json:"shop_and_product_id" validate:"required"`
-	TimeStamp        time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
-	Price            float64            `bson:"price" json:"price" validate:"required"`
-	Quantity         int32              `bson:"quantity" json:"quantity" validate:"required"`
+	OrderId   primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
+	UserId    string             `bson:"user_id" json:"user_id" validate:"required"`
+	Status    constants.Status   `bson:"status" json:"status" validate:"required"`
+	ProductId string             `bson:"product_id" json:"product_id" validate:"required"`
+	TimeStamp time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
+	Price     float64            `bson:"price" json:"price" validate:"required"`
+	Quantity  int32              `bson:"quantity" json:"quantity" validate:"required"`
 }
 
 type Address struct {
@@ -97,7 +97,7 @@ type ProductData struct {
 	Title        string             `bson:"title" json:"title" validate:"required"`
 	Description  string             `bson:"description" json:"description" validate:"required"`
 	ShippingInfo string             `bson:"shipping_info" json:"shipping_info" validate:"required"`
-	Stock        uint32             `bson:"stock" json:"stock" validate:"required"`
+	Stock        uint32             `bson:"stock" json:"stock"`
 	Price        float64            `bson:"price" json:"price" validate:"required"`
 	Offer        uint8              `bson:"offer" json:"offer" validate:"required,max=100"`
 	Images       []string           `bson:"images" json:"images" validate:"required"`
@@ -105,9 +105,9 @@ type ProductData struct {
 }
 
 type AnalyticalClickData struct {
-	ShopAndProductId string                 `bson:"shop_and_product_id" json:"shop_and_product_id" validate:"required"`
-	Timestamp        time.Time              `bson:"timestamp" json:"timestamp" validate:"required"`
-	Category         []constants.Categories `bson:"category" json:"category" validate:"required"`
+	ProductId string                 `bson:"product_id" json:"product_id" validate:"required"`
+	Timestamp time.Time              `bson:"timestamp" json:"timestamp" validate:"required"`
+	Category  []constants.Categories `bson:"category" json:"category" validate:"required"`
 }
 
 type MostVisited struct {

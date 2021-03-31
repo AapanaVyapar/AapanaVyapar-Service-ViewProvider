@@ -74,7 +74,7 @@ func (dataBase *DataBase) AddRatingInShopData(context context.Context, shopId pr
 
 	// Error will be thrown if rating is null or rating is already present in both cases we have to just add product
 	if result.Err() != nil {
-		_, err := shopData.UpdateOne(context,
+		res, err := shopData.UpdateOne(context,
 			bson.M{
 				"_id": shopId,
 			},
@@ -91,7 +91,11 @@ func (dataBase *DataBase) AddRatingInShopData(context context.Context, shopId pr
 			return err
 		}
 
-		return nil
+		if res.ModifiedCount > 0 || res.MatchedCount > 0 {
+			return nil
+		}
+
+		return fmt.Errorf("unable to add rating to shop")
 	}
 
 	return fmt.Errorf("you already rated to the shop")
@@ -151,7 +155,7 @@ func (dataBase *DataBase) DelShopImageFromShopData(context context.Context, shop
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -166,7 +170,11 @@ func (dataBase *DataBase) DelShopImageFromShopData(context context.Context, shop
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to remove image from the shop")
 }
 
 func (dataBase *DataBase) AddShopImageInShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {
@@ -180,7 +188,7 @@ func (dataBase *DataBase) AddShopImageInShopData(context context.Context, shopId
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -195,7 +203,12 @@ func (dataBase *DataBase) AddShopImageInShopData(context context.Context, shopId
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to add image to the shop")
+
 }
 
 func (dataBase *DataBase) UpdateShopPrimaryImageInShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {
@@ -209,7 +222,7 @@ func (dataBase *DataBase) UpdateShopPrimaryImageInShopData(context context.Conte
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -224,7 +237,11 @@ func (dataBase *DataBase) UpdateShopPrimaryImageInShopData(context context.Conte
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update primary image")
 }
 
 func (dataBase *DataBase) UpdateShopKeeperNameInShopData(context context.Context, shopId primitive.ObjectID, name string) error {
@@ -234,7 +251,7 @@ func (dataBase *DataBase) UpdateShopKeeperNameInShopData(context context.Context
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -249,7 +266,12 @@ func (dataBase *DataBase) UpdateShopKeeperNameInShopData(context context.Context
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update shopkeepers name")
+
 }
 
 func (dataBase *DataBase) UpdateShopAddressAndLocationInShopData(context context.Context, shopId primitive.ObjectID, address structs.Address, location structs.Location) error {
@@ -267,7 +289,7 @@ func (dataBase *DataBase) UpdateShopAddressAndLocationInShopData(context context
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -284,7 +306,11 @@ func (dataBase *DataBase) UpdateShopAddressAndLocationInShopData(context context
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update address")
 }
 
 func (dataBase *DataBase) UpdateShopLocationInShopData(context context.Context, shopId primitive.ObjectID, location structs.Location) error {
@@ -298,7 +324,7 @@ func (dataBase *DataBase) UpdateShopLocationInShopData(context context.Context, 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -313,7 +339,11 @@ func (dataBase *DataBase) UpdateShopLocationInShopData(context context.Context, 
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update location")
 }
 
 func (dataBase *DataBase) UpdateCategoryInShopData(context context.Context, shopId primitive.ObjectID, category []constants.Categories) error {
@@ -335,7 +365,7 @@ func (dataBase *DataBase) UpdateCategoryInShopData(context context.Context, shop
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -350,7 +380,11 @@ func (dataBase *DataBase) UpdateCategoryInShopData(context context.Context, shop
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update category")
 }
 
 func (dataBase *DataBase) GetCategoryFromShopData(context context.Context, shopId primitive.ObjectID) ([]constants.Categories, error) {
@@ -385,7 +419,7 @@ func (dataBase *DataBase) UpdateBusinessInfoInShopData(context context.Context, 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -400,7 +434,12 @@ func (dataBase *DataBase) UpdateBusinessInfoInShopData(context context.Context, 
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update business information")
+
 }
 
 func (dataBase *DataBase) UpdateCurrencyInShopData(context context.Context, shopId primitive.ObjectID, currency currency.Type) error {
@@ -414,7 +453,7 @@ func (dataBase *DataBase) UpdateCurrencyInShopData(context context.Context, shop
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -429,7 +468,12 @@ func (dataBase *DataBase) UpdateCurrencyInShopData(context context.Context, shop
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update currency")
+
 }
 
 func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Context, shopId primitive.ObjectID, operationalHours structs.OperationalHours) error {
@@ -443,7 +487,7 @@ func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Conte
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.UpdateOne(context,
+	result, err := shopData.UpdateOne(context,
 		bson.M{
 			"_id": shopId,
 		},
@@ -458,7 +502,12 @@ func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Conte
 		return err
 	}
 
-	return nil
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update operational hours")
+
 }
 
 /*

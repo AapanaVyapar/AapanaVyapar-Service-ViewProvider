@@ -6,6 +6,7 @@ import (
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
@@ -47,6 +48,33 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 	}
 
 	return id.InsertedID.(primitive.ObjectID), nil
+}
+
+func (dataBase *DataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status constants.Status) error {
+
+	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
+
+	result, err := orderData.UpdateOne(context,
+		bson.M{
+			"_id": orderId,
+		},
+		bson.M{
+			"$set": bson.M{
+				"status": status,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update order")
+
 }
 
 /*

@@ -362,6 +362,12 @@ func main() {
 	}
 	fmt.Println(orderId)
 
+	err = database.UpdateOrderStatusInOrderData(ctx, orderId, constants.CONFORM)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(orderId)
+
 	err = database.DelProductImageFromProductData(ctx, dataInsert.ShopId, productId1, "https://imageurl.in")
 	if err != nil {
 		panic(err)

@@ -401,6 +401,10 @@ func (dataBase *DataBase) UpdateProductPriceInProductData(context context.Contex
 
 func (dataBase *DataBase) UpdateProductOfferInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, offer uint8) error {
 
+	if offer > 100 {
+		return fmt.Errorf("offer should not exceed 100")
+	}
+
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()

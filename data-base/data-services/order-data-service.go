@@ -77,6 +77,40 @@ func (dataBase *DataBase) UpdateOrderStatusInOrderData(context context.Context, 
 
 }
 
+func (dataBase *DataBase) GetOrderInfoFromOrderData(context context.Context, orderId primitive.ObjectID) (structs.OrderData, error) {
+
+	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
+
+	var data structs.OrderData
+
+	err := orderData.FindOne(context,
+		bson.M{
+			"_id": orderId,
+		},
+	).Decode(&data)
+
+	if err != nil {
+		return structs.OrderData{}, err
+	}
+
+	return data, nil
+
+}
+
+func (dataBase *DataBase) IsExistOrderExist(context context.Context, key string, value interface{}) bool {
+	productData := mongodb.OpenOrderDataCollection(dataBase.Data)
+
+	filter := bson.D{{key, value}}
+	singleCursor := productData.FindOne(context, filter)
+
+	if singleCursor.Err() != nil {
+		return false
+	}
+
+	return true
+
+}
+
 /*
 	order := structs.OrderData{
 		OrderId:   primitive.ObjectID{},

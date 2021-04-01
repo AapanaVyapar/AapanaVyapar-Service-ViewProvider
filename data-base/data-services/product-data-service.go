@@ -2,6 +2,7 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
+	"aapanavyapar-service-viewprovider/data-base/constants"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
@@ -71,6 +72,43 @@ func (dataBase *DataBase) GetAllProductsOfShopByFunctionFromProductData(context 
 
 }
 
+func (dataBase *DataBase) GetAllProductsByCategoryOfShopsByFunctionFromProductData(context context.Context, shopIds []primitive.ObjectID, category []constants.Categories, sendData func(data structs.ProductData) error) error {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.D{
+		{"shop_id", bson.M{"$in": shopIds}},
+		{"category", bson.M{"$in": category}},
+	}
+	cursor, err := productData.Find(context, filter)
+
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(context)
+
+	for cursor.Next(context) {
+		result := structs.ProductData{}
+		err = cursor.Decode(&result)
+
+		if err != nil {
+			return err
+		}
+
+		if err = sendData(result); err != nil {
+			return err
+		}
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (dataBase *DataBase) GetAllProductsOfShopByArrayFromProductData(context context.Context, shopId primitive.ObjectID) ([]structs.ProductData, error) {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
@@ -79,20 +117,17 @@ func (dataBase *DataBase) GetAllProductsOfShopByArrayFromProductData(context con
 	cursor, err := productData.Find(context, filter)
 
 	if err != nil {
-		fmt.Println("HI")
 		return []structs.ProductData{}, err
 	}
 	defer cursor.Close(context)
 
 	if err := cursor.Err(); err != nil {
-		fmt.Println("HII")
 		return []structs.ProductData{}, err
 	}
 
 	var results []structs.ProductData
 	err = cursor.All(context, &results)
 	if err != nil {
-		fmt.Println("HIII")
 		return []structs.ProductData{}, err
 	}
 
@@ -266,6 +301,40 @@ func (dataBase *DataBase) UpdateProductTitleInProductData(context context.Contex
 	}
 
 	return fmt.Errorf("unable to update product title")
+}
+
+func (dataBase *DataBase) UpdateProductCategoryInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, category []constants.Categories) error {
+
+	if len(category) == 0 {
+		return fmt.Errorf("category can not be empty")
+	}
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
+	result, err := productData.UpdateOne(context,
+		bson.M{
+			"shop_id": shopId,
+			"_id":     productId,
+		},
+		bson.M{
+			"$set": bson.M{
+				"category": category,
+			},
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("unable to update product category")
 }
 
 func (dataBase *DataBase) UpdateProductDescriptionInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, description string) error {
@@ -505,6 +574,7 @@ func (dataBase *DataBase) IncreaseStockFromProductData(context context.Context, 
 		Stock:        10,
 		Price:        1000,
 		Offer:        10,
+		Category:     []constants.Categories{constants.MENS_CLOTHING},
 		Images:       []string{"https://image.com"},
 		Timestamp:    time.Now().UTC(),
 	}

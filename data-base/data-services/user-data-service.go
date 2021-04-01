@@ -86,10 +86,6 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 
 func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId string) error {
 
-	if !dataBase.IsExistInUserData(context, "_id", userId) {
-		return fmt.Errorf("user does not exist")
-	}
-
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()
@@ -184,6 +180,10 @@ func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId stri
 
 func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
+	if !dataBase.IsExistProductExist(context, "_id", productId) {
+		return fmt.Errorf("product does not exist")
+	}
+
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()
@@ -242,6 +242,10 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 
 func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
+	if !dataBase.IsExistProductExist(context, "_id", productId) {
+		return fmt.Errorf("product does not exist")
+	}
+
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
 	dataBase.mutex.Lock()
@@ -278,6 +282,10 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 }
 
 func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId primitive.ObjectID) error {
+
+	if !dataBase.IsExistOrderExist(context, "_id", orderId) {
+		return fmt.Errorf("order is not created")
+	}
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 

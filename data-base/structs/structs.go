@@ -92,16 +92,17 @@ type ShopData struct {
 }
 
 type ProductData struct {
-	ProductId    primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
-	ShopId       primitive.ObjectID `bson:"shop_id" json:"shop_id" validate:"required"`
-	Title        string             `bson:"title" json:"title" validate:"required"`
-	Description  string             `bson:"description" json:"description" validate:"required"`
-	ShippingInfo string             `bson:"shipping_info" json:"shipping_info" validate:"required"`
-	Stock        uint32             `bson:"stock" json:"stock"`
-	Price        float64            `bson:"price" json:"price" validate:"required"`
-	Offer        uint8              `bson:"offer" json:"offer" validate:"required,max=100"`
-	Images       []string           `bson:"images" json:"images" validate:"required"`
-	Timestamp    time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
+	ProductId    primitive.ObjectID     `bson:"_id,omitempty" json:"_id"`
+	ShopId       primitive.ObjectID     `bson:"shop_id" json:"shop_id" validate:"required"`
+	Title        string                 `bson:"title" json:"title" validate:"required"`
+	Description  string                 `bson:"description" json:"description" validate:"required"`
+	ShippingInfo string                 `bson:"shipping_info" json:"shipping_info" validate:"required"`
+	Stock        uint32                 `bson:"stock" json:"stock"`
+	Price        float64                `bson:"price" json:"price" validate:"required"`
+	Offer        uint8                  `bson:"offer" json:"offer" validate:"required,max=100"`
+	Images       []string               `bson:"images" json:"images" validate:"required"`
+	Category     []constants.Categories `bson:"category" json:"category" validate:"required"`
+	Timestamp    time.Time              `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 
 type AnalyticalClickData struct {
@@ -111,7 +112,7 @@ type AnalyticalClickData struct {
 }
 
 type MostVisited struct {
-	Product []AnalyticalClickData `bson:"analytical_click_data,omitempty" json:"analytical_click_data" validate:"required"`
+	Product []AnalyticalClickData `bson:"product,omitempty" json:"product" validate:"required"`
 }
 
 type AnalyticalData struct {

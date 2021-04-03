@@ -22,11 +22,11 @@ type ProductCartData struct {
 }
 
 type ProductIdsForCart struct {
-	Product []ProductCartData `bson:"products,omitempty" json:"products"`
+	Products []ProductCartData `bson:"products,omitempty" json:"products"`
 }
 
 type ProductIdsForFavAndOrd struct {
-	Product []primitive.ObjectID `bson:"products,omitempty" json:"products"`
+	Products []primitive.ObjectID `bson:"products,omitempty" json:"products"`
 }
 
 type OrderData struct {
@@ -116,6 +116,6 @@ type MostVisited struct {
 }
 
 type AnalyticalData struct {
-	UserId      string       `bson:"user_id" json:"user_id" validate:"required"`
+	UserId      string       `bson:"_id" json:"_id" validate:"required"`
 	MostVisited *MostVisited `bson:"most_visited,omitempty" json:"most_visited" validate:"required"`
 }

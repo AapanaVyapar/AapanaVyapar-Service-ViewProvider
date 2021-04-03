@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  configServer1:
+    container_name: ${CONFIG_SERVER_1_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    ports:
+      - 40001:27017
+    depends_on:
+      - ${CONFIG_SERVER_2_CONTAINER}
+      - ${CONFIG_SERVER_3_CONTAINER}
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - ./config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
+      - ./create-users.js:/docker-entrypoint-initdb.d/create-users.js
+      - ~/ShardData/${CONFIG_SERVER_1_CONTAINER}:/data/db
+
+  configServer2:
+    container_name: ${CONFIG_SERVER_2_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    ports:
+      - 40002:27017
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - ./create-users.js:/docker-entrypoint-initdb.d/create-users.js
+      - ~/ShardData/${CONFIG_SERVER_2_CONTAINER}:/data/db
+
+  configServer3:
+    container_name: ${CONFIG_SERVER_3_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    ports:
+      - 40003:27017
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - ./create-users.js:/docker-entrypoint-initdb.d/create-users.js
+      - ~/ShardData/${CONFIG_SERVER_3_CONTAINER}:/data/db
+
+volumes:
+  configServer1: {}
+  configServer2: {}
+  configServer3: {}
+
+networks:
+  default:
+    external:
+      name: mongo-multihost-network

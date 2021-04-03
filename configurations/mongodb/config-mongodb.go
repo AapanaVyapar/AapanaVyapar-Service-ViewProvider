@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func InitMongo() *mongo.Database {
+func InitMongo() *mongo.Client {
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
@@ -29,32 +29,36 @@ func InitMongo() *mongo.Database {
 		panic(err)
 	}
 
-	database := client.Database("db_aapanavypar")
-	return database
+	return client
 
 }
 
-func OpenUserDataCollection(database *mongo.Database) *mongo.Collection {
+func OpenUserDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
 	userData := database.Collection("userData")
 	return userData
 }
 
-func OpenOrderDataCollection(database *mongo.Database) *mongo.Collection {
+func OpenOrderDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
 	userData := database.Collection("orderData")
 	return userData
 }
 
-func OpenShopDataCollection(database *mongo.Database) *mongo.Collection {
+func OpenShopDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
 	userData := database.Collection("shopData")
 	return userData
 }
 
-func OpenProductDataCollection(database *mongo.Database) *mongo.Collection {
+func OpenProductDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
 	userData := database.Collection("productData")
 	return userData
 }
 
-func OpenAnalyticalDataCollection(database *mongo.Database) *mongo.Collection {
+func OpenAnalyticalDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
 	userData := database.Collection("analyticalData")
 	return userData
 }

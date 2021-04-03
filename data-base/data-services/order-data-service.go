@@ -8,6 +8,10 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readconcern"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"time"
 )
 
@@ -32,22 +36,45 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 	order.Quantity = quantity
 	order.ProductId = productId
 
-	price, offer, err := dataBase.DecreaseStockToMakeOrderFromProductData(context, productId, quantity)
+	wc := writeconcern.New(writeconcern.WMajority())
+	rc := readconcern.Snapshot()
+	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
 
-	order.Price = price - ((price / 100) * float64(offer))
-	order.Status = constants.PENDING
-
-	id, err := productData.InsertOne(context, order)
+	session, err := dataBase.Data.StartSession()
 	if err != nil {
 		return primitive.ObjectID{}, err
 	}
+	defer session.EndSession(context)
 
-	err = dataBase.AddToOrdersUserData(context, userId, id.InsertedID.(primitive.ObjectID))
-	if err != nil {
-		return primitive.ObjectID{}, err
+	callback := func(sessCtx mongo.SessionContext) (interface{}, error) {
+
+		price, offer, err := dataBase.DecreaseStockToMakeOrderFromProductData(sessCtx, productId, quantity)
+		if err != nil {
+			return primitive.ObjectID{}, err
+		}
+
+		order.Price = price - ((price / 100) * float64(offer))
+		order.Status = constants.PENDING
+
+		id, err := productData.InsertOne(sessCtx, order)
+		if err != nil {
+			return primitive.ObjectID{}, err
+		}
+
+		err = dataBase.AddToOrdersUserData(sessCtx, userId, id.InsertedID.(primitive.ObjectID))
+		if err != nil {
+			return primitive.ObjectID{}, err
+		}
+
+		return id.InsertedID.(primitive.ObjectID), nil
 	}
 
-	return id.InsertedID.(primitive.ObjectID), nil
+	result, err := session.WithTransaction(context, callback, txnOpts)
+	if err != nil {
+		panic(err)
+	}
+
+	return result.(primitive.ObjectID), nil
 }
 
 func (dataBase *DataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status constants.Status) error {

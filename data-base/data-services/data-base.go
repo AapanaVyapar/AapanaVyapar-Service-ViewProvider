@@ -10,18 +10,18 @@ import (
 
 type DataBase struct {
 	mutex sync.RWMutex
-	Data  *mongo.Database
+	Data  *mongo.Client
 	Cash  *redis.Client
 }
 
 func NewDataBase() *DataBase {
 
-	database := mongodb.InitMongo()
+	client := mongodb.InitMongo()
 
 	rdb := redisDb.InitRedis()
 
 	return &DataBase{
-		Data: database,
+		Data: client,
 		Cash: rdb,
 	}
 }

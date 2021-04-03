@@ -449,13 +449,13 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 			PhoneNo:       "9172879779",
 		},
 		Cart:      structs.ShopAndProductIds{
-			Product: []string{"1", "2"},
+			Products: []string{"1", "2"},
 		},
 		Favorites: structs.ShopAndProductIds{
-			Product: []string{"1", "2"},
+			Products: []string{"1", "2"},
 		},
 		Orders:    structs.ShopAndProductIds{
-			Product: []string{"1", "2"},
+			Products: []string{"1", "2"},
 		},
 	}
 
@@ -475,9 +475,9 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 //	defer dataBase.mutex.Unlock()
 //
 //	if data.Cart == nil {
-//		// User Want To Add Product First Time
+//		// User Want To Add Products First Time
 //		cart := &structs.ShopAndProductIdsForCart{
-//			Product: []structs.ProductCartData{
+//			Products: []structs.ProductCartData{
 //				{
 //					ProductId:   productId,
 //					NoOfProduct: 1,
@@ -491,7 +491,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 //		return nil
 //	}
 //
-//	// User Want To Increase Count Of Product
+//	// User Want To Increase Count Of Products
 //	// Only going to increment if product is there.
 //	result, err := userData.UpdateOne(context,
 //		bson.M{
@@ -511,7 +511,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 //		return nil
 //	}
 //
-//	// Means User Want To Add New Product In Cart
+//	// Means User Want To Add New Products In Cart
 //
 //	_, err = userData.UpdateOne(context,
 //		bson.M{

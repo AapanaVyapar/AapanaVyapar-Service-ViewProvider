@@ -187,7 +187,7 @@ func main() {
 
 	// Shop Testing Ends
 
-	// Product Testing Starts
+	// Products Testing Starts
 
 	dataProduct1 := structs.ProductData{
 		ShopId:       dataInsert.ShopId,
@@ -310,7 +310,7 @@ func main() {
 	//}
 	//
 
-	// Product Testing Ends
+	// Products Testing Ends
 
 	// User Testing Starts
 
@@ -430,4 +430,15 @@ func main() {
 	}
 
 	// Order Testing Ends
+
+	err = database.AddAnalyticalDataToAnalyticalData(ctx, "1", structs.AnalyticalClickData{
+		ProductId: primitive.NewObjectID(),
+		Timestamp: time.Now().UTC(),
+		Category:  []constants.Categories{constants.MENS_CLOTHING},
+	},
+	)
+	if err != nil {
+		panic(err)
+	}
+
 }

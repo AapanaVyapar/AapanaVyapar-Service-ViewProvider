@@ -8,6 +8,7 @@ import (
 	"github.com/o1egl/paseto/v2"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"log"
 	"os"
 	"time"
 )
@@ -99,4 +100,18 @@ func ValidateToken(ctx context.Context, tokenString, key string, access int) (*p
 
 	fmt.Println("Done With Token")
 	return &receivedToken, nil
+}
+
+func ContextError(ctx context.Context) error {
+
+	switch ctx.Err() {
+	case context.Canceled:
+		log.Println("Request Canceled")
+		return status.Error(codes.DeadlineExceeded, "Request Canceled")
+	case context.DeadlineExceeded:
+		log.Println("DeadLine Exceeded")
+		return status.Error(codes.DeadlineExceeded, "DeadLine Exceeded")
+	default:
+		return nil
+	}
 }

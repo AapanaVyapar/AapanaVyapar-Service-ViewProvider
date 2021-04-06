@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (dataBase *DataBase) AddAnalyticalDataToAnalyticalData(context context.Context, userId string, data structs.AnalyticalClickData) error {
+func (dataBase *MongoDataBase) AddAnalyticalDataToAnalyticalData(context context.Context, userId string, data structs.AnalyticalClickData) error {
 
 	analyticalData := mongodb.OpenAnalyticalDataCollection(dataBase.Data)
 

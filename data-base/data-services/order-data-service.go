@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-func (dataBase *DataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int64, address *structs.Address) (primitive.ObjectID, error) {
+func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int64, address *structs.Address) (primitive.ObjectID, error) {
 
 	if !dataBase.IsExistInUserData(context, "_id", userId) {
 		return primitive.ObjectID{}, fmt.Errorf("user does not exist")
@@ -83,7 +83,7 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 	return result.(primitive.ObjectID), nil
 }
 
-func (dataBase *DataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status constants.Status) error {
+func (dataBase *MongoDataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status constants.Status) error {
 
 	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
 
@@ -110,7 +110,7 @@ func (dataBase *DataBase) UpdateOrderStatusInOrderData(context context.Context, 
 
 }
 
-func (dataBase *DataBase) GetOrderInfoFromOrderData(context context.Context, orderId primitive.ObjectID) (structs.OrderData, error) {
+func (dataBase *MongoDataBase) GetOrderInfoFromOrderData(context context.Context, orderId primitive.ObjectID) (structs.OrderData, error) {
 
 	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
 
@@ -130,7 +130,7 @@ func (dataBase *DataBase) GetOrderInfoFromOrderData(context context.Context, ord
 
 }
 
-func (dataBase *DataBase) IsExistOrderExist(context context.Context, key string, value interface{}) bool {
+func (dataBase *MongoDataBase) IsExistOrderExist(context context.Context, key string, value interface{}) bool {
 	productData := mongodb.OpenOrderDataCollection(dataBase.Data)
 
 	filter := bson.D{{key, value}}

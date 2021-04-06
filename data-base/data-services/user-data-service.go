@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func (dataBase *DataBase) CreateUser(context context.Context, userId string, userName string) (string, error) {
+func (dataBase *MongoDataBase) CreateUser(context context.Context, userId string, userName string) (string, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -38,7 +38,7 @@ func (dataBase *DataBase) CreateUser(context context.Context, userId string, use
 	return id.InsertedID.(string), nil
 }
 
-func (dataBase *DataBase) IsExistInUserData(context context.Context, key string, value interface{}) bool {
+func (dataBase *MongoDataBase) IsExistInUserData(context context.Context, key string, value interface{}) bool {
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
 	filter := bson.D{{key, value}}
@@ -51,7 +51,7 @@ func (dataBase *DataBase) IsExistInUserData(context context.Context, key string,
 	return true
 }
 
-func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId string, userName string, address structs.Address) error {
+func (dataBase *MongoDataBase) SetAddressInUserData(context context.Context, userId string, userName string, address structs.Address) error {
 
 	if err := helpers.Validate(address); err != nil {
 		return err
@@ -81,7 +81,7 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 	return fmt.Errorf("unable to set the address")
 }
 
-func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId string) error {
+func (dataBase *MongoDataBase) DelAddressInUserData(context context.Context, userId string) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -111,7 +111,7 @@ func (dataBase *DataBase) DelAddressInUserData(context context.Context, userId s
 	return fmt.Errorf("unable to delete address")
 }
 
-func (dataBase *DataBase) GetAddressUserData(context context.Context, userId string) (*structs.Address, error) {
+func (dataBase *MongoDataBase) GetAddressUserData(context context.Context, userId string) (*structs.Address, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -127,7 +127,7 @@ func (dataBase *DataBase) GetAddressUserData(context context.Context, userId str
 	return data.Address, nil
 }
 
-func (dataBase *DataBase) GetCartUserData(context context.Context, userId string) (*structs.ProductIdsForCart, error) {
+func (dataBase *MongoDataBase) GetCartUserData(context context.Context, userId string) (*structs.ProductIdsForCart, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -143,7 +143,7 @@ func (dataBase *DataBase) GetCartUserData(context context.Context, userId string
 	return data.Cart, nil
 }
 
-func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
+func (dataBase *MongoDataBase) GetFavoritesUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -159,7 +159,7 @@ func (dataBase *DataBase) GetFavoritesUserData(context context.Context, userId s
 	return data.Favorites, nil
 }
 
-func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
+func (dataBase *MongoDataBase) GetOrdersUserData(context context.Context, userId string) (*structs.ProductIdsForFavAndOrd, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -175,7 +175,7 @@ func (dataBase *DataBase) GetOrdersUserData(context context.Context, userId stri
 	return data.Orders, nil
 }
 
-func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	if !dataBase.IsExistProductExist(context, "_id", productId) {
 		return fmt.Errorf("product does not exist")
@@ -237,7 +237,7 @@ func (dataBase *DataBase) AddToCartUserData(context context.Context, userId stri
 	return fmt.Errorf("unable to add to cart")
 }
 
-func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) AddToFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	if !dataBase.IsExistProductExist(context, "_id", productId) {
 		return fmt.Errorf("product does not exist")
@@ -278,7 +278,7 @@ func (dataBase *DataBase) AddToFavoritesUserData(context context.Context, userId
 	return fmt.Errorf("alredy exist in faviroute")
 }
 
-func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId string, orderId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) AddToOrdersUserData(context context.Context, userId string, orderId primitive.ObjectID) error {
 
 	if !dataBase.IsExistOrderExist(context, "_id", orderId) {
 		return fmt.Errorf("order is not created")
@@ -319,7 +319,7 @@ func (dataBase *DataBase) AddToOrdersUserData(context context.Context, userId st
 	return fmt.Errorf("order alredy exist")
 }
 
-func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -347,7 +347,7 @@ func (dataBase *DataBase) DelFromCartUserData(context context.Context, userId st
 	return fmt.Errorf("unable to delete from cart")
 }
 
-func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelFromFavoritesUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -373,7 +373,7 @@ func (dataBase *DataBase) DelFromFavoritesUserData(context context.Context, user
 	return fmt.Errorf("unable to delete from faviroute")
 }
 
-func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelFromOrdersUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -399,7 +399,7 @@ func (dataBase *DataBase) DelFromOrdersUserData(context context.Context, userId 
 	return fmt.Errorf("unable to delete from order")
 }
 
-func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) RemoveFromCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -458,7 +458,7 @@ func (dataBase *DataBase) RemoveFromCartUserData(context context.Context, userId
 
 */
 
-//func (dataBase *DataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
+//func (dataBase *MongoDataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 //
 //	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 //

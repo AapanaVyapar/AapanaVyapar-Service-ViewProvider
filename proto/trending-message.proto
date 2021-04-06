@@ -5,11 +5,6 @@ option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
 
-message TrendingCategoryData {
-  string category = 9;
-  uint32 categoryId = 10;
-}
-
 message TrendingData {
   string subCategory = 11;
   string productImage = 12;
@@ -27,7 +22,7 @@ message GetTrendingCategoriesRequest {
 }
 
 message GetTrendingCategoriesResponse {
-  repeated TrendingCategoryData categoryData = 4;
+  repeated string categoryData = 4;
 }
 
 message GetTrendingDataByCategoriesRequest {
@@ -44,5 +39,6 @@ message GetTrendingDataByCategoriesResponse {
 Store the trends in trends Hash Map.
 Get All the trends by hkys form hash.
 
+Hash Map Name is of Main Category and it contains key = subcategory and value = productIds array
 
 */

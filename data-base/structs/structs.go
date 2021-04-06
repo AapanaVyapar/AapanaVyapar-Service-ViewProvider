@@ -2,6 +2,8 @@ package structs
 
 import (
 	"aapanavyapar-service-viewprovider/data-base/constants"
+	"encoding/json"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
@@ -120,4 +122,25 @@ type MostVisited struct {
 type AnalyticalData struct {
 	UserId      string       `bson:"_id" json:"_id" validate:"required"`
 	MostVisited *MostVisited `bson:"most_visited,omitempty" json:"most_visited" validate:"required"`
+}
+
+type BasicCategoriesData struct {
+	Id            primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
+	Category      string             `bson:"category" json:"category" validate:"required"`
+	SubCategories []string           `bson:"sub_categories,omitempty" json:"sub_categories" validate:"required"`
+}
+
+func (m *BasicCategoriesData) Marshal() []byte {
+	data, err := json.Marshal(m)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return data
+}
+
+func UnmarshalSubCategories(data []byte, m *BasicCategoriesData) {
+	err := json.Unmarshal(data, &m)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

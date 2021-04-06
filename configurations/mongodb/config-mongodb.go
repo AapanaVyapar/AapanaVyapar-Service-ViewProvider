@@ -33,6 +33,12 @@ func InitMongo() *mongo.Client {
 
 }
 
+func OpenDefaultDataCollection(client *mongo.Client) *mongo.Collection {
+	database := client.Database("db_aapanavypar")
+	userData := database.Collection("defaultData")
+	return userData
+}
+
 func OpenUserDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
 	userData := database.Collection("userData")

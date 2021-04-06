@@ -23,7 +23,6 @@ func (dataBase *MongoDataBase) GetAllBasicCategories(context context.Context, se
 		result := structs.BasicCategoriesData{}
 		err = cursor.Decode(&result)
 
-		fmt.Println(result.Id)
 		fmt.Println(result.Category)
 		fmt.Println(result.SubCategories)
 

@@ -125,9 +125,8 @@ type AnalyticalData struct {
 }
 
 type BasicCategoriesData struct {
-	Id            primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
-	Category      string             `bson:"category" json:"category" validate:"required"`
-	SubCategories []string           `bson:"sub_categories,omitempty" json:"sub_categories" validate:"required"`
+	Category      string   `bson:"_id" json:"_id" validate:"required"`
+	SubCategories []string `bson:"sub_categories,omitempty" json:"sub_categories" validate:"required"`
 }
 
 func (m *BasicCategoriesData) Marshal() []byte {

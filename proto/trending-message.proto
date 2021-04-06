@@ -4,6 +4,10 @@ option go_package = ".;pb";
 option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
+message Location {
+  string Longitude = 9;
+  string Latitude = 10;
+}
 
 message TrendingData {
   string subCategory = 11;
@@ -18,17 +22,18 @@ message TrendingData {
 
 message GetTrendingCategoriesRequest {
   string apiKey = 1;
-  string token = 3;
+  string token = 2;
 }
 
 message GetTrendingCategoriesResponse {
-  repeated string categoryData = 4;
+  repeated string categoryData = 3;
 }
 
 message GetTrendingDataByCategoriesRequest {
-  string apiKey = 5;
-  string token = 6;
-  uint32 categoryId = 7;
+  string apiKey = 4;
+  string token = 5;
+  uint32 categoryId = 6;
+  Location location = 7;
 }
 
 message GetTrendingDataByCategoriesResponse {

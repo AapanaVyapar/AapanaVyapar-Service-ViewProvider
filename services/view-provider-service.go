@@ -4,6 +4,7 @@ import (
 	redisDataBase "aapanavyapar-service-viewprovider/data-base/cash-services"
 	mongoDataBase "aapanavyapar-service-viewprovider/data-base/data-services"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
+	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"google.golang.org/grpc/codes"
@@ -53,6 +54,15 @@ func (viewServer *ViewProviderService) GetTrendingCategories(context context.Con
 }
 
 func (viewServer *ViewProviderService) GetTrendingDataByCategories(request *pb.GetTrendingDataByCategoriesRequest, stream pb.ViewProviderService_GetTrendingDataByCategoriesServer) error {
+
+	location := structs.Location{
+		Longitude: request.Location.Longitude,
+		Latitude:  request.Location.Latitude,
+	}
+
+	if err := helpers.Validate(location); err != nil {
+		return err
+	}
 
 	return nil
 }

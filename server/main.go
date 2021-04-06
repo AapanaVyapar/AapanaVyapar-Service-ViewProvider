@@ -26,6 +26,17 @@ func main() {
 	}
 	fmt.Println(data)
 
+	time.Sleep(time.Second * 5)
+
+	data, err = service.GetTrendingCategories(ctx, &pb.GetTrendingCategoriesRequest{
+		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
+		Token:  "",
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(data)
+
 	//// Shop Testing Start
 	//
 	//dataInsert := structs.ShopData{

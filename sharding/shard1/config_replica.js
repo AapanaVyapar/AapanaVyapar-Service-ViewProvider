@@ -13,11 +13,13 @@ rs.initiate(
     {
         _id: "shard1rs",
         members: [
-            { _id : 0, host : "192.168.43.189:50001" },
-            { _id : 1, host : "192.168.43.189:50002" },
-            { _id : 2, host : "192.168.43.189:50003" }
+            { _id : 0, host : "192.168.8.100:50001" },
+            { _id : 1, host : "192.168.8.100:50002" },
+            { _id : 2, host : "192.168.8.100:50003" }
         ]
     }
 )
 
 rs.status()
+
+//sh.shardCollection("db_aapanavypar.productData", { _id: "hashed" }, true)

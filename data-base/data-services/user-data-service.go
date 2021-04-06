@@ -57,10 +57,7 @@ func (dataBase *DataBase) SetAddressInUserData(context context.Context, userId s
 		return err
 	}
 
-	_, err := dataBase.CreateUser(context, userId, userName) // If already exist not going to create.
-	if err != nil {
-		return err
-	}
+	_, _ = dataBase.CreateUser(context, userId, userName) // If already exist not going to create.
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 

@@ -19,6 +19,8 @@ Initiate replica set
 mongo mongodb://192.168.1.81:40001
 ```
 ```
+// Ip address are of local pc
+
 rs.initiate(
   {
     _id: "cfgrs",

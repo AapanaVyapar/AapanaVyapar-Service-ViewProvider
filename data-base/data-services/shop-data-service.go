@@ -8,7 +8,6 @@ import (
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
-	"github.com/go-playground/locales/currency"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/url"
@@ -442,40 +441,6 @@ func (dataBase *DataBase) UpdateBusinessInfoInShopData(context context.Context, 
 
 }
 
-func (dataBase *DataBase) UpdateCurrencyInShopData(context context.Context, shopId primitive.ObjectID, currency currency.Type) error {
-
-	if currency > constants.MAX_CURRENCY {
-		return fmt.Errorf("currency not supported")
-	}
-
-	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
-
-	dataBase.mutex.Lock()
-	defer dataBase.mutex.Unlock()
-
-	result, err := shopData.UpdateOne(context,
-		bson.M{
-			"_id": shopId,
-		},
-		bson.M{
-			"$set": bson.M{
-				"currency": currency,
-			},
-		},
-	)
-
-	if err != nil {
-		return err
-	}
-
-	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
-		return nil
-	}
-
-	return fmt.Errorf("unable to update currency")
-
-}
-
 func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Context, shopId primitive.ObjectID, operationalHours structs.OperationalHours) error {
 
 	if err := helpers.Validate(operationalHours); err != nil {
@@ -535,7 +500,6 @@ func (dataBase *DataBase) UpdateOperationalHoursInShopData(context context.Conte
 		SectorNo:            10,
 		Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
 		BusinessInformation: "Famous Seller Of Cloths In Chopda",
-		Currency:            currency.INR,
 		OperationalHours: &structs.OperationalHours{
 			Sunday:    [2]string{"", ""},
 			Monday:    [2]string{"9AM", "9PM"},

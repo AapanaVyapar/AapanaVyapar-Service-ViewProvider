@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+option java_multiple_files = true;
+option java_package = "com.aapanavyapar.aapanavyapar.services";
+
+
+message TrendingCategoryData {
+  string category = 9;
+  uint32 categoryId = 10;
+}
+
+message TrendingData {
+  string subCategory = 11;
+  string productImage = 12;
+  string productName = 13;
+  string shopName = 14;
+  string shortDescription = 15;
+  string shopRating = 16;
+  int64 productLikes = 17;
+
+}
+
+message GetTrendingCategoriesRequest {
+  string apiKey = 1;
+  string token = 3;
+}
+
+message GetTrendingCategoriesResponse {
+  repeated TrendingCategoryData categoryData = 4;
+}
+
+message GetTrendingDataByCategoriesRequest {
+  string apiKey = 5;
+  string token = 6;
+  uint32 categoryId = 7;
+}
+
+message GetTrendingDataByCategoriesResponse {
+  TrendingData trendingData = 8;
+}
+
+/*
+Store the trends in trends Hash Map.
+Get All the trends by hkys form hash.
+
+
+*/

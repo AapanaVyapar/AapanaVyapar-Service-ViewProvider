@@ -3,6 +3,7 @@ package data_base
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
 	"aapanavyapar-service-viewprovider/data-base/constants"
+	"aapanavyapar-service-viewprovider/data-base/mapper"
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
@@ -15,7 +16,7 @@ import (
 	"time"
 )
 
-func (dataBase *DataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32) (primitive.ObjectID, error) {
+func (dataBase *DataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int64, address *structs.Address) (primitive.ObjectID, error) {
 
 	if !dataBase.IsExistInUserData(context, "_id", userId) {
 		return primitive.ObjectID{}, fmt.Errorf("user does not exist")
@@ -25,16 +26,19 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 		return primitive.ObjectID{}, fmt.Errorf("product does not exist")
 	}
 
-	dataBase.mutex.Lock()
-	defer dataBase.mutex.Unlock()
-
 	var order structs.OrderData
 
 	productData := mongodb.OpenOrderDataCollection(dataBase.Data)
-	order.TimeStamp = time.Now().UTC()
+	order.OrderTimeStamp = time.Now().UTC()
 	order.UserId = userId
 	order.Quantity = quantity
 	order.ProductId = productId
+	order.Address = address
+	order.DeliveryTimeStamp = mapper.CalculateDeliveryTime(distance)
+	order.DeliveryCost = mapper.CalculateDeliveryCost(distance, address)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
 
 	wc := writeconcern.New(writeconcern.WMajority())
 	rc := readconcern.Snapshot()
@@ -54,6 +58,8 @@ func (dataBase *DataBase) CreateOrder(context context.Context, userId string, pr
 		}
 
 		order.Price = price - ((price / 100) * float64(offer))
+		order.Price += order.DeliveryCost
+
 		order.Status = constants.PENDING
 
 		id, err := productData.InsertOne(sessCtx, order)

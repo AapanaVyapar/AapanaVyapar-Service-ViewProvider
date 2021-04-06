@@ -6,7 +6,6 @@ import (
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"context"
 	"fmt"
-	"github.com/go-playground/locales/currency"
 	_ "github.com/joho/godotenv/autoload"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
@@ -42,7 +41,6 @@ func main() {
 		},
 		Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
 		BusinessInformation: "Famous Seller Of Cloths In Chopda",
-		Currency:            currency.INR,
 		OperationalHours: &structs.OperationalHours{
 			Sunday:    [2]string{"0AM", "0PM"},
 			Monday:    [2]string{"9AM", "9PM"},
@@ -154,11 +152,6 @@ func main() {
 		panic(err)
 	}
 
-	err = database.UpdateCurrencyInShopData(ctx, dataInsert.ShopId, currency.USD)
-	if err != nil {
-		panic(err)
-	}
-
 	hours := structs.OperationalHours{
 		Sunday:    [2]string{"0AM", "0PM"},
 		Monday:    [2]string{"12AM", "9PM"},
@@ -190,16 +183,17 @@ func main() {
 	// Products Testing Starts
 
 	dataProduct1 := structs.ProductData{
-		ShopId:       dataInsert.ShopId,
-		Title:        "Yellow Shirt",
-		Description:  "Best in Class Size XL",
-		ShippingInfo: "200x70x10",
-		Stock:        10,
-		Price:        100,
-		Offer:        10,
-		Category:     []constants.Categories{constants.MENS_CLOTHING},
-		Images:       []string{"https://image.com"},
-		Timestamp:    time.Now().UTC(),
+		ShopId:           dataInsert.ShopId,
+		Title:            "Yellow Shirt",
+		ShortDescription: "Best In Class Only",
+		Description:      "Cotton Fabric Size XL",
+		ShippingInfo:     "200x70x10",
+		Stock:            10,
+		Price:            100,
+		Offer:            10,
+		Category:         []constants.Categories{constants.MENS_CLOTHING},
+		Images:           []string{"https://image.com"},
+		Timestamp:        time.Now().UTC(),
 	}
 	productId1, err := database.CreateProduct(ctx, dataProduct1)
 	if err != nil {
@@ -207,16 +201,17 @@ func main() {
 	}
 
 	dataProduct2 := structs.ProductData{
-		ShopId:       dataInsert.ShopId,
-		Title:        "BLACK Shirt",
-		Description:  "Best in Class Size XL",
-		ShippingInfo: "200x70x10",
-		Stock:        10,
-		Price:        100,
-		Offer:        10,
-		Images:       []string{"https://image.com"},
-		Category:     []constants.Categories{constants.MENS_CLOTHING},
-		Timestamp:    time.Now().UTC(),
+		ShopId:           dataInsert.ShopId,
+		Title:            "BLACK Shirt",
+		ShortDescription: "Best In Class Only",
+		Description:      "Silk Fabric Size XL",
+		ShippingInfo:     "200x70x10",
+		Stock:            10,
+		Price:            100,
+		Offer:            10,
+		Images:           []string{"https://image.com"},
+		Category:         []constants.Categories{constants.MENS_CLOTHING},
+		Timestamp:        time.Now().UTC(),
 	}
 
 	productId2, err := database.CreateProduct(ctx, dataProduct2)
@@ -249,6 +244,11 @@ func main() {
 	}
 
 	err = database.UpdateProductDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "Best")
+	if err != nil {
+		panic(err)
+	}
+
+	err = database.UpdateProductShortDescriptionInProductData(ctx, dataInsert.ShopId, productId1, "short Description")
 	if err != nil {
 		panic(err)
 	}
@@ -405,7 +405,7 @@ func main() {
 
 	// Order Testing Starts
 
-	orderId, err := database.CreateOrder(ctx, "1", productId1, 5)
+	orderId, err := database.CreateOrder(ctx, "1", productId1, 3, 10, &address)
 	if err != nil {
 		panic(err)
 	}

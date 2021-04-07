@@ -7,8 +7,10 @@ import (
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"os"
 )
 
 type ViewProviderService struct {
@@ -26,6 +28,16 @@ func NewViewProviderService(ctx context.Context) *ViewProviderService {
 	}
 
 	err := view.LoadBasicCategoriesInCash(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	err = view.LoadShopsInCash(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	err = view.LoadProductsInCash(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -65,4 +77,64 @@ func (viewServer *ViewProviderService) GetTrendingDataByCategories(request *pb.G
 	}
 
 	return nil
+}
+
+func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context, request *pb.AddToLikeProductRequest) (*pb.AddToLikeProductResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(context, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	fmt.Println(receivedToken)
+
+	return nil, nil
+}
+
+func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Context, request *pb.RemoveFromLikeProductRequest) (*pb.RemoveFromLikeProductResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(context, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	fmt.Println(receivedToken)
+
+	return nil, nil
+}
+
+func (viewServer *ViewProviderService) AddToCartProduct(context context.Context, request *pb.AddToCartProductRequest) (*pb.AddToCartProductResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(context, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	fmt.Println(receivedToken)
+
+	return nil, nil
+}
+
+func (viewServer *ViewProviderService) RemoveFromCartProduct(context context.Context, request *pb.RemoveFromCartProductRequest) (*pb.RemoveFromCartProductResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(context, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	fmt.Println(receivedToken)
+
+	return nil, nil
 }

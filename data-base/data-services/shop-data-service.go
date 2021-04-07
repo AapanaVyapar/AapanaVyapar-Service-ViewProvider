@@ -42,6 +42,40 @@ func (dataBase *MongoDataBase) CreateShop(context context.Context, dataInsert st
 	return id.InsertedID.(primitive.ObjectID), nil
 }
 
+func (dataBase *MongoDataBase) GetAllShopsFromShopData(context context.Context, sendData func(data structs.ShopData) error) error {
+
+	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
+
+	filter := bson.D{}
+	cursor, err := shopData.Find(context, filter)
+
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(context)
+
+	for cursor.Next(context) {
+		result := structs.ShopData{}
+		err = cursor.Decode(&result)
+
+		if err != nil {
+			return err
+		}
+
+		if err = sendData(result); err != nil {
+			return err
+		}
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (dataBase *MongoDataBase) GetShopFromShopData(context context.Context, shopId primitive.ObjectID) (structs.ShopData, error) {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)

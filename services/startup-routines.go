@@ -24,3 +24,66 @@ func (viewServer *ViewProviderService) LoadBasicCategoriesInCash(ctx context.Con
 	return nil
 
 }
+
+func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) error {
+
+	err := viewServer.Data.GetAllShopsFromShopData(ctx, func(data structs.ShopData) error {
+
+		err := viewServer.Cash.AddShopDataToCash(ctx, data.ShopId.String(), data.Marshal())
+		if err != nil {
+			return err
+		}
+
+		array := structs.CashStructureProductArray{
+			Products: []string{},
+		}
+
+		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId.String(), array.Marshal())
+		if err != nil {
+			return err
+		}
+		return nil
+
+	})
+	if err != nil {
+		return err
+
+	}
+	return nil
+
+}
+
+func (viewServer *ViewProviderService) LoadProductsInCash(ctx context.Context) error {
+
+	err := viewServer.Data.GetAllProductsFromProductData(ctx, func(data structs.ProductData) error {
+
+		err := viewServer.Cash.AddProductDataToCash(ctx, data.ProductId.String(), data.Marshal())
+		if err != nil {
+			return err
+		}
+
+		val, err := viewServer.Cash.GetShopProductMapDataFromCash(ctx, data.ShopId.String())
+		if err != nil {
+			return err
+		}
+
+		array := structs.CashStructureProductArray{}
+		structs.UnmarshalCashStructureProductArray([]byte(val), &array)
+
+		array.Products = append(array.Products, data.ProductId.String())
+
+		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId.String(), array.Marshal())
+		if err != nil {
+			return err
+		}
+
+		return nil
+
+	})
+	if err != nil {
+		return err
+
+	}
+	return nil
+
+}

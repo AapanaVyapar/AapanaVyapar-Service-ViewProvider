@@ -35,8 +35,8 @@ func InitMongo() *mongo.Client {
 
 func OpenDefaultDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
-	userData := database.Collection("defaultData")
-	return userData
+	defaultData := database.Collection("defaultData")
+	return defaultData
 }
 
 func OpenUserDataCollection(client *mongo.Client) *mongo.Collection {
@@ -47,24 +47,24 @@ func OpenUserDataCollection(client *mongo.Client) *mongo.Collection {
 
 func OpenOrderDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
-	userData := database.Collection("orderData")
-	return userData
+	orderData := database.Collection("orderData")
+	return orderData
 }
 
 func OpenShopDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
-	userData := database.Collection("shopData")
-	return userData
+	shopData := database.Collection("shopData")
+	return shopData
 }
 
 func OpenProductDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
-	userData := database.Collection("productData")
-	return userData
+	productData := database.Collection("productData")
+	return productData
 }
 
 func OpenAnalyticalDataCollection(client *mongo.Client) *mongo.Collection {
 	database := client.Database("db_aapanavypar")
-	userData := database.Collection("analyticalData")
-	return userData
+	analyticalData := database.Collection("analyticalData")
+	return analyticalData
 }

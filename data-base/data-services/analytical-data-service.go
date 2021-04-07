@@ -41,7 +41,7 @@ func (dataBase *MongoDataBase) AddAnalyticalDataToAnalyticalData(context context
 			"$push": bson.M{
 				"most_visited.product": bson.M{
 					"$each":  bson.A{data},
-					"$slice": -3,
+					"$slice": -5,
 				},
 			},
 		},

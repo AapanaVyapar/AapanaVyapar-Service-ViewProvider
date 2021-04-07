@@ -72,6 +72,40 @@ func (dataBase *MongoDataBase) GetAllProductsOfShopByFunctionFromProductData(con
 
 }
 
+func (dataBase *MongoDataBase) GetAllProductsFromProductData(context context.Context, sendData func(data structs.ProductData) error) error {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.D{}
+	cursor, err := productData.Find(context, filter)
+
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(context)
+
+	for cursor.Next(context) {
+		result := structs.ProductData{}
+		err = cursor.Decode(&result)
+
+		if err != nil {
+			return err
+		}
+
+		if err = sendData(result); err != nil {
+			return err
+		}
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (dataBase *MongoDataBase) GetAllProductsByCategoryOfShopsByFunctionFromProductData(context context.Context, shopIds []primitive.ObjectID, category []constants.Categories, sendData func(data structs.ProductData) error) error {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)

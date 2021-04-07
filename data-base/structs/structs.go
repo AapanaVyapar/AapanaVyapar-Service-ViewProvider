@@ -17,13 +17,8 @@ type UserData struct {
 	Orders    *ProductIdsForFavAndOrd `bson:"orders,omitempty" json:"orders"`
 }
 
-type ProductCartData struct {
-	ProductId   primitive.ObjectID `bson:"product_id" json:"product_id"`
-	NoOfProduct uint32             `bson:"no_product" json:"no_product" validate:"required,min=1,max=200"`
-}
-
 type ProductIdsForCart struct {
-	Products []ProductCartData `bson:"products,omitempty" json:"products"`
+	Products []primitive.ObjectID `bson:"products,omitempty" json:"products"`
 }
 
 type ProductIdsForFavAndOrd struct {
@@ -129,6 +124,10 @@ type BasicCategoriesData struct {
 	SubCategories []string `bson:"sub_categories,omitempty" json:"sub_categories" validate:"required"`
 }
 
+type CashStructureProductArray struct {
+	Products []string `json:"products"`
+}
+
 func (m *BasicCategoriesData) Marshal() []byte {
 	data, err := json.Marshal(m)
 	if err != nil {
@@ -138,6 +137,51 @@ func (m *BasicCategoriesData) Marshal() []byte {
 }
 
 func UnmarshalSubCategories(data []byte, m *BasicCategoriesData) {
+	err := json.Unmarshal(data, &m)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func (m *ProductData) Marshal() []byte {
+	data, err := json.Marshal(m)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return data
+}
+
+func UnmarshalProductData(data []byte, m *ProductData) {
+	err := json.Unmarshal(data, &m)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func (m *ShopData) Marshal() []byte {
+	data, err := json.Marshal(m)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return data
+}
+
+func UnmarshalShopData(data []byte, m *ShopData) {
+	err := json.Unmarshal(data, &m)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func (m *CashStructureProductArray) Marshal() []byte {
+	data, err := json.Marshal(m)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return data
+}
+
+func UnmarshalCashStructureProductArray(data []byte, m *CashStructureProductArray) {
 	err := json.Unmarshal(data, &m)
 	if err != nil {
 		fmt.Println(err)

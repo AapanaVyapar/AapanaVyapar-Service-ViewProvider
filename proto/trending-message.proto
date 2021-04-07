@@ -12,6 +12,7 @@ message Location {
 message TrendingData {
   string subCategory = 11;
   string productImage = 12;
+  string productId = 18;
   string productName = 13;
   string shopName = 14;
   string shortDescription = 15;

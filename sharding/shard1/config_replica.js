@@ -1,15 +1,15 @@
-db = db.getSiblingDB('admin');
-db.auth("api_user", "api_serrate_pass_unknown");
-
-db = db.getSiblingDB('db_aapanavypar');
-
-db.createCollection('defaultData');
-db.createCollection('likeProductData');
-db.createCollection('userData');
-db.createCollection('orderData');
-db.createCollection('shopData');
-db.createCollection('productData');
-db.createCollection('analyticalData');
+// db = db.getSiblingDB('admin');
+// db.auth("api_user", "api_serrate_pass_unknown");
+//
+// db = db.getSiblingDB('db_aapanavypar');
+//
+// db.createCollection('defaultData');
+// //db.createCollection('likeProductData');
+// db.createCollection('userData');
+// db.createCollection('orderData');
+// db.createCollection('shopData');
+// db.createCollection('productData');
+// db.createCollection('analyticalData');
 
 rs.initiate(
     {

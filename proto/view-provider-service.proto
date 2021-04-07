@@ -5,9 +5,16 @@ option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
 import "trending-message.proto";
+import "user-commands-message.proto";
 
 service ViewProviderService {
   rpc GetTrendingCategories (GetTrendingCategoriesRequest) returns (GetTrendingCategoriesResponse);
   rpc GetTrendingDataByCategories (GetTrendingDataByCategoriesRequest) returns (stream GetTrendingDataByCategoriesResponse);
+
+  rpc AddToLikeProduct (AddToLikeProductRequest) returns (AddToLikeProductResponse);
+  rpc RemoveFromLikeProduct (RemoveFromLikeProductRequest) returns (RemoveFromLikeProductResponse);
+
+  rpc AddToCartProduct (AddToCartProductRequest) returns (AddToCartProductResponse);
+  rpc RemoveFromCartProduct (RemoveFromCartProductRequest) returns (RemoveFromCartProductResponse);
 
 }

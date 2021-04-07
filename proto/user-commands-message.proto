@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+option java_multiple_files = true;
+option java_package = "com.aapanavyapar.aapanavyapar.services";
+
+message AddToLikeProductRequest {
+  string token = 19;
+  string apiKey = 20;
+  string productId = 21;
+}
+
+message AddToLikeProductResponse {
+  bool status = 22;
+}
+
+message RemoveFromLikeProductRequest {
+  string token = 23;
+  string apiKey = 24;
+  string productId = 25;
+}
+
+message RemoveFromLikeProductResponse {
+  bool status = 26;
+}
+
+message AddToCartProductRequest {
+  string token = 27;
+  string apiKey = 28;
+  string productId = 29;
+}
+
+message AddToCartProductResponse {
+  bool status = 30;
+}
+
+message RemoveFromCartProductRequest {
+  string token = 31;
+  string apiKey = 32;
+  string productId = 33;
+}
+
+message RemoveFromCartProductResponse {
+  bool status = 34;
+}

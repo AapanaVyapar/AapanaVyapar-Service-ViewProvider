@@ -6,7 +6,7 @@ services:
     image: mongo
     env_file:
       - .env
-    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50004:27017
     volumes:
@@ -19,7 +19,7 @@ services:
     image: mongo
     env_file:
       - .env
-    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50005:27017
     volumes:
@@ -31,7 +31,7 @@ services:
     image: mongo
     env_file:
       - .env
-    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50006:27017
     volumes:
@@ -42,8 +42,3 @@ volumes:
   shard2Server1: {}
   shard2Server2: {}
   shard2Server3: {}
-
-networks:
-  default:
-    external:
-      name: mongo-multihost-network

@@ -77,7 +77,7 @@ func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId strin
 
 	result, err := session.WithTransaction(context, callback, txnOpts)
 	if err != nil {
-		panic(err)
+		return primitive.ObjectID{}, err
 	}
 
 	return result.(primitive.ObjectID), nil

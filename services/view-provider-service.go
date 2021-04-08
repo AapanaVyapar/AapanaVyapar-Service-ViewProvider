@@ -8,6 +8,7 @@ import (
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"os"
@@ -89,9 +90,33 @@ func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context,
 		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
 	}
 
-	fmt.Println(receivedToken)
+	fmt.Println("Add Like : ", receivedToken)
 
-	return nil, nil
+	productByte, err := viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
+	}
+
+	productId, err := primitive.ObjectIDFromHex(request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Product Id")
+	}
+
+	err = viewServer.Data.AddToFavoritesUserData(context, receivedToken.Audience, productId)
+	if err != nil {
+		return nil, status.Errorf(codes.AlreadyExists, "You Already Like To Product Or Unable To Process Request At A Movement")
+	}
+
+	var product structs.ProductData
+	structs.UnmarshalProductData([]byte(productByte), &product)
+	product.Likes += 1
+
+	err = viewServer.Cash.AddProductDataToCash(context, productId.String(), product.Marshal())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Unable To Add Like")
+	}
+	return &pb.AddToLikeProductResponse{Status: true}, nil
+
 }
 
 func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Context, request *pb.RemoveFromLikeProductRequest) (*pb.RemoveFromLikeProductResponse, error) {
@@ -104,9 +129,33 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
 	}
 
-	fmt.Println(receivedToken)
+	fmt.Println("Add Like : ", receivedToken)
 
-	return nil, nil
+	productByte, err := viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
+	}
+
+	productId, err := primitive.ObjectIDFromHex(request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Product Id")
+	}
+
+	err = viewServer.Data.DelFromFavoritesUserData(context, receivedToken.Audience, productId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Unable To Process Request Of Unlike The Product")
+	}
+
+	var product structs.ProductData
+	structs.UnmarshalProductData([]byte(productByte), &product)
+	product.Likes -= 1
+
+	err = viewServer.Cash.AddProductDataToCash(context, productId.String(), product.Marshal())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Unable To UnLike")
+	}
+	return &pb.RemoveFromLikeProductResponse{Status: true}, nil
+
 }
 
 func (viewServer *ViewProviderService) AddToCartProduct(context context.Context, request *pb.AddToCartProductRequest) (*pb.AddToCartProductResponse, error) {
@@ -121,7 +170,22 @@ func (viewServer *ViewProviderService) AddToCartProduct(context context.Context,
 
 	fmt.Println(receivedToken)
 
-	return nil, nil
+	_, err = viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
+	}
+
+	productId, err := primitive.ObjectIDFromHex(request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Product Id")
+	}
+
+	err = viewServer.Data.AddToCartUserData(context, receivedToken.Audience, productId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Unable To Process Request Of Add To Cart")
+	}
+
+	return &pb.AddToCartProductResponse{Status: true}, nil
 }
 
 func (viewServer *ViewProviderService) RemoveFromCartProduct(context context.Context, request *pb.RemoveFromCartProductRequest) (*pb.RemoveFromCartProductResponse, error) {
@@ -136,5 +200,15 @@ func (viewServer *ViewProviderService) RemoveFromCartProduct(context context.Con
 
 	fmt.Println(receivedToken)
 
-	return nil, nil
+	productId, err := primitive.ObjectIDFromHex(request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Product Id")
+	}
+
+	err = viewServer.Data.DelFromCartUserData(context, receivedToken.Audience, productId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Unable To Process Request Of Remove From Cart")
+	}
+
+	return &pb.RemoveFromCartProductResponse{Status: true}, nil
 }

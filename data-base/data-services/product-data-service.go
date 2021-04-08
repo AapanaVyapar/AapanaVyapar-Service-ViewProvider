@@ -19,13 +19,16 @@ func (dataBase *MongoDataBase) CreateProduct(context context.Context, dataInsert
 		return primitive.ObjectID{}, err
 	}
 
-	if !dataBase.IsExistShopExist(context, "_id", dataInsert.ShopId) {
+	name, err := dataBase.GetNameFromShopData(context, dataInsert.ShopId)
+	if err != nil {
 		return primitive.ObjectID{}, fmt.Errorf("shop with specified id does not exist")
 	}
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
 	dataInsert.Timestamp = time.Now().UTC()
+	dataInsert.Likes = 0
+	dataInsert.ShopName = name
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
@@ -226,6 +229,19 @@ func (dataBase *MongoDataBase) DelProductFromProductData(context context.Context
 	defer dataBase.mutex.Unlock()
 
 	_, err := productData.DeleteOne(context, filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dataBase *MongoDataBase) DelProductsOfShopFromProductData(context context.Context, shopId primitive.ObjectID) error {
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.M{"shop_id": shopId}
+
+	_, err := productData.DeleteMany(context, filter)
 	if err != nil {
 		return err
 	}

@@ -92,11 +92,13 @@ type ShopData struct {
 type ProductData struct {
 	ProductId        primitive.ObjectID     `bson:"_id,omitempty" json:"_id"`
 	ShopId           primitive.ObjectID     `bson:"shop_id" json:"shop_id" validate:"required"`
+	ShopName         string                 `bson:"shop_name" json:"shop_name"`
 	Title            string                 `bson:"title" json:"title" validate:"required"`
 	ShortDescription string                 `bson:"short_description" json:"short_description" validate:"required"`
 	Description      string                 `bson:"description" json:"description" validate:"required"`
 	ShippingInfo     string                 `bson:"shipping_info" json:"shipping_info" validate:"required"`
-	Stock            uint32                 `bson:"stock" json:"stock"`
+	Stock            uint32                 `bson:"stock" json:"stock" validate:"max=4294967290"`
+	Likes            uint64                 `bson:"likes" json:"likes" validate:"max=4294967290"`
 	Price            float64                `bson:"price" json:"price" validate:"required"`
 	Offer            uint8                  `bson:"offer" json:"offer" validate:"required,max=100"`
 	Images           []string               `bson:"images" json:"images" validate:"required"`

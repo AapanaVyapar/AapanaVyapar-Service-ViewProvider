@@ -177,9 +177,13 @@ func (dataBase *MongoDataBase) GetOrdersUserData(context context.Context, userId
 
 func (dataBase *MongoDataBase) AddToCartUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
-	if !dataBase.IsExistProductExist(context, "_id", productId) {
-		return fmt.Errorf("product does not exist")
-	}
+	//Checking In Cash For Existence Of Product So No Need To Check In DataBase And If Some Inconsistency Occurs
+	//Then What When User Add Other Items In Cart It Get Automatically Deleted And In Front End We Make That Product Id Invisible If Product Not Exist
+	//
+	//if !dataBase.IsExistProductExist(context, "_id", productId) {
+	//	return fmt.Errorf("product does not exist")
+	//}
+	//
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
@@ -308,6 +312,9 @@ func (dataBase *MongoDataBase) DelFromCartUserData(context context.Context, user
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
 	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
@@ -334,6 +341,9 @@ func (dataBase *MongoDataBase) DelFromFavoritesUserData(context context.Context,
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
 
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
+
 	result, err := userData.UpdateOne(context,
 		bson.M{
 			"_id": userId,
@@ -359,6 +369,9 @@ func (dataBase *MongoDataBase) DelFromFavoritesUserData(context context.Context,
 func (dataBase *MongoDataBase) DelFromOrdersUserData(context context.Context, userId string, productId primitive.ObjectID) error {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	dataBase.mutex.Lock()
+	defer dataBase.mutex.Unlock()
 
 	result, err := userData.UpdateOne(context,
 		bson.M{

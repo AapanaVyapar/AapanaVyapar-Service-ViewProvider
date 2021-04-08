@@ -6,6 +6,7 @@ services:
     image: mongo
     env_file:
       - .env
+    hostname: ${SHARD2_SERVER_1_CONTAINER}
     command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50004:27017
@@ -19,6 +20,7 @@ services:
     image: mongo
     env_file:
       - .env
+    hostname: ${SHARD2_SERVER_2_CONTAINER}
     command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50005:27017
@@ -31,6 +33,7 @@ services:
     image: mongo
     env_file:
       - .env
+    hostname: ${SHARD2_SERVER_3_CONTAINER}
     command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     ports:
       - 50006:27017

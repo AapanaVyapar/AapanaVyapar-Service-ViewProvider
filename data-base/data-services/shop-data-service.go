@@ -10,6 +10,10 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readconcern"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"net/url"
 	"time"
 )
@@ -151,6 +155,22 @@ func (dataBase *MongoDataBase) GetRatingsFromShopData(context context.Context, s
 	return data.Ratings, nil
 }
 
+func (dataBase *MongoDataBase) GetNameFromShopData(context context.Context, shopId primitive.ObjectID) (string, error) {
+
+	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
+
+	filter := bson.D{{"_id", shopId}}
+
+	data := structs.ShopData{}
+	err := shopData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return "", err
+	}
+
+	return data.ShopName, nil
+}
+
 func (dataBase *MongoDataBase) IsExistShopExist(context context.Context, key string, value interface{}) bool {
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -165,7 +185,7 @@ func (dataBase *MongoDataBase) IsExistShopExist(context context.Context, key str
 
 }
 
-func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shopId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shopId primitive.ObjectID) (int64, error) {
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
 	filter := bson.M{"_id": shopId}
@@ -173,12 +193,36 @@ func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shop
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
 
-	_, err := shopData.DeleteOne(context, filter)
+	wc := writeconcern.New(writeconcern.WMajority())
+	rc := readconcern.Snapshot()
+	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
+
+	session, err := dataBase.Data.StartSession()
 	if err != nil {
-		return err
+		return 0, err
+	}
+	defer session.EndSession(context)
+
+	callback := func(sessCtx mongo.SessionContext) (interface{}, error) {
+		err := dataBase.DelProductsOfShopFromProductData(sessCtx, shopId)
+		if err != nil {
+			return 0, err
+		}
+
+		count, err := shopData.DeleteOne(sessCtx, filter)
+		if err != nil {
+			return 0, err
+		}
+
+		return count.DeletedCount, nil
 	}
 
-	return nil
+	result, err := session.WithTransaction(context, callback, txnOpts)
+	if err != nil {
+		return 0, err
+	}
+
+	return result.(int64), nil
 }
 
 func (dataBase *MongoDataBase) DelShopImageFromShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {

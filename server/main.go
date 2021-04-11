@@ -1,9 +1,7 @@
 package main
 
 import (
-	"aapanavyapar-service-viewprovider/data-base/constants"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
-	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"aapanavyapar-service-viewprovider/services"
 	"context"
@@ -20,64 +18,64 @@ func main() {
 
 	service := services.NewViewProviderService(ctx)
 
-	shopData := structs.ShopData{
-		ShopName:       "Testing Stores",
-		ShopKeeperName: "ABC Person",
-		Images:         []string{"https://store.com"},
-		PrimaryImage:   "https://www.primary.store.com",
-		Address: &structs.Address{
-			FullName:      "ABC Person",
-			HouseDetails:  "Testing Store",
-			StreetDetails: "Mustufa Chishti Colony Main Rd, Panchshil Nagar",
-			LandMark:      "Milap Store",
-			PinCode:       "425107",
-			City:          "chopda",
-			State:         "maharastra",
-			Country:       "india",
-			PhoneNo:       "9890713171",
-		},
-		Location: &structs.Location{
-			Longitude: "21.246435522726177",
-			Latitude:  "75.29615236552934",
-		},
-		Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
-		BusinessInformation: "Famous Seller Of Cloths In Chopda",
-		OperationalHours: &structs.OperationalHours{
-			Sunday:    [2]string{"0AM", "0PM"},
-			Monday:    [2]string{"9AM", "9PM"},
-			Tuesday:   [2]string{"9AM", "9PM"},
-			Wednesday: [2]string{"9AM", "9PM"},
-			Thursday:  [2]string{"9AM", "9PM"},
-			Friday:    [2]string{"9AM", "9PM"},
-			Saturday:  [2]string{"9AM", "9PM"},
-		},
-		Ratings:   nil,
-		Timestamp: time.Now().UTC(),
-	}
-
-	shopId, err := service.Data.CreateShop(ctx, shopData)
-	if err != nil {
-		panic(err)
-	}
-
-	dataProduct1 := structs.ProductData{
-		ShopId:           shopId,
-		Title:            "Yellow Shirt",
-		ShortDescription: "Best In Class Only",
-		Description:      "Cotton Fabric Size XL",
-		ShippingInfo:     "200x70x10",
-		Stock:            10,
-		Price:            100,
-		Offer:            10,
-		Category:         []constants.Categories{constants.MENS_CLOTHING},
-		Images:           []string{"https://image.com"},
-		Timestamp:        time.Now().UTC(),
-	}
-	productId1, err := service.Data.CreateProduct(ctx, dataProduct1)
-	if err != nil {
-		panic(err)
-	}
-
+	//shopData := structs.ShopData{
+	//	ShopName:       "Testing Stores",
+	//	ShopKeeperName: "ABC Person",
+	//	Images:         []string{"https://store.com"},
+	//	PrimaryImage:   "https://www.primary.store.com",
+	//	Address: &structs.Address{
+	//		FullName:      "ABC Person",
+	//		HouseDetails:  "Testing Store",
+	//		StreetDetails: "Mustufa Chishti Colony Main Rd, Panchshil Nagar",
+	//		LandMark:      "Milap Store",
+	//		PinCode:       "425107",
+	//		City:          "chopda",
+	//		State:         "maharastra",
+	//		Country:       "india",
+	//		PhoneNo:       "9890713171",
+	//	},
+	//	Location: &structs.Location{
+	//		Longitude: "21.246435522726177",
+	//		Latitude:  "75.29615236552934",
+	//	},
+	//	Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
+	//	BusinessInformation: "Famous Seller Of Cloths In Chopda",
+	//	OperationalHours: &structs.OperationalHours{
+	//		Sunday:    [2]string{"0AM", "0PM"},
+	//		Monday:    [2]string{"9AM", "9PM"},
+	//		Tuesday:   [2]string{"9AM", "9PM"},
+	//		Wednesday: [2]string{"9AM", "9PM"},
+	//		Thursday:  [2]string{"9AM", "9PM"},
+	//		Friday:    [2]string{"9AM", "9PM"},
+	//		Saturday:  [2]string{"9AM", "9PM"},
+	//	},
+	//	Ratings:   nil,
+	//	Timestamp: time.Now().UTC(),
+	//}
+	//
+	//shopId, err := service.Data.CreateShop(ctx, shopData)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//dataProduct1 := structs.ProductData{
+	//	ShopId:           shopId,
+	//	Title:            "Yellow Shirt",
+	//	ShortDescription: "Best In Class Only",
+	//	Description:      "Cotton Fabric Size XL",
+	//	ShippingInfo:     "200x70x10",
+	//	Stock:            10,
+	//	Price:            100,
+	//	Offer:            10,
+	//	Category:         []constants.Categories{constants.MENS_CLOTHING},
+	//	Images:           []string{"https://image.com"},
+	//	Timestamp:        time.Now().UTC(),
+	//}
+	//productId1, err := service.Data.CreateProduct(ctx, dataProduct1)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
 	//
 	//data, err := service.GetTrendingCategories(ctx, &pb.GetTrendingCategoriesRequest{
 	//	ApiKey: os.Getenv("API_KEY_FOR_WEB"),
@@ -98,37 +96,58 @@ func main() {
 	//	panic(err)
 	//}
 	//fmt.Println(data)
-
-	token, err := helpers.GenerateAuthToken("f38d6a51-b961-474b-9be1-6de62ab5c57c", "Test", "319dc46b-e193-4212-9fb7-0b05fcf5d65c", true, []int{helpers.External})
+	//
+	token, err := helpers.GenerateAuthToken("f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij", "319dc46b-e193-4212-9fb7-0b05fcf5d65c", true, []int{helpers.External})
 	if err != nil {
 		panic(err)
 	}
 
-	userId, err := service.Data.CreateUser(ctx, "f38d6a51-b961-474b-9be1-6de62ab5c57c", "Test")
+	userId, err := service.Data.CreateUser(ctx, "f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij")
 	if err != nil {
 		//		panic(err)
 	}
 	fmt.Println(userId)
 
-	respAddCart, err := service.AddToCartProduct(ctx, &pb.AddToCartProductRequest{
-		Token:     token,
-		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-		ProductId: productId1.Hex(),
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(respAddCart.String())
+	//fmt.Println(productId1.Hex())
+	//respAddCart, err := service.AddToCartProduct(ctx, &pb.AddToCartProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: "6072eedfebb263bc4f83e78e",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("Add To Cart : ", respAddCart.String())
 
 	respDelCart, err := service.RemoveFromCartProduct(ctx, &pb.RemoveFromCartProductRequest{
 		Token:     token,
 		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-		ProductId: productId1.Hex(),
+		ProductId: "6072eedfebb263bc4f83e78e",
 	})
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(respDelCart.String())
+	fmt.Println("Remove From Cart : ", respDelCart.String())
+
+	//respAddLike, err := service.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: "6072eedfebb263bc4f83e78e",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("Add To Like : ", respAddLike.String())
+
+	respDelLike, err := service.RemoveFromLikeProduct(ctx, &pb.RemoveFromLikeProductRequest{
+		Token:     token,
+		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+		ProductId: "6072eedfebb263bc4f83e78e",
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Remove From Like : ", respDelLike.String())
 
 	// Shop Testing Start
 

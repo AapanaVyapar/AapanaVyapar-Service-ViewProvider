@@ -29,7 +29,7 @@ func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) erro
 
 	err := viewServer.Data.GetAllShopsFromShopData(ctx, func(data structs.ShopData) error {
 
-		err := viewServer.Cash.AddShopDataToCash(ctx, data.ShopId.Hex(), data.Marshal())
+		err := viewServer.Cash.AddShopDataToCash(ctx, data.ShopId, data.Marshal())
 		if err != nil {
 			return err
 		}
@@ -38,7 +38,7 @@ func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) erro
 			Products: []string{},
 		}
 
-		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId.Hex(), array.Marshal())
+		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId, array.Marshal())
 		if err != nil {
 			return err
 		}
@@ -62,7 +62,7 @@ func (viewServer *ViewProviderService) LoadProductsInCash(ctx context.Context) e
 			return err
 		}
 
-		val, err := viewServer.Cash.GetShopProductMapDataFromCash(ctx, data.ShopId.Hex())
+		val, err := viewServer.Cash.GetShopProductMapDataFromCash(ctx, data.ShopId)
 		if err != nil {
 			return err
 		}
@@ -72,7 +72,7 @@ func (viewServer *ViewProviderService) LoadProductsInCash(ctx context.Context) e
 
 		array.Products = append(array.Products, data.ProductId.Hex())
 
-		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId.Hex(), array.Marshal())
+		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId, array.Marshal())
 		if err != nil {
 			return err
 		}

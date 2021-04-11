@@ -2,14 +2,13 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
-	"aapanavyapar-service-viewprovider/data-base/constants"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
 	"aapanavyapar-service-viewprovider/data-base/mapper"
 	"aapanavyapar-service-viewprovider/data-base/structs"
+	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
@@ -18,15 +17,15 @@ import (
 	"time"
 )
 
-func (dataBase *MongoDataBase) CreateShop(context context.Context, dataInsert structs.ShopData) (primitive.ObjectID, error) {
+func (dataBase *MongoDataBase) CreateShop(context context.Context, dataInsert *structs.ShopData) (string, error) {
 
 	if err := helpers.Validate(dataInsert); err != nil {
-		return primitive.ObjectID{}, err
+		return "", err
 	}
 
 	for _, i := range dataInsert.Images {
 		if _, err := url.ParseRequestURI(i); err != nil {
-			return primitive.ObjectID{}, fmt.Errorf("invalid url")
+			return "", fmt.Errorf("invalid url")
 		}
 	}
 
@@ -40,10 +39,10 @@ func (dataBase *MongoDataBase) CreateShop(context context.Context, dataInsert st
 
 	id, err := shopData.InsertOne(context, dataInsert)
 	if err != nil {
-		return primitive.ObjectID{}, err
+		return "", err
 	}
 
-	return id.InsertedID.(primitive.ObjectID), nil
+	return id.InsertedID.(string), nil
 }
 
 func (dataBase *MongoDataBase) GetAllShopsFromShopData(context context.Context, sendData func(data structs.ShopData) error) error {
@@ -80,7 +79,7 @@ func (dataBase *MongoDataBase) GetAllShopsFromShopData(context context.Context, 
 
 }
 
-func (dataBase *MongoDataBase) GetShopFromShopData(context context.Context, shopId primitive.ObjectID) (structs.ShopData, error) {
+func (dataBase *MongoDataBase) GetShopFromShopData(context context.Context, shopId string) (structs.ShopData, error) {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -96,7 +95,7 @@ func (dataBase *MongoDataBase) GetShopFromShopData(context context.Context, shop
 	return data, nil
 }
 
-func (dataBase *MongoDataBase) AddRatingInShopData(context context.Context, shopId primitive.ObjectID, rating structs.Rating) error {
+func (dataBase *MongoDataBase) AddRatingInShopData(context context.Context, shopId string, rating structs.Rating) error {
 
 	if err := helpers.Validate(rating); err != nil {
 		return err
@@ -139,7 +138,7 @@ func (dataBase *MongoDataBase) AddRatingInShopData(context context.Context, shop
 
 }
 
-func (dataBase *MongoDataBase) GetRatingsFromShopData(context context.Context, shopId primitive.ObjectID) (*[]structs.Rating, error) {
+func (dataBase *MongoDataBase) GetRatingsFromShopData(context context.Context, shopId string) (*[]structs.Rating, error) {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -155,7 +154,7 @@ func (dataBase *MongoDataBase) GetRatingsFromShopData(context context.Context, s
 	return data.Ratings, nil
 }
 
-func (dataBase *MongoDataBase) GetNameFromShopData(context context.Context, shopId primitive.ObjectID) (string, error) {
+func (dataBase *MongoDataBase) GetNameFromShopData(context context.Context, shopId string) (string, error) {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -185,7 +184,7 @@ func (dataBase *MongoDataBase) IsExistShopExist(context context.Context, key str
 
 }
 
-func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shopId primitive.ObjectID) (int64, error) {
+func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shopId string) (int64, error) {
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
 	filter := bson.M{"_id": shopId}
@@ -225,7 +224,7 @@ func (dataBase *MongoDataBase) DelShopFromShopData(context context.Context, shop
 	return result.(int64), nil
 }
 
-func (dataBase *MongoDataBase) DelShopImageFromShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {
+func (dataBase *MongoDataBase) DelShopImageFromShopData(context context.Context, shopId string, imageURL string) error {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -254,7 +253,7 @@ func (dataBase *MongoDataBase) DelShopImageFromShopData(context context.Context,
 	return fmt.Errorf("unable to remove image from the shop")
 }
 
-func (dataBase *MongoDataBase) AddShopImageInShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {
+func (dataBase *MongoDataBase) AddShopImageInShopData(context context.Context, shopId string, imageURL string) error {
 
 	if _, err := url.ParseRequestURI(imageURL); err != nil {
 		return fmt.Errorf("invalid image url")
@@ -288,7 +287,7 @@ func (dataBase *MongoDataBase) AddShopImageInShopData(context context.Context, s
 
 }
 
-func (dataBase *MongoDataBase) UpdateShopPrimaryImageInShopData(context context.Context, shopId primitive.ObjectID, imageURL string) error {
+func (dataBase *MongoDataBase) UpdateShopPrimaryImageInShopData(context context.Context, shopId string, imageURL string) error {
 
 	if _, err := url.ParseRequestURI(imageURL); err != nil {
 		return fmt.Errorf("invalid image url")
@@ -321,7 +320,7 @@ func (dataBase *MongoDataBase) UpdateShopPrimaryImageInShopData(context context.
 	return fmt.Errorf("unable to update primary image")
 }
 
-func (dataBase *MongoDataBase) UpdateShopKeeperNameInShopData(context context.Context, shopId primitive.ObjectID, name string) error {
+func (dataBase *MongoDataBase) UpdateShopKeeperNameInShopData(context context.Context, shopId string, name string) error {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -351,7 +350,7 @@ func (dataBase *MongoDataBase) UpdateShopKeeperNameInShopData(context context.Co
 
 }
 
-func (dataBase *MongoDataBase) UpdateShopAddressAndLocationInShopData(context context.Context, shopId primitive.ObjectID, address structs.Address, location structs.Location) error {
+func (dataBase *MongoDataBase) UpdateShopAddressAndLocationInShopData(context context.Context, shopId string, address structs.Address, location structs.Location) error {
 
 	if err := helpers.Validate(address); err != nil {
 		return err
@@ -390,7 +389,7 @@ func (dataBase *MongoDataBase) UpdateShopAddressAndLocationInShopData(context co
 	return fmt.Errorf("unable to update address")
 }
 
-func (dataBase *MongoDataBase) UpdateShopLocationInShopData(context context.Context, shopId primitive.ObjectID, location structs.Location) error {
+func (dataBase *MongoDataBase) UpdateShopLocationInShopData(context context.Context, shopId string, location structs.Location) error {
 
 	if err := helpers.Validate(location); err != nil {
 		return err
@@ -423,18 +422,10 @@ func (dataBase *MongoDataBase) UpdateShopLocationInShopData(context context.Cont
 	return fmt.Errorf("unable to update location")
 }
 
-func (dataBase *MongoDataBase) UpdateCategoryInShopData(context context.Context, shopId primitive.ObjectID, category []constants.Categories) error {
+func (dataBase *MongoDataBase) UpdateCategoryInShopData(context context.Context, shopId string, category []pb.Category) error {
 
 	if len(category) == 0 {
 		return fmt.Errorf("category can not be empty")
-	}
-
-	for _, c := range category {
-		if c > 0 && c <= constants.MAX_CATEGORY {
-			continue
-		} else {
-			return fmt.Errorf("invalid category")
-		}
 	}
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
@@ -464,7 +455,7 @@ func (dataBase *MongoDataBase) UpdateCategoryInShopData(context context.Context,
 	return fmt.Errorf("unable to update category")
 }
 
-func (dataBase *MongoDataBase) GetCategoryFromShopData(context context.Context, shopId primitive.ObjectID) ([]constants.Categories, error) {
+func (dataBase *MongoDataBase) GetCategoryFromShopData(context context.Context, shopId string) ([]pb.Category, error) {
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
@@ -479,13 +470,13 @@ func (dataBase *MongoDataBase) GetCategoryFromShopData(context context.Context, 
 	).Decode(&shop)
 
 	if err != nil {
-		return []constants.Categories{}, err
+		return []pb.Category{}, err
 	}
 
 	return shop.Category, nil
 }
 
-func (dataBase *MongoDataBase) UpdateBusinessInfoInShopData(context context.Context, shopId primitive.ObjectID, info string) error {
+func (dataBase *MongoDataBase) UpdateBusinessInfoInShopData(context context.Context, shopId string, info string) error {
 
 	if info == "" {
 		return fmt.Errorf("can not accept empty information")
@@ -519,7 +510,7 @@ func (dataBase *MongoDataBase) UpdateBusinessInfoInShopData(context context.Cont
 
 }
 
-func (dataBase *MongoDataBase) UpdateOperationalHoursInShopData(context context.Context, shopId primitive.ObjectID, operationalHours structs.OperationalHours) error {
+func (dataBase *MongoDataBase) UpdateOperationalHoursInShopData(context context.Context, shopId string, operationalHours structs.OperationalHours) error {
 
 	if err := helpers.Validate(operationalHours); err != nil {
 		return err
@@ -576,7 +567,7 @@ func (dataBase *MongoDataBase) UpdateOperationalHoursInShopData(context context.
 			Latitude:  "75.29615236552934",
 		},
 		SectorNo:            10,
-		Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
+		Category:            []constants.Categories{constants.MENS_ACCESSORIES, constants.WONENS_CLOTHING},
 		BusinessInformation: "Famous Seller Of Cloths In Chopda",
 		OperationalHours: &structs.OperationalHours{
 			Sunday:    [2]string{"", ""},

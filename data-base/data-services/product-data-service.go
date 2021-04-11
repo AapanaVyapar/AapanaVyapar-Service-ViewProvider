@@ -2,9 +2,9 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
-	"aapanavyapar-service-viewprovider/data-base/constants"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
 	"aapanavyapar-service-viewprovider/data-base/structs"
+	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
@@ -41,7 +41,7 @@ func (dataBase *MongoDataBase) CreateProduct(context context.Context, dataInsert
 	return id.InsertedID.(primitive.ObjectID), nil
 }
 
-func (dataBase *MongoDataBase) GetAllProductsOfShopByFunctionFromProductData(context context.Context, shopId primitive.ObjectID, sendData func(data structs.ProductData) error) error {
+func (dataBase *MongoDataBase) GetAllProductsOfShopByFunctionFromProductData(context context.Context, shopId string, sendData func(data structs.ProductData) error) error {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -109,7 +109,7 @@ func (dataBase *MongoDataBase) GetAllProductsFromProductData(context context.Con
 
 }
 
-func (dataBase *MongoDataBase) GetAllProductsByCategoryOfShopsByFunctionFromProductData(context context.Context, shopIds []primitive.ObjectID, category []constants.Categories, sendData func(data structs.ProductData) error) error {
+func (dataBase *MongoDataBase) GetAllProductsByCategoryOfShopsByFunctionFromProductData(context context.Context, shopIds []string, category []pb.Category, sendData func(data structs.ProductData) error) error {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -146,7 +146,7 @@ func (dataBase *MongoDataBase) GetAllProductsByCategoryOfShopsByFunctionFromProd
 
 }
 
-func (dataBase *MongoDataBase) GetAllProductsOfShopByArrayFromProductData(context context.Context, shopId primitive.ObjectID) ([]structs.ProductData, error) {
+func (dataBase *MongoDataBase) GetAllProductsOfShopByArrayFromProductData(context context.Context, shopId string) ([]structs.ProductData, error) {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -172,7 +172,7 @@ func (dataBase *MongoDataBase) GetAllProductsOfShopByArrayFromProductData(contex
 
 }
 
-func (dataBase *MongoDataBase) GetSpecificProductsOfShopFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID) (structs.ProductData, error) {
+func (dataBase *MongoDataBase) GetSpecificProductsOfShopFromProductData(context context.Context, shopId string, productId primitive.ObjectID) (structs.ProductData, error) {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -220,7 +220,7 @@ func (dataBase *MongoDataBase) IsExistProductExist(context context.Context, key 
 
 }
 
-func (dataBase *MongoDataBase) DelProductFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelProductFromProductData(context context.Context, shopId string, productId primitive.ObjectID) error {
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
 	filter := bson.M{"shop_id": shopId, "_id": productId}
@@ -236,7 +236,7 @@ func (dataBase *MongoDataBase) DelProductFromProductData(context context.Context
 	return nil
 }
 
-func (dataBase *MongoDataBase) DelProductsOfShopFromProductData(context context.Context, shopId primitive.ObjectID) error {
+func (dataBase *MongoDataBase) DelProductsOfShopFromProductData(context context.Context, shopId string) error {
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
 	filter := bson.M{"shop_id": shopId}
@@ -249,7 +249,7 @@ func (dataBase *MongoDataBase) DelProductsOfShopFromProductData(context context.
 	return nil
 }
 
-func (dataBase *MongoDataBase) AddProductImageInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, imageURL string) error {
+func (dataBase *MongoDataBase) AddProductImageInProductData(context context.Context, shopId string, productId primitive.ObjectID, imageURL string) error {
 
 	if _, err := url.ParseRequestURI(imageURL); err != nil {
 		return fmt.Errorf("invalid image url")
@@ -284,7 +284,7 @@ func (dataBase *MongoDataBase) AddProductImageInProductData(context context.Cont
 
 }
 
-func (dataBase *MongoDataBase) DelProductImageFromProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, imageURL string) error {
+func (dataBase *MongoDataBase) DelProductImageFromProductData(context context.Context, shopId string, productId primitive.ObjectID, imageURL string) error {
 
 	if _, err := url.ParseRequestURI(imageURL); err != nil {
 		return fmt.Errorf("invalid image url")
@@ -319,7 +319,7 @@ func (dataBase *MongoDataBase) DelProductImageFromProductData(context context.Co
 
 }
 
-func (dataBase *MongoDataBase) UpdateProductTitleInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, title string) error {
+func (dataBase *MongoDataBase) UpdateProductTitleInProductData(context context.Context, shopId string, productId primitive.ObjectID, title string) error {
 
 	if title == "" {
 		return fmt.Errorf("title can not be empty")
@@ -353,7 +353,7 @@ func (dataBase *MongoDataBase) UpdateProductTitleInProductData(context context.C
 	return fmt.Errorf("unable to update product title")
 }
 
-func (dataBase *MongoDataBase) UpdateProductCategoryInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, category []constants.Categories) error {
+func (dataBase *MongoDataBase) UpdateProductCategoryInProductData(context context.Context, shopId string, productId primitive.ObjectID, category []pb.Category) error {
 
 	if len(category) == 0 {
 		return fmt.Errorf("category can not be empty")
@@ -387,7 +387,7 @@ func (dataBase *MongoDataBase) UpdateProductCategoryInProductData(context contex
 	return fmt.Errorf("unable to update product category")
 }
 
-func (dataBase *MongoDataBase) UpdateProductDescriptionInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, description string) error {
+func (dataBase *MongoDataBase) UpdateProductDescriptionInProductData(context context.Context, shopId string, productId primitive.ObjectID, description string) error {
 
 	if description == "" {
 		return fmt.Errorf("description can not be empty")
@@ -421,7 +421,7 @@ func (dataBase *MongoDataBase) UpdateProductDescriptionInProductData(context con
 	return fmt.Errorf("unable to update product description")
 }
 
-func (dataBase *MongoDataBase) UpdateProductShortDescriptionInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, shortDescription string) error {
+func (dataBase *MongoDataBase) UpdateProductShortDescriptionInProductData(context context.Context, shopId string, productId primitive.ObjectID, shortDescription string) error {
 
 	if shortDescription == "" {
 		return fmt.Errorf("short description can not be empty")
@@ -455,7 +455,7 @@ func (dataBase *MongoDataBase) UpdateProductShortDescriptionInProductData(contex
 	return fmt.Errorf("unable to update product short description")
 }
 
-func (dataBase *MongoDataBase) UpdateProductShippingInfoInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, shippingInfo string) error {
+func (dataBase *MongoDataBase) UpdateProductShippingInfoInProductData(context context.Context, shopId string, productId primitive.ObjectID, shippingInfo string) error {
 
 	if shippingInfo == "" {
 		return fmt.Errorf("shipping info can not be empty")
@@ -490,7 +490,7 @@ func (dataBase *MongoDataBase) UpdateProductShippingInfoInProductData(context co
 
 }
 
-func (dataBase *MongoDataBase) UpdateProductStockInfoInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, stock uint32) error {
+func (dataBase *MongoDataBase) UpdateProductStockInfoInProductData(context context.Context, shopId string, productId primitive.ObjectID, stock uint32) error {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -521,7 +521,7 @@ func (dataBase *MongoDataBase) UpdateProductStockInfoInProductData(context conte
 	return fmt.Errorf("unable to update stock")
 }
 
-func (dataBase *MongoDataBase) UpdateProductPriceInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, price float64) error {
+func (dataBase *MongoDataBase) UpdateProductPriceInProductData(context context.Context, shopId string, productId primitive.ObjectID, price float64) error {
 
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 
@@ -552,7 +552,7 @@ func (dataBase *MongoDataBase) UpdateProductPriceInProductData(context context.C
 
 }
 
-func (dataBase *MongoDataBase) UpdateProductOfferInProductData(context context.Context, shopId primitive.ObjectID, productId primitive.ObjectID, offer uint8) error {
+func (dataBase *MongoDataBase) UpdateProductOfferInProductData(context context.Context, shopId string, productId primitive.ObjectID, offer uint8) error {
 
 	if offer > 100 {
 		return fmt.Errorf("offer should not exceed 100")
@@ -587,7 +587,7 @@ func (dataBase *MongoDataBase) UpdateProductOfferInProductData(context context.C
 
 }
 
-func (dataBase *MongoDataBase) DecreaseStockToMakeOrderFromProductData(context context.Context, productId primitive.ObjectID, quantity uint32) (float64, uint8, error) {
+func (dataBase *MongoDataBase) DecreaseStockToMakeOrderFromProductData(context context.Context, productId primitive.ObjectID, quantity uint32) (float32, uint32, error) {
 
 	if quantity == 0 {
 		return 0, 0, fmt.Errorf("quantity can not be zero")

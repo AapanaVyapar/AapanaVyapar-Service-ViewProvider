@@ -129,17 +129,7 @@ func main() {
 	}
 	fmt.Println("Remove From Cart : ", respDelCart.String())
 
-	//respAddLike, err := service.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
-	//	Token:     token,
-	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-	//	ProductId: "6072eedfebb263bc4f83e78e",
-	//})
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println("Add To Like : ", respAddLike.String())
-
-	respDelLike, err := service.RemoveFromLikeProduct(ctx, &pb.RemoveFromLikeProductRequest{
+	respAddLike, err := service.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
 		Token:     token,
 		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
 		ProductId: "6072eedfebb263bc4f83e78e",
@@ -147,7 +137,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Remove From Like : ", respDelLike.String())
+	fmt.Println("Add To Like : ", respAddLike.String())
+
+	//respDelLike, err := service.RemoveFromLikeProduct(ctx, &pb.RemoveFromLikeProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: "6072eedfebb263bc4f83e78e",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("Remove From Like : ", respDelLike.String())
 
 	// Shop Testing Start
 

@@ -2,9 +2,9 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
-	"aapanavyapar-service-viewprovider/data-base/constants"
 	"aapanavyapar-service-viewprovider/data-base/mapper"
 	"aapanavyapar-service-viewprovider/data-base/structs"
+	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int64, address *structs.Address) (primitive.ObjectID, error) {
+func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int32, address *structs.Address) (primitive.ObjectID, error) {
 
 	if !dataBase.IsExistInUserData(context, "_id", userId) {
 		return primitive.ObjectID{}, fmt.Errorf("user does not exist")
@@ -57,10 +57,10 @@ func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId strin
 			return primitive.ObjectID{}, err
 		}
 
-		order.Price = price - ((price / 100) * float64(offer))
+		order.Price = price - ((price / 100) * float32(offer))
 		order.Price += order.DeliveryCost
 
-		order.Status = constants.PENDING
+		order.Status = pb.Status_PENDING
 
 		id, err := productData.InsertOne(sessCtx, order)
 		if err != nil {
@@ -83,7 +83,7 @@ func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId strin
 	return result.(primitive.ObjectID), nil
 }
 
-func (dataBase *MongoDataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status constants.Status) error {
+func (dataBase *MongoDataBase) UpdateOrderStatusInOrderData(context context.Context, orderId primitive.ObjectID, status pb.Status) error {
 
 	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
 

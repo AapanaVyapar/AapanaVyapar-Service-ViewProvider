@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+option java_multiple_files = true;
+option java_package = "com.aapanavyapar.aapanavyapar.services";
+
+enum Category{
+  SPORTS_AND_FITNESS = 0;
+  ELECTRIC = 1;
+  DEVOTIONAL = 2;
+  AGRICULTURAL = 3;
+  WOMENS_CLOTHING = 4;
+  WOMENS_ACCESSORIES = 5;
+  MENS_CLOTHING = 6;
+  MENS_ACCESSORIES = 7;
+  HOME_GADGETS = 8;
+  TOYS = 9;
+  ELECTRONIC = 10;
+  DECORATION = 11;
+
+}
+
+enum Ratings {
+  VERY_BAD = 0;
+  BAD = 1;
+  OK = 2;
+  GOOD = 3;
+  VERY_GOOD = 4;
+
+}
+
+enum Status {
+  PENDING = 0;
+  CANCELED = 1;
+  CONFORM = 2;
+  DISPATCHED = 3;
+  DELIVERED = 4;
+
+}

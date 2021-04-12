@@ -17,9 +17,9 @@ func (dataBase *CashDataBase) AddShopDataToCash(ctx context.Context, shopId stri
 
 }
 
-func (dataBase *CashDataBase) GetShopDataFromCash(ctx context.Context, productId string) (string, error) {
+func (dataBase *CashDataBase) GetShopDataFromCash(ctx context.Context, shopId string) (string, error) {
 
-	val, err := dataBase.Cash.HGet(ctx, "shops", productId).Result()
+	val, err := dataBase.Cash.HGet(ctx, "shops", shopId).Result()
 	switch {
 	case err == redis.Nil:
 		return "", status.Errorf(codes.NotFound, "Value Not Exist %v", err)
@@ -32,8 +32,8 @@ func (dataBase *CashDataBase) GetShopDataFromCash(ctx context.Context, productId
 
 }
 
-func (dataBase *CashDataBase) DelShopDataFromCash(ctx context.Context, productId string) error {
-	err := dataBase.Cash.HDel(ctx, "shops", productId).Err()
+func (dataBase *CashDataBase) DelShopDataFromCash(ctx context.Context, shoptId string) error {
+	err := dataBase.Cash.HDel(ctx, "shops", shoptId).Err()
 	if err != nil {
 		return status.Errorf(codes.Unknown, "Unable To Delete Data From Hash Of Cash", err)
 	}

@@ -1,13 +1,11 @@
 package main
 
 import (
-	"aapanavyapar-service-viewprovider/data-base/helpers"
-	"aapanavyapar-service-viewprovider/pb"
+	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/services"
 	"context"
 	"fmt"
 	_ "github.com/joho/godotenv/autoload"
-	"os"
 	"time"
 )
 
@@ -18,7 +16,31 @@ func main() {
 
 	service := services.NewViewProviderService(ctx)
 
+	data, err := service.Cash.GetShopDataFromCash(ctx, "9e3c578e-886b-4c5e-8375-b53d7e16266a")
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+	fmt.Println(data)
+
+	var shopData structs.ShopData
+	structs.UnmarshalShopData([]byte(data), &shopData)
+	fmt.Println(shopData)
+
+	ids, err := service.Cash.GetShopProductMapDataFromCash(ctx, "9e3c578e-886b-4c5e-8375-b53d7e16266a")
+	if err != nil {
+		panic(err)
+	}
+	for _, id := range ids {
+		dataPro, err := service.Cash.GetProductDataFromCash(ctx, id)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(dataPro)
+	}
+
 	//shopData := structs.ShopData{
+	//	ShopId: "123",
 	//	ShopName:       "Testing Stores",
 	//	ShopKeeperName: "ABC Person",
 	//	Images:         []string{"https://store.com"},
@@ -38,7 +60,7 @@ func main() {
 	//		Longitude: "21.246435522726177",
 	//		Latitude:  "75.29615236552934",
 	//	},
-	//	Category:            []constants.Categories{constants.MENS_ACCSSORIES, constants.WONENS_CLOTHING},
+	//	Category:            []pb.Category{pb.Category_MENS_ACCESSORIES, pb.Category_WOMENS_CLOTHING},
 	//	BusinessInformation: "Famous Seller Of Cloths In Chopda",
 	//	OperationalHours: &structs.OperationalHours{
 	//		Sunday:    [2]string{"0AM", "0PM"},
@@ -53,7 +75,7 @@ func main() {
 	//	Timestamp: time.Now().UTC(),
 	//}
 	//
-	//shopId, err := service.Data.CreateShop(ctx, shopData)
+	//shopId, err := service.Data.CreateShop(ctx, &shopData)
 	//if err != nil {
 	//	panic(err)
 	//}
@@ -67,7 +89,7 @@ func main() {
 	//	Stock:            10,
 	//	Price:            100,
 	//	Offer:            10,
-	//	Category:         []constants.Categories{constants.MENS_CLOTHING},
+	//	Category:         []pb.Category{pb.Category_MENS_CLOTHING},
 	//	Images:           []string{"https://image.com"},
 	//	Timestamp:        time.Now().UTC(),
 	//}
@@ -76,6 +98,7 @@ func main() {
 	//	panic(err)
 	//}
 	//
+	//fmt.Println(productId1)
 	//
 	//data, err := service.GetTrendingCategories(ctx, &pb.GetTrendingCategoriesRequest{
 	//	ApiKey: os.Getenv("API_KEY_FOR_WEB"),
@@ -97,16 +120,16 @@ func main() {
 	//}
 	//fmt.Println(data)
 	//
-	token, err := helpers.GenerateAuthToken("f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij", "319dc46b-e193-4212-9fb7-0b05fcf5d65c", true, []int{helpers.External})
-	if err != nil {
-		panic(err)
-	}
-
-	userId, err := service.Data.CreateUser(ctx, "f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij")
-	if err != nil {
-		//		panic(err)
-	}
-	fmt.Println(userId)
+	//token, err := helpers.GenerateAuthToken("f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij", "319dc46b-e193-4212-9fb7-0b05fcf5d65c", true, []int{helpers.External})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//userId, err := service.Data.CreateUser(ctx, "f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij")
+	//if err != nil {
+	//	//		panic(err)
+	//}
+	//fmt.Println(userId)
 
 	//fmt.Println(productId1.Hex())
 	//respAddCart, err := service.AddToCartProduct(ctx, &pb.AddToCartProductRequest{
@@ -119,26 +142,26 @@ func main() {
 	//}
 	//fmt.Println("Add To Cart : ", respAddCart.String())
 
-	respDelCart, err := service.RemoveFromCartProduct(ctx, &pb.RemoveFromCartProductRequest{
-		Token:     token,
-		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-		ProductId: "6072eedfebb263bc4f83e78e",
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Remove From Cart : ", respDelCart.String())
-
-	respAddLike, err := service.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
-		Token:     token,
-		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-		ProductId: "6072eedfebb263bc4f83e78e",
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Add To Like : ", respAddLike.String())
-
+	//respDelCart, err := service.RemoveFromCartProduct(ctx, &pb.RemoveFromCartProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: "6072eedfebb263bc4f83e78e",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("Remove From Cart : ", respDelCart.String())
+	//
+	//respAddLike, err := service.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: "6072eedfebb263bc4f83e78e",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("Add To Like : ", respAddLike.String())
+	//
 	//respDelLike, err := service.RemoveFromLikeProduct(ctx, &pb.RemoveFromLikeProductRequest{
 	//	Token:     token,
 	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),

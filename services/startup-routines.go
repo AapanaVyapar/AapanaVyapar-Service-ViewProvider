@@ -34,14 +34,6 @@ func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) erro
 			return err
 		}
 
-		array := structs.CashStructureProductArray{
-			Products: []string{},
-		}
-
-		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId, array.Marshal())
-		if err != nil {
-			return err
-		}
 		return nil
 
 	})
@@ -62,17 +54,7 @@ func (viewServer *ViewProviderService) LoadProductsInCash(ctx context.Context) e
 			return err
 		}
 
-		val, err := viewServer.Cash.GetShopProductMapDataFromCash(ctx, data.ShopId)
-		if err != nil {
-			return err
-		}
-
-		array := structs.CashStructureProductArray{}
-		structs.UnmarshalCashStructureProductArray([]byte(val), &array)
-
-		array.Products = append(array.Products, data.ProductId.Hex())
-
-		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId, array.Marshal())
+		err = viewServer.Cash.AddShopProductMapDataToCash(ctx, data.ShopId, data.ProductId.Hex())
 		if err != nil {
 			return err
 		}

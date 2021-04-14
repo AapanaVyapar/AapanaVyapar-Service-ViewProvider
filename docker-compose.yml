@@ -2,19 +2,19 @@ version: '3.3'
 
 services:
 
-  mongo:
-    image: mongo:4.4
-    restart: always
-    container_name: ${MONGODB_SERVER}
-    ports:
-      - 27100:27017
-    volumes:
-      - ./docker_mongo_init.js:/docker-entrypoint-initdb.d/docker_mongo_init.js
-    env_file:
-      - .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+#  mongo:
+#    image: mongo:4.4
+#    restart: always
+#    container_name: ${MONGODB_SERVER}
+#    ports:
+#      - 27100:27017
+#    volumes:
+#      - ./docker_mongo_init.js:/docker-entrypoint-initdb.d/docker_mongo_init.js
+#    env_file:
+#      - .env
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+#      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
 
   mongo-express:
     image: mongo-express:latest
@@ -27,11 +27,11 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
 
-  redis:
-    image: redis:6.2
-    restart: on-failure
+  redis_tls_userview:
+    container_name: redis_tls_userview
+    build:
+      context: ./redis-sharding/redis-tls-container/
     ports:
-      - "6389:6379"
-    environment:
-      - REDIS_REPLICATION_MODE=master
-    container_name: redis_cash
+      - "6379:6379"
+    volumes:
+      - ./redis-sharding/redis-tls-container/certs:/etc/certs

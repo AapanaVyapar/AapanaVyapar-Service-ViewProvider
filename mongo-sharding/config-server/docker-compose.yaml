@@ -17,7 +17,7 @@ services:
       - ${CONFIG_SERVER_2_CONTAINER}
       - ${CONFIG_SERVER_3_CONTAINER}
     volumes:
-      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ./config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
       - ~/ShardData/${CONFIG_SERVER_1_CONTAINER}:/data/db
 
@@ -34,7 +34,7 @@ services:
     ports:
       - 40002:27017
     volumes:
-      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ~/ShardData/${CONFIG_SERVER_2_CONTAINER}:/data/db
 
   configServer3:
@@ -50,7 +50,7 @@ services:
     ports:
       - 40003:27017
     volumes:
-      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ~/ShardData/${CONFIG_SERVER_3_CONTAINER}:/data/db
 
 volumes:

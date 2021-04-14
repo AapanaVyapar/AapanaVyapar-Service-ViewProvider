@@ -8,6 +8,6 @@ services:
     ports:
       - 60000:27017
     volumes:
-      - /home/shitij/go/src/aapanavyapar-service-viewprovider/sharding/keyfile:/opt/mongors/keyfile
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ./make-authorized.js:/docker-entrypoint-initdb.d/make-authorized.js
 

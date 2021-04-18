@@ -15,6 +15,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type ViewProviderService struct {
@@ -23,11 +24,11 @@ type ViewProviderService struct {
 }
 
 func NewViewProviderService() *ViewProviderService {
-	//mongoData := mongoDataBase.NewDataBase()
+	mongoData := mongoDataBase.NewDataBase()
 	redisData := redisDataBase.NewDataBase()
 
 	view := ViewProviderService{
-		Data: nil,
+		Data: mongoData,
 		Cash: redisData,
 	}
 
@@ -69,24 +70,23 @@ func NewViewProviderService() *ViewProviderService {
 		log.Fatal(err)
 	}
 
-	//ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
-	//defer cancel()
-	//
-	//err = view.LoadBasicCategoriesInCash(ctx)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//
-	//err = view.LoadShopsInCash(ctx)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = view.LoadProductsInCash(ctx)
-	//if err != nil {
-	//	panic(err)
-	//}
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
+	defer cancel()
+
+	err = view.LoadBasicCategoriesInCash(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	err = view.LoadShopsInCash(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	err = view.LoadProductsInCash(ctx)
+	if err != nil {
+		panic(err)
+	}
 
 	return &view
 }
@@ -132,15 +132,25 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 
 		location := strings.Split(doc.Properties["location"].(string), ",")
 
-		fmt.Println(doc.Properties["categoryOfShop"].([]pb.Category))
+		str := doc.Properties["categoryOfShop"].(string)[1:]
+		str = str[:len(str)-1]
+		data := strings.Split(str, ",")
+		var category []pb.Category
+		for _, cat := range data {
+			category = append(category, pb.Category(pb.Category_value[cat]))
+		}
+		rating, err := strconv.ParseFloat(doc.Properties["ratingOfShop"].(string), 32)
+		if err != nil {
+			return err
+		}
 
 		err = stream.Send(&pb.GetTrendingShopsResponse{
 			Shops: &pb.ShopsNearBy{
 				ShopId:       strings.ReplaceAll(doc.Id[5:], " ", "-"),
 				ShopName:     doc.Properties["shopName"].(string),
 				PrimaryImage: doc.Properties["primaryImage"].(string),
-				Category:     doc.Properties["categoryOfShop"].([]pb.Category),
-				Rating:       doc.Properties["ratingOfShop"].(float32),
+				Category:     category,
+				Rating:       float32(rating),
 				Shopkeeper:   doc.Properties["shopkeeper"].(string),
 				Location: &pb.Location{
 					Latitude:  location[0],
@@ -163,12 +173,48 @@ func (viewServer *ViewProviderService) GetTrendingProductsByShop(request *pb.Get
 		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
 	}
 
-	receivedToken, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	_, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
 	if err != nil {
 		return status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
 	}
 
-	fmt.Println(receivedToken)
+	docs, err := viewServer.Cash.GetProductsByShopsSortByRating(request.GetShopId(), 100)
+	if err != nil {
+		return status.Errorf(codes.Unknown, "Unable To Provide Data For Given Shops")
+	}
+
+	for _, doc := range docs {
+
+		fmt.Println(doc)
+
+		str := doc.Properties["categoryOfProduct"].(string)[1:]
+		str = str[:len(str)-1]
+		data := strings.Split(str, ",")
+		var category []pb.Category
+		for _, cat := range data {
+			category = append(category, pb.Category(pb.Category_value[cat]))
+		}
+
+		likes, err := strconv.ParseUint(doc.Properties["likesOfProduct"].(string), 10, 64)
+		if err != nil {
+			return err
+		}
+
+		err = stream.Send(&pb.GetTrendingProductsByShopResponse{
+			CategoryData: &pb.ProductsOfShopsNearBy{
+				ProductId:    doc.Id[7:],
+				ShopId:       strings.ReplaceAll(doc.Properties["shopId"].(string), " ", "-"),
+				ProductName:  doc.Properties["productName"].(string),
+				PrimaryImage: doc.Properties["primaryImage"].(string),
+				Category:     category,
+				Likes:        likes,
+			},
+		},
+		)
+		if err != nil {
+			return status.Errorf(codes.Unknown, "Stream Error", err)
+		}
+	}
 
 	return nil
 }

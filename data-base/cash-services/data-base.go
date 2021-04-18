@@ -18,7 +18,7 @@ func NewDataBase() *CashDataBase {
 
 	return &CashDataBase{
 		Cash:          redisDb.InitRedis(),
-		ShopClient:    redisearch.NewClient("localhost:6379", "shop"),    //shop is index
-		ProductClient: redisearch.NewClient("localhost:6379", "product"), //product is index
+		ShopClient:    redisDb.InitRedisShop(),
+		ProductClient: redisDb.InitRedisProduct(),
 	}
 }

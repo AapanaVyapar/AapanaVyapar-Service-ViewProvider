@@ -1,14 +1,15 @@
 package main
 
 import (
+	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"aapanavyapar-service-viewprovider/services"
+	"context"
 	"fmt"
 	_ "github.com/joho/godotenv/autoload"
-	"google.golang.org/grpc"
 	"log"
-	"net"
 	"os"
+	"time"
 )
 
 func main() {
@@ -18,19 +19,106 @@ func main() {
 
 	service := services.NewViewProviderService()
 
-	grpcServer := grpc.NewServer()
-	pb.RegisterViewProviderServiceServer(grpcServer, service)
-
-	address := fmt.Sprintf("0.0.0.0:%s", os.Getenv("Port"))
-	listener, err := net.Listen("tcp", address)
+	userId, err := service.Data.CreateUser(context.TODO(), "f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij")
 	if err != nil {
-		log.Fatal("Can not start server", err)
+		panic(err)
+	}
+	fmt.Println(userId)
+
+	userId, err = service.Data.CreateUser(context.TODO(), "f38d6a51-b961-474b-9be1-6de62ab5c57s", "Snehal")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(userId)
+
+	shopData := structs.ShopData{
+		ShopId:         "123",
+		ShopName:       "Testing Stores",
+		ShopKeeperName: "ABC Person",
+		Images:         []string{"https://store.com"},
+		PrimaryImage:   "https://www.primary.store.com",
+		Address: &structs.Address{
+			FullName:      "ABC Person",
+			HouseDetails:  "Testing Store",
+			StreetDetails: "Mustufa Chishti Colony Main Rd, Panchshil Nagar",
+			LandMark:      "Milap Store",
+			PinCode:       "425107",
+			City:          "chopda",
+			State:         "maharastra",
+			Country:       "india",
+			PhoneNo:       "9890713171",
+		},
+		Location: &structs.Location{
+			Longitude: "21.246435522726177",
+			Latitude:  "75.29615236552934",
+		},
+		Category:            []pb.Category{pb.Category_MENS_ACCESSORIES, pb.Category_WOMENS_CLOTHING},
+		BusinessInformation: "Famous Seller Of Cloths In Chopda",
+		OperationalHours: &structs.OperationalHours{
+			Sunday:    [2]string{"0AM", "0PM"},
+			Monday:    [2]string{"9AM", "9PM"},
+			Tuesday:   [2]string{"9AM", "9PM"},
+			Wednesday: [2]string{"9AM", "9PM"},
+			Thursday:  [2]string{"9AM", "9PM"},
+			Friday:    [2]string{"9AM", "9PM"},
+			Saturday:  [2]string{"9AM", "9PM"},
+		},
+		Ratings: &[]structs.Rating{
+			{
+				UserId:    "f38d6a51-b961-474b-9be1-6de62ab5c57e",
+				UserName:  "Shitij",
+				Comment:   "Excellent",
+				Rating:    pb.Ratings_VERY_GOOD,
+				Timestamp: time.Now().UTC(),
+			},
+			{
+				UserId:    "f38d6a51-b961-474b-9be1-6de62ab5c57s",
+				UserName:  "Snehal",
+				Comment:   "Excellent",
+				Rating:    pb.Ratings_VERY_GOOD,
+				Timestamp: time.Now().UTC(),
+			},
+		},
+		Timestamp: time.Now().UTC(),
 	}
 
-	err = grpcServer.Serve(listener)
+	shopId, err := service.Data.CreateShop(context.TODO(), &shopData)
 	if err != nil {
-		log.Fatal("Can not start server", err)
+		panic(err)
 	}
+	fmt.Println(shopId)
+
+	dataProduct1 := structs.ProductData{
+		ShopId:       shopId,
+		Title:        "Yellow Shirt",
+		Description:  "Cotton Fabric Size XL",
+		ShippingInfo: "200x70x10",
+		Stock:        10,
+		Price:        100,
+		Offer:        10,
+		Category:     []pb.Category{pb.Category_MENS_CLOTHING},
+		Images:       []string{"https://image.com"},
+		Timestamp:    time.Now().UTC(),
+	}
+	productId1, err := service.Data.CreateProduct(context.TODO(), dataProduct1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(productId1)
+
+	//grpcServer := grpc.NewServer()
+	//pb.RegisterViewProviderServiceServer(grpcServer, service)
+	//
+	//address := fmt.Sprintf("0.0.0.0:%s", os.Getenv("Port"))
+	//listener, err := net.Listen("tcp", address)
+	//if err != nil {
+	//	log.Fatal("Can not start server", err)
+	//}
+	//
+	//err = grpcServer.Serve(listener)
+	//if err != nil {
+	//	log.Fatal("Can not start server", err)
+	//}
 
 }
 

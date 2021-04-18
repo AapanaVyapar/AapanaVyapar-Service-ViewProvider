@@ -6,6 +6,7 @@ require (
 	github.com/RediSearch/redisearch-go v1.1.0
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/go-redis/redis/v8 v8.8.0
+	github.com/gomodule/redigo v1.8.3
 	github.com/google/uuid v1.2.0
 	github.com/joho/godotenv v1.3.0
 	github.com/o1egl/paseto/v2 v2.1.1

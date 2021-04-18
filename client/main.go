@@ -40,24 +40,62 @@ func main() {
 		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
 		Token:  token,
 		Location: &pb.Location{
-			Latitude:  "21.246534558436874",
-			Longitude: "75.29436710722217",
+			Latitude:  "21.246571559282682",
+			Longitude: "75.29418652325167",
 		},
-		DistanceInMeter: "10",
+		DistanceInMeter: "20",
 	})
 	if err != nil {
 		panic(err)
 	}
 
+	shopIds := []string{}
+
 	for {
 		res, err := stream.Recv()
 		if err == io.EOF {
-			return
+			break
 		}
 		if err != nil {
 			panic(err)
 		}
+		shopIds = append(shopIds, res.Shops.ShopId)
 		fmt.Println(res.String())
 
 	}
+
+	streamProd, err := client.GetTrendingProductsByShop(ctx, &pb.GetTrendingProductsByShopRequest{
+		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
+		Token:  token,
+		ShopId: shopIds,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	productIds := []string{}
+
+	for {
+		res, err := streamProd.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		productIds = append(productIds, res.CategoryData.ProductId)
+		fmt.Println(res.String())
+
+	}
+
+	status, err := client.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
+		Token:     token,
+		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+		ProductId: productIds[0],
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(status)
+
 }

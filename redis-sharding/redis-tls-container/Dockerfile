@@ -1,4 +1,4 @@
-FROM redis:6.2
+FROM redislabs/redisearch:2.0.2
 
 WORKDIR /
 

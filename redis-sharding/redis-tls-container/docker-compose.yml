@@ -1,8 +1,8 @@
 version: "3.3"
 
 services:
-  redis_tls:
-    container_name: redis_tls_test
+  redis_tls_userview:
+    container_name: redis_tls_userview
     build:
       context: ./
     ports:

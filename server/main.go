@@ -1,15 +1,14 @@
 package main
 
 import (
-	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"aapanavyapar-service-viewprovider/services"
-	"context"
 	"fmt"
 	_ "github.com/joho/godotenv/autoload"
+	"google.golang.org/grpc"
 	"log"
+	"net"
 	"os"
-	"time"
 )
 
 func main() {
@@ -19,6 +18,23 @@ func main() {
 
 	service := services.NewViewProviderService()
 
+	grpcServer := grpc.NewServer()
+	pb.RegisterViewProviderServiceServer(grpcServer, service)
+
+	address := fmt.Sprintf("0.0.0.0:%s", os.Getenv("Port"))
+	listener, err := net.Listen("tcp", address)
+	if err != nil {
+		log.Fatal("Can not start server", err)
+	}
+
+	err = grpcServer.Serve(listener)
+	if err != nil {
+		log.Fatal("Can not start server", err)
+	}
+
+}
+
+/*
 	userId, err := service.Data.CreateUser(context.TODO(), "f38d6a51-b961-474b-9be1-6de62ab5c57e", "Shitij")
 	if err != nil {
 		panic(err)
@@ -106,21 +122,8 @@ func main() {
 	}
 	fmt.Println(productId1)
 
-	//grpcServer := grpc.NewServer()
-	//pb.RegisterViewProviderServiceServer(grpcServer, service)
-	//
-	//address := fmt.Sprintf("0.0.0.0:%s", os.Getenv("Port"))
-	//listener, err := net.Listen("tcp", address)
-	//if err != nil {
-	//	log.Fatal("Can not start server", err)
-	//}
-	//
-	//err = grpcServer.Serve(listener)
-	//if err != nil {
-	//	log.Fatal("Can not start server", err)
-	//}
 
-}
+*/
 
 //data, err := service.Cash.GetShopDataFromCash(ctx, "9e3c578e-886b-4c5e-8375-b53d7e16266a")
 //if err != nil {

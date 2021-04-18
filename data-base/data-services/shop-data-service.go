@@ -3,7 +3,6 @@ package data_base
 import (
 	"aapanavyapar-service-viewprovider/configurations/mongodb"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
-	"aapanavyapar-service-viewprovider/data-base/mapper"
 	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
@@ -31,7 +30,6 @@ func (dataBase *MongoDataBase) CreateShop(context context.Context, dataInsert *s
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
 
-	dataInsert.SectorNo = mapper.MapLocationToSector(dataInsert.Location)
 	dataInsert.Timestamp = time.Now().UTC()
 
 	dataBase.mutex.Lock()
@@ -360,7 +358,6 @@ func (dataBase *MongoDataBase) UpdateShopAddressAndLocationInShopData(context co
 	}
 
 	shopData := mongodb.OpenShopDataCollection(dataBase.Data)
-	sectorNo := mapper.MapLocationToSector(&location)
 
 	dataBase.mutex.Lock()
 	defer dataBase.mutex.Unlock()
@@ -371,9 +368,8 @@ func (dataBase *MongoDataBase) UpdateShopAddressAndLocationInShopData(context co
 		},
 		bson.M{
 			"$set": bson.M{
-				"address":   address,
-				"location":  location,
-				"sector_no": sectorNo,
+				"address":  address,
+				"location": location,
 			},
 		},
 	)
@@ -566,7 +562,6 @@ func (dataBase *MongoDataBase) UpdateOperationalHoursInShopData(context context.
 			Longitude: "21.246435522726177",
 			Latitude:  "75.29615236552934",
 		},
-		SectorNo:            10,
 		Category:            []constants.Categories{constants.MENS_ACCESSORIES, constants.WONENS_CLOTHING},
 		BusinessInformation: "Famous Seller Of Cloths In Chopda",
 		OperationalHours: &structs.OperationalHours{

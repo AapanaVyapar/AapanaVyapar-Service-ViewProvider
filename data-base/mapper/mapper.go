@@ -5,11 +5,6 @@ import (
 	"time"
 )
 
-func MapLocationToSector(location *structs.Location) int32 {
-
-	return 10
-}
-
 func CalculateDeliveryTime(distance int32) time.Time {
 
 	return time.Now().UTC()

@@ -4,41 +4,54 @@ option go_package = ".;pb";
 option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
+import "common-message.proto";
+
 message Location {
-  string Longitude = 9;
-  string Latitude = 10;
-}
-
-message TrendingData {
-  string subCategory = 11;
-  string productImage = 12;
-  string productId = 18;
-  string productName = 13;
-  string shopName = 14;
-  string shortDescription = 15;
-  string shopRating = 16;
-  int64 productLikes = 17;
+  string Longitude = 1;
+  string Latitude = 2;
 
 }
 
-message GetTrendingCategoriesRequest {
-  string apiKey = 1;
-  string token = 2;
+message ShopsNearBy {
+  string shopId = 3;
+  string shopName = 4;
+  string primaryImage = 5;
+  repeated Category category = 6;
+  float rating = 7;
+  string shopkeeper = 8;
+  Location location = 9;
+
 }
 
-message GetTrendingCategoriesResponse {
-  repeated string categoryData = 3;
+message GetTrendingShopsRequest {
+  string apiKey = 10;
+  string token = 11;
+  Location location = 12;
+  string distanceInMeter = 13;
+
 }
 
-message GetTrendingDataByCategoriesRequest {
-  string apiKey = 4;
-  string token = 5;
-  uint32 categoryId = 6;
-  Location location = 7;
+message GetTrendingShopsResponse {
+  ShopsNearBy shops = 14;
 }
 
-message GetTrendingDataByCategoriesResponse {
-  TrendingData trendingData = 8;
+message ProductsOfShopsNearBy {
+  string productId = 15;
+  string shopId = 16;
+  string productName = 17;
+  string primaryImage = 18;
+  repeated Category category = 19;
+  uint64 likes = 20;
+}
+
+message GetTrendingProductsByShopRequest {
+  string apiKey = 15;
+  string token = 16;
+  repeated string shopId = 17;
+}
+
+message GetTrendingProductsByShopResponse {
+  ProductsOfShopsNearBy categoryData = 5;
 }
 
 /*

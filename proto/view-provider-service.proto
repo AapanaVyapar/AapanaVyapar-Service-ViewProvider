@@ -8,8 +8,8 @@ import "trending-message.proto";
 import "user-commands-message.proto";
 
 service ViewProviderService {
-  rpc GetTrendingCategories (GetTrendingCategoriesRequest) returns (GetTrendingCategoriesResponse);
-  rpc GetTrendingDataByCategories (GetTrendingDataByCategoriesRequest) returns (stream GetTrendingDataByCategoriesResponse);
+  rpc GetTrendingShops (GetTrendingShopsRequest) returns (stream GetTrendingShopsResponse);
+  rpc GetTrendingProductsByShop (GetTrendingProductsByShopRequest) returns (stream GetTrendingProductsByShopResponse);
 
   rpc AddToLikeProduct (AddToLikeProductRequest) returns (AddToLikeProductResponse);
   rpc RemoveFromLikeProduct (RemoveFromLikeProductRequest) returns (RemoveFromLikeProductResponse);

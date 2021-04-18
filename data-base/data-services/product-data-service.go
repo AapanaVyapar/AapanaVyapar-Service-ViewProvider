@@ -421,40 +421,6 @@ func (dataBase *MongoDataBase) UpdateProductDescriptionInProductData(context con
 	return fmt.Errorf("unable to update product description")
 }
 
-func (dataBase *MongoDataBase) UpdateProductShortDescriptionInProductData(context context.Context, shopId string, productId primitive.ObjectID, shortDescription string) error {
-
-	if shortDescription == "" {
-		return fmt.Errorf("short description can not be empty")
-	}
-
-	productData := mongodb.OpenProductDataCollection(dataBase.Data)
-
-	dataBase.mutex.Lock()
-	defer dataBase.mutex.Unlock()
-
-	result, err := productData.UpdateOne(context,
-		bson.M{
-			"shop_id": shopId,
-			"_id":     productId,
-		},
-		bson.M{
-			"$set": bson.M{
-				"short_description": shortDescription,
-			},
-		},
-	)
-
-	if err != nil {
-		return err
-	}
-
-	if result.ModifiedCount > 0 || result.MatchedCount > 0 {
-		return nil
-	}
-
-	return fmt.Errorf("unable to update product short description")
-}
-
 func (dataBase *MongoDataBase) UpdateProductShippingInfoInProductData(context context.Context, shopId string, productId primitive.ObjectID, shippingInfo string) error {
 
 	if shippingInfo == "" {

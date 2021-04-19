@@ -18,6 +18,34 @@ func main() {
 
 	service := services.NewViewProviderService()
 
+	//data, err := service.Cash.GetShopById("9e3c578e-886b-4c5e-8375-b53d7e16266a")
+	//if err != nil {
+	//	fmt.Println(err)
+	//	panic(err)
+	//}
+	//fmt.Println(data)
+	//
+	//prod, err := service.Cash.GetProductById("607d513bf56ede0718c646f6")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(prod)
+	//
+	//likes, _ := strconv.ParseUint(prod.Properties["likesOfProduct"].(string), 10, 64)
+	//
+	//likes += 1
+	//
+	//err = service.Cash.UpdateLikeOfProduct(context.TODO(), "607d513bf56ede0718c646f6", likes)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//prod, err = service.Cash.GetProductById("607d513bf56ede0718c646f6")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(prod)
+
 	grpcServer := grpc.NewServer()
 	pb.RegisterViewProviderServiceServer(grpcServer, service)
 

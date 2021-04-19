@@ -4,6 +4,8 @@ import (
 	"aapanavyapar-service-viewprovider/pb"
 	"fmt"
 	"github.com/RediSearch/redisearch-go/redisearch"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"strings"
 )
 
@@ -28,11 +30,11 @@ func (dataBase *CashDataBase) GetShopById(shopId string) (*redisearch.Document, 
 	return data, nil
 }
 
-func (dataBase *CashDataBase) GetShopByName(shopName string, latitude, longitude, distanceInMeter float64) ([]redisearch.Document, error) {
+func (dataBase *CashDataBase) GetShopByName(shopName string, latitude, longitude, distanceInMeter float64, send func(document redisearch.Document) error) error {
 	words := strings.Fields(shopName)
 
 	if len(words) == 0 {
-		return nil, fmt.Errorf("empty")
+		return fmt.Errorf("empty")
 	}
 
 	searchString := ""
@@ -58,14 +60,18 @@ func (dataBase *CashDataBase) GetShopByName(shopName string, latitude, longitude
 			},
 		),
 	)
-
 	if err != nil {
-		return nil, err
+		return err
+	}
+	fmt.Println(total)
+	for _, doc := range docs {
+		err = send(doc)
+		if err != nil {
+			return err
+		}
 	}
 
-	fmt.Println(total)
-
-	return docs, nil
+	return nil
 }
 
 func (dataBase *CashDataBase) GetShopByLocation(latitude, longitude, distanceInMeter float64, limit int) ([]redisearch.Document, error) {
@@ -154,4 +160,13 @@ func (dataBase *CashDataBase) GetShopByCategory(categoryOfShop []pb.Category, la
 	fmt.Println(total)
 
 	return docs, nil
+}
+
+func (dataBase *CashDataBase) DelShop(shopId string) error {
+	err := dataBase.ShopClient.DeleteDocument("shop:" + strings.ReplaceAll(shopId, "-", " "))
+	if err != nil {
+		return status.Errorf(codes.Unknown, "Unable To Delete Data From Cash", err)
+	}
+	return nil
+
 }

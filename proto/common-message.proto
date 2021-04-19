@@ -37,3 +37,28 @@ enum Status {
   DELIVERED = 4;
 
 }
+
+message Location {
+  string Longitude = 1;
+  string Latitude = 2;
+
+}
+message ShopsNearBy {
+  string shopId = 3;
+  string shopName = 4;
+  string primaryImage = 5;
+  repeated Category category = 6;
+  float rating = 7;
+  string shopkeeper = 8;
+  Location location = 9;
+
+}
+
+message ProductsOfShopsNearBy {
+  string productId = 15;
+  string shopId = 16;
+  string productName = 17;
+  string primaryImage = 18;
+  repeated Category category = 19;
+  uint64 likes = 20;
+}

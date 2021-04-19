@@ -5,41 +5,41 @@ option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
 message AddToLikeProductRequest {
-  string token = 19;
-  string apiKey = 20;
-  string productId = 21;
+  string token = 25;
+  string apiKey = 26;
+  string productId = 27;
 }
 
 message AddToLikeProductResponse {
-  bool status = 22;
+  bool status = 28;
 }
 
 message RemoveFromLikeProductRequest {
-  string token = 23;
-  string apiKey = 24;
-  string productId = 25;
+  string token = 29;
+  string apiKey = 30;
+  string productId = 31;
 }
 
 message RemoveFromLikeProductResponse {
-  bool status = 26;
+  bool status = 32;
 }
 
 message AddToCartProductRequest {
-  string token = 27;
-  string apiKey = 28;
-  string productId = 29;
+  string token = 33;
+  string apiKey = 34;
+  string productId = 35;
 }
 
 message AddToCartProductResponse {
-  bool status = 30;
+  bool status = 36;
 }
 
 message RemoveFromCartProductRequest {
-  string token = 31;
-  string apiKey = 32;
-  string productId = 33;
+  string token = 37;
+  string apiKey = 38;
+  string productId = 39;
 }
 
 message RemoveFromCartProductResponse {
-  bool status = 34;
+  bool status = 40;
 }

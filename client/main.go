@@ -49,7 +49,7 @@ func main() {
 		panic(err)
 	}
 
-	shopIds := []string{}
+	var shopIds []string
 
 	for {
 		res, err := stream.Recv()
@@ -61,41 +61,42 @@ func main() {
 		}
 		shopIds = append(shopIds, res.Shops.ShopId)
 		fmt.Println(res.String())
+		fmt.Println(res.Shops.Category)
 
 	}
+	//
+	//streamProd, err := client.GetTrendingProductsByShop(ctx, &pb.GetTrendingProductsByShopRequest{
+	//	ApiKey: os.Getenv("API_KEY_FOR_WEB"),
+	//	Token:  token,
+	//	ShopId: shopIds,
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//var productIds []string
+	//
+	//for {
+	//	res, err := streamProd.Recv()
+	//	if err == io.EOF {
+	//		break
+	//	}
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//	productIds = append(productIds, res.CategoryData.ProductId)
+	//	fmt.Println(res.String())
+	//
+	//}
 
-	streamProd, err := client.GetTrendingProductsByShop(ctx, &pb.GetTrendingProductsByShopRequest{
-		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
-		Token:  token,
-		ShopId: shopIds,
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	productIds := []string{}
-
-	for {
-		res, err := streamProd.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			panic(err)
-		}
-		productIds = append(productIds, res.CategoryData.ProductId)
-		fmt.Println(res.String())
-
-	}
-
-	status, err := client.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
-		Token:     token,
-		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
-		ProductId: productIds[0],
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(status)
+	//status, err := client.AddToLikeProduct(ctx, &pb.AddToLikeProductRequest{
+	//	Token:     token,
+	//	ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+	//	ProductId: productIds[0],
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(status)
 
 }

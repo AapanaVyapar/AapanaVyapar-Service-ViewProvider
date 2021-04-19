@@ -4,15 +4,17 @@ import (
 	redisDataBase "aapanavyapar-service-viewprovider/data-base/cash-services"
 	mongoDataBase "aapanavyapar-service-viewprovider/data-base/data-services"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
-	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
 	"github.com/RediSearch/redisearch-go/redisearch"
+	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -55,20 +57,20 @@ func NewViewProviderService() *ViewProviderService {
 	if err := view.Cash.ShopClient.Index([]redisearch.Document{doc, doc1, doc2, doc3, doc4, doc5, doc6, doc7}...); err != nil {
 		log.Fatal(err)
 	}
-
-	docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
-	doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
-	doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
-	doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
-	doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
-
-	// Index the document. The API accepts multiple documents at a time
-	if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
-		log.Fatal(err)
-	}
+	//
+	//docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
+	//doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
+	//doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
+	//doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
+	//doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
+	//
+	//// Index the document. The API accepts multiple documents at a time
+	//if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
 	defer cancel()
@@ -89,6 +91,233 @@ func NewViewProviderService() *ViewProviderService {
 	}
 
 	return &view
+}
+
+func (viewServer *ViewProviderService) GetProductsBySearch(request *pb.GetProductsBySearchRequest, stream pb.ViewProviderService_GetProductsBySearchServer) error {
+
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	_, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	var processedShopIds []string
+	count := 0
+	for _, id := range request.GetShopIds() {
+		if count > 100 {
+			break
+		}
+		count += 1
+		_, err = uuid.Parse(id)
+		if err != nil {
+			continue
+		}
+		processedShopIds = append(processedShopIds, id)
+	}
+
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return status.Errorf(codes.Internal, "Problem Occurred")
+	}
+	processedSearch := reg.ReplaceAllString(request.GetSearch(), "")
+
+	err = viewServer.Cash.GetProductByName(processedShopIds, processedSearch, func(document redisearch.Document) error {
+
+		str := document.Properties["categoryOfProduct"].(string)[1:]
+		str = str[:len(str)-1]
+		data := strings.Split(str, ",")
+		var category []pb.Category
+		for _, cat := range data {
+			category = append(category, pb.Category(pb.Category_value[cat]))
+		}
+
+		likes, err := strconv.ParseUint(document.Properties["likesOfProduct"].(string), 10, 64)
+		if err != nil {
+			return err
+		}
+
+		err = stream.Send(&pb.GetProductsBySearchResponse{Products: &pb.ProductsOfShopsNearBy{
+			ProductId:    document.Id[7:],
+			ShopId:       strings.ReplaceAll(document.Properties["shopId"].(string), " ", "-"),
+			ProductName:  document.Properties["productName"].(string),
+			PrimaryImage: document.Properties["primaryImage"].(string),
+			Category:     category,
+			Likes:        likes,
+		}})
+		return err
+
+	})
+	if err != nil {
+		return status.Errorf(codes.NotFound, "Unable To Get Data")
+	}
+
+	return nil
+
+}
+
+func (viewServer *ViewProviderService) GetShopsBySearch(request *pb.GetShopsBySearchRequest, stream pb.ViewProviderService_GetShopsBySearchServer) error {
+
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	_, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return status.Errorf(codes.Internal, "Problem Occurred")
+	}
+	processedSearch := reg.ReplaceAllString(request.GetSearch(), "")
+
+	latitude, err := strconv.ParseFloat(request.Location.Latitude, 64)
+	if err != nil {
+		return status.Errorf(codes.InvalidArgument, "Invalid Location")
+	}
+
+	longitude, err := strconv.ParseFloat(request.Location.Longitude, 64)
+	if err != nil {
+		return status.Errorf(codes.InvalidArgument, "Invalid Location")
+	}
+
+	meter, err := strconv.ParseFloat(request.GetDistanceInMeter(), 64)
+	if err != nil {
+		return status.Errorf(codes.InvalidArgument, "Invalid Location")
+	}
+
+	err = viewServer.Cash.GetShopByName(processedSearch, latitude, longitude, meter, func(document redisearch.Document) error {
+
+		location := strings.Split(document.Properties["location"].(string), ",")
+
+		str := document.Properties["categoryOfShop"].(string)[1:]
+		str = str[:len(str)-1]
+		data := strings.Split(str, ",")
+		var category []pb.Category
+		for _, cat := range data {
+			category = append(category, pb.Category(pb.Category_value[cat]))
+		}
+
+		rating, err := strconv.ParseFloat(document.Properties["ratingOfShop"].(string), 32)
+		if err != nil {
+			return status.Errorf(codes.Internal, "Unable To Parse Data")
+		}
+
+		err = stream.Send(&pb.GetShopsBySearchResponse{Shops: &pb.ShopsNearBy{
+			ShopId:       strings.ReplaceAll(document.Id[5:], " ", "-"),
+			ShopName:     document.Properties["shopName"].(string),
+			PrimaryImage: document.Properties["primaryImage"].(string),
+			Category:     category,
+			Rating:       float32(rating),
+			Shopkeeper:   document.Properties["shopkeeper"].(string),
+			Location: &pb.Location{
+				Latitude:  location[0],
+				Longitude: location[1],
+			},
+		}})
+		return status.Errorf(codes.Unknown, "Stream Error")
+
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (viewServer *ViewProviderService) GetProduct(ctx context.Context, request *pb.GetProductRequest) (*pb.GetProductResponse, error) {
+
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	_, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	productId, err := primitive.ObjectIDFromHex(request.GetProductId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid Product Id")
+	}
+
+	data, err := viewServer.Data.GetProductFromProductData(ctx, productId)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Unable To Get Product")
+	}
+
+	return &pb.GetProductResponse{
+		ProductId:          data.ProductId.Hex(),
+		ShopId:             data.ShopId,
+		ShopName:           data.ShopName,
+		ProductName:        data.Title,
+		ProductDescription: data.Description,
+		ShippingInfo:       data.ShippingInfo,
+		Stock:              data.Stock,
+		Likes:              data.Likes,
+		Price:              data.Price,
+		Offer:              data.Offer,
+		Images:             data.Images,
+		Category:           data.Category,
+		Timestamp:          data.Timestamp.String(),
+	}, nil
+}
+
+func (viewServer *ViewProviderService) GetShop(ctx context.Context, request *pb.GetShopRequest) (*pb.GetShopResponse, error) {
+
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	_, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	data, err := viewServer.Data.GetShopFromShopData(ctx, request.GetShopId())
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Unable To Get Product")
+	}
+
+	var rating []*pb.RatingOfShop
+	for _, rat := range *data.Ratings {
+		ra := pb.RatingOfShop{
+			UserName:  rat.UserName,
+			Comment:   rat.Comment,
+			Rating:    rat.Rating,
+			Timestamp: rat.Timestamp.String(),
+		}
+		rating = append(rating, &ra)
+	}
+
+	return &pb.GetShopResponse{
+		ShopId:         data.ShopId,
+		ShopName:       data.ShopName,
+		ShopKeeperName: data.ShopKeeperName,
+		Images:         data.Images,
+		PrimaryImage:   data.PrimaryImage,
+		Location: &pb.Location{
+			Longitude: data.Location.Longitude,
+			Latitude:  data.Location.Latitude,
+		},
+		Category:            data.Category,
+		BusinessInformation: data.BusinessInformation,
+		OperationalHours: &pb.OperationalHours{
+			Sunday:    []string{data.OperationalHours.Sunday[0], data.OperationalHours.Sunday[1]},
+			Monday:    []string{data.OperationalHours.Monday[0], data.OperationalHours.Monday[1]},
+			Tuesday:   []string{data.OperationalHours.Tuesday[0], data.OperationalHours.Tuesday[1]},
+			Wednesday: []string{data.OperationalHours.Wednesday[0], data.OperationalHours.Wednesday[1]},
+			Thursday:  []string{data.OperationalHours.Thursday[0], data.OperationalHours.Thursday[1]},
+			Friday:    []string{data.OperationalHours.Friday[0], data.OperationalHours.Friday[1]},
+			Saturday:  []string{data.OperationalHours.Saturday[0], data.OperationalHours.Saturday[1]},
+		},
+		Ratings:   rating,
+		Timestamp: data.Timestamp.String(),
+	}, nil
 }
 
 func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingShopsRequest, stream pb.ViewProviderService_GetTrendingShopsServer) error {
@@ -139,6 +368,7 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 		for _, cat := range data {
 			category = append(category, pb.Category(pb.Category_value[cat]))
 		}
+
 		rating, err := strconv.ParseFloat(doc.Properties["ratingOfShop"].(string), 32)
 		if err != nil {
 			return err
@@ -231,7 +461,7 @@ func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context,
 
 	fmt.Println("Add Like : ", receivedToken)
 
-	productByte, err := viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	productData, err := viewServer.Cash.GetProductById(request.GetProductId())
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
 	}
@@ -241,11 +471,14 @@ func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context,
 		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
 	}
 
-	var product structs.ProductData
-	structs.UnmarshalProductData([]byte(productByte), &product)
-	product.Likes += 1
+	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
+	}
 
-	err = viewServer.Cash.AddProductDataToCash(context, request.GetProductId(), product.Marshal())
+	likes += 1
+
+	err = viewServer.Cash.UpdateLikeOfProduct(context, request.GetProductId(), likes)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Unable To Add Like")
 	}
@@ -265,9 +498,18 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 
 	fmt.Println("Add Like : ", receivedToken)
 
-	productByte, err := viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	productData, err := viewServer.Cash.GetProductById(request.GetProductId())
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
+	}
+
+	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
+	}
+
+	if likes == 0 {
+		return &pb.RemoveFromLikeProductResponse{Status: true}, nil
 	}
 
 	err = viewServer.Cash.DelToFavStream(context, receivedToken.Audience, request.GetProductId())
@@ -275,11 +517,9 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 		return nil, status.Errorf(codes.Internal, "Unable To Remove Like To Product")
 	}
 
-	var product structs.ProductData
-	structs.UnmarshalProductData([]byte(productByte), &product)
-	product.Likes -= 1
+	likes -= 1
 
-	err = viewServer.Cash.AddProductDataToCash(context, request.GetProductId(), product.Marshal())
+	err = viewServer.Cash.UpdateLikeOfProduct(context, request.GetProductId(), likes)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Unable To UnLike")
 	}

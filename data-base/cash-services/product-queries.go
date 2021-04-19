@@ -2,8 +2,11 @@ package data_base
 
 import (
 	"aapanavyapar-service-viewprovider/pb"
+	"context"
 	"fmt"
 	"github.com/RediSearch/redisearch-go/redisearch"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"strings"
 )
 
@@ -27,18 +30,18 @@ func (dataBase *CashDataBase) GetProductById(productId string) (*redisearch.Docu
 	return data, nil
 }
 
-func (dataBase *CashDataBase) GetProductByName(shopId []string, productName string) ([]redisearch.Document, error) {
+func (dataBase *CashDataBase) GetProductByName(shopId []string, productName string, send func(document redisearch.Document) error) error {
 
 	shodIdSearchString, err := prepareShopIds(shopId)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	fmt.Println(shodIdSearchString)
 
 	words := strings.Fields(productName)
 
 	if len(words) == 0 {
-		return nil, fmt.Errorf("empty")
+		return fmt.Errorf("empty")
 	}
 
 	searchString := ""
@@ -49,14 +52,19 @@ func (dataBase *CashDataBase) GetProductByName(shopId []string, productName stri
 	docs, total, err := dataBase.ProductClient.Search(
 		redisearch.NewQuery("@shopId:(" + shodIdSearchString + ") @productName:(" + searchString + ")"),
 	)
-
 	if err != nil {
-		return nil, err
+		return err
 	}
-
 	fmt.Println(total)
 
-	return docs, nil
+	for _, doc := range docs {
+		err = send(doc)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (dataBase *CashDataBase) GetProductsByShopsSortByRating(shopId []string, limit int) ([]redisearch.Document, error) {
@@ -132,6 +140,25 @@ func (dataBase *CashDataBase) GetProductByCategory(shopId []string, categoryOfPr
 	fmt.Println(total)
 
 	return docs, nil
+}
+
+func (dataBase *CashDataBase) DelProduct(productId string) error {
+	err := dataBase.ProductClient.DeleteDocument("product:" + productId)
+	if err != nil {
+		return status.Errorf(codes.Unknown, "Unable To Delete Data From Cash", err)
+	}
+	return nil
+
+}
+
+func (dataBase *CashDataBase) UpdateLikeOfProduct(ctx context.Context, productId string, likes uint64) error {
+
+	err := dataBase.Cash.HSet(ctx, "product:"+productId, "likesOfProduct", likes).Err()
+	if err != nil {
+		return status.Errorf(codes.Internal, "unable to add data to hash of Cash  : %w", err)
+	}
+	return nil
+
 }
 
 func prepareShopIds(shopId []string) (string, error) {

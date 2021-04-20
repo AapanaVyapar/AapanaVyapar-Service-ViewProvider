@@ -94,6 +94,83 @@ func NewViewProviderService() *ViewProviderService {
 	return &view
 }
 
+func (viewServer *ViewProviderService) InitUser(ctx context.Context, request *pb.InitUserRequest) (*pb.InitUserResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	_, err = viewServer.Data.CreateUser(ctx, receivedToken.Audience, receivedToken.Subject)
+	if err != nil {
+		return nil, status.Errorf(codes.Unknown, "Unable To Init User")
+	}
+
+	return &pb.InitUserResponse{Status: true}, nil
+}
+
+func (viewServer *ViewProviderService) GetProfile(ctx context.Context, request *pb.GetProfileRequest) (*pb.GetProfileResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	user, err := viewServer.Data.GetUserData(ctx, receivedToken.Audience)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "Data Not Found")
+	}
+
+	return &pb.GetProfileResponse{
+		UserName: user.UserName,
+		Address: &pb.Address{
+			FullName:      user.Address.FullName,
+			HouseDetails:  user.Address.HouseDetails,
+			StreetDetails: user.Address.StreetDetails,
+			LandMark:      user.Address.LandMark,
+			PinCode:       user.Address.PinCode,
+			City:          user.Address.City,
+			State:         user.Address.State,
+			Country:       user.Address.Country,
+			PhoneNo:       user.Address.PhoneNo,
+		},
+	}, nil
+}
+
+func (viewServer *ViewProviderService) UpdateAddress(ctx context.Context, request *pb.UpdateAddressRequest) (*pb.UpdateAddressResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	err = viewServer.Data.SetAddressInUserData(ctx, receivedToken.Audience, receivedToken.Subject, structs.Address{
+		FullName:      request.GetAddress().FullName,
+		HouseDetails:  request.GetAddress().HouseDetails,
+		StreetDetails: request.GetAddress().StreetDetails,
+		LandMark:      request.GetAddress().LandMark,
+		PinCode:       request.GetAddress().PinCode,
+		City:          request.GetAddress().City,
+		State:         request.GetAddress().State,
+		Country:       request.GetAddress().Country,
+		PhoneNo:       request.GetAddress().PhoneNo,
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Unknown, "Unable To Update Address")
+	}
+
+	return &pb.UpdateAddressResponse{Status: true}, nil
+}
+
 func (viewServer *ViewProviderService) GetCart(request *pb.GetCartRequest, stream pb.ViewProviderService_GetCartServer) error {
 	if !helpers.CheckForAPIKey(request.GetApiKey()) {
 		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")

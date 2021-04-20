@@ -28,4 +28,9 @@ service ViewProviderService {
   rpc GetOrders(GetOrdersRequest) returns (stream GetOrdersResponse);
   rpc GetCart(GetCartRequest) returns (stream GetCartResponse);
 
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+  rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse);
+
+  rpc InitUser(InitUserRequest) returns (InitUserResponse);
+
 }

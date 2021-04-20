@@ -71,3 +71,32 @@ message GetCartRequest {
 message GetCartResponse {
   ProductsOfShopsNearBy products = 109;
 }
+
+message GetProfileRequest {
+  string token = 110;
+  string apiKey = 111;
+}
+
+message GetProfileResponse {
+  string userName = 112;
+  Address address = 113;
+}
+
+message UpdateAddressRequest {
+  string token = 114;
+  string apiKey = 115;
+  Address address = 116;
+}
+
+message UpdateAddressResponse {
+  bool status = 117;
+}
+
+message InitUserRequest {
+  string token = 127;
+  string apiKey = 128;
+}
+
+message InitUserResponse {
+  bool status = 129;
+}

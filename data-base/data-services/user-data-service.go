@@ -127,6 +127,22 @@ func (dataBase *MongoDataBase) GetAddressUserData(context context.Context, userI
 	return data.Address, nil
 }
 
+func (dataBase *MongoDataBase) GetUserData(context context.Context, userId string) (*structs.UserData, error) {
+
+	userData := mongodb.OpenUserDataCollection(dataBase.Data)
+
+	filter := bson.D{{"_id", userId}}
+
+	data := structs.UserData{}
+	err := userData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &data, nil
+}
+
 func (dataBase *MongoDataBase) GetCartUserData(context context.Context, userId string) (*structs.ProductIdsForCart, error) {
 
 	userData := mongodb.OpenUserDataCollection(dataBase.Data)

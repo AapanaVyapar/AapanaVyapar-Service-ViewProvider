@@ -62,3 +62,15 @@ message ProductsOfShopsNearBy {
   repeated Category category = 19;
   uint64 likes = 20;
 }
+
+message Address {
+  string FullName = 118;
+  string HouseDetails = 119;
+  string StreetDetails = 120;
+  string LandMark = 121;
+  string PinCode = 122;
+  string City = 123;
+  string State = 124;
+  string Country = 125;
+  string PhoneNo = 126;
+}

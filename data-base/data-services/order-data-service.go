@@ -13,6 +13,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"time"
 )
 
@@ -127,6 +129,42 @@ func (dataBase *MongoDataBase) GetOrderInfoFromOrderData(context context.Context
 	}
 
 	return data, nil
+
+}
+
+func (dataBase *MongoDataBase) GetMultipleOrdersInfoByUserIdFromOrderData(context context.Context, userId string, sendData func(data structs.OrderData) error) error {
+
+	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
+
+	cursor, err := orderData.Find(context,
+		bson.M{
+			"user_id": userId,
+		},
+	)
+	if err != nil {
+		return status.Errorf(codes.Internal, "Unable To Get Data")
+	}
+	defer cursor.Close(context)
+
+	for cursor.Next(context) {
+		result := structs.OrderData{}
+
+		err = cursor.Decode(&result)
+		if err != nil {
+			return status.Errorf(codes.Internal, "Unable To Get Data")
+		}
+
+		if err = sendData(result); err != nil {
+			return err
+		}
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, "Problem Occur While Retrieving Data")
+	}
+
+	return nil
 
 }
 

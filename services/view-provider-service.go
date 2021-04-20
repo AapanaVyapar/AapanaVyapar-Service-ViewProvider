@@ -4,6 +4,7 @@ import (
 	redisDataBase "aapanavyapar-service-viewprovider/data-base/cash-services"
 	mongoDataBase "aapanavyapar-service-viewprovider/data-base/data-services"
 	"aapanavyapar-service-viewprovider/data-base/helpers"
+	"aapanavyapar-service-viewprovider/data-base/structs"
 	"aapanavyapar-service-viewprovider/pb"
 	"context"
 	"fmt"
@@ -57,20 +58,20 @@ func NewViewProviderService() *ViewProviderService {
 	if err := view.Cash.ShopClient.Index([]redisearch.Document{doc, doc1, doc2, doc3, doc4, doc5, doc6, doc7}...); err != nil {
 		log.Fatal(err)
 	}
-	//
-	//docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
-	//doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
-	//doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	//doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
-	//doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
-	//doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	//doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	//doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
-	//
-	//// Index the document. The API accepts multiple documents at a time
-	//if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
-	//	log.Fatal(err)
-	//}
+
+	docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
+	doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
+	doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
+	doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
+	doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
+
+	// Index the document. The API accepts multiple documents at a time
+	if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
+		log.Fatal(err)
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
 	defer cancel()
@@ -91,6 +92,97 @@ func NewViewProviderService() *ViewProviderService {
 	}
 
 	return &view
+}
+
+func (viewServer *ViewProviderService) GetCart(request *pb.GetCartRequest, stream pb.ViewProviderService_GetCartServer) error {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	cart, err := viewServer.Data.GetCartUserData(stream.Context(), receivedToken.Audience)
+	if err != nil {
+		return status.Errorf(codes.NotFound, "Unable To Get Cart")
+	}
+
+	for _, product := range cart.Products {
+		data, err := viewServer.Cash.GetProductById(product.Hex())
+		if err != nil {
+			return status.Errorf(codes.Internal, "Unable To Get Product Info")
+		}
+
+		str := data.Properties["categoryOfProduct"].(string)[1:]
+		str = str[:len(str)-1]
+		catData := strings.Split(str, ",")
+		var category []pb.Category
+		for _, cat := range catData {
+			category = append(category, pb.Category(pb.Category_value[cat]))
+		}
+
+		likes, err := strconv.ParseUint(data.Properties["likesOfProduct"].(string), 10, 64)
+		if err != nil {
+			return err
+		}
+
+		err = stream.Send(&pb.GetCartResponse{Products: &pb.ProductsOfShopsNearBy{
+			ProductId:    product.Hex(),
+			ShopId:       strings.ReplaceAll(data.Properties["shopId"].(string), " ", "-"),
+			ProductName:  data.Properties["productName"].(string),
+			PrimaryImage: data.Properties["primaryImage"].(string),
+			Category:     category,
+			Likes:        likes,
+		}})
+		if err != nil {
+			return status.Errorf(codes.Unknown, "Stream Error")
+		}
+
+	}
+
+	return nil
+}
+
+func (viewServer *ViewProviderService) GetOrders(request *pb.GetOrdersRequest, stream pb.ViewProviderService_GetOrdersServer) error {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(stream.Context(), request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	err = viewServer.Data.GetMultipleOrdersInfoByUserIdFromOrderData(stream.Context(), receivedToken.Audience, func(data structs.OrderData) error {
+
+		prod, err := viewServer.Cash.GetProductById(data.ProductId.Hex())
+		if err != nil {
+			return status.Errorf(codes.NotFound, "Product Not Found In Cash")
+		}
+
+		err = stream.Send(&pb.GetOrdersResponse{
+			OrderId:           data.OrderId.Hex(),
+			Status:            data.Status,
+			ProductId:         data.ProductId.Hex(),
+			DeliveryTimeStamp: data.DeliveryTimeStamp.String(),
+			OrderTimeStamp:    data.OrderTimeStamp.String(),
+			Price:             data.Price,
+			Quantity:          data.Quantity,
+			ProductName:       prod.Properties["productName"].(string),
+			ProductImage:      prod.Properties["primaryImage"].(string),
+		})
+		if err != nil {
+			return status.Errorf(codes.Unknown, "Stream Error")
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (viewServer *ViewProviderService) GetProductsBySearch(request *pb.GetProductsBySearchRequest, stream pb.ViewProviderService_GetProductsBySearchServer) error {

@@ -34,7 +34,7 @@ var file_view_provider_service_proto_rawDesc = []byte{
 	0x73, 0x65, 0x72, 0x2d, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x73, 0x2d, 0x6d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x73, 0x65, 0x61, 0x72,
 	0x63, 0x68, 0x2d, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x32, 0x8c, 0x06, 0x0a, 0x13, 0x56, 0x69, 0x65, 0x77, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x32, 0xf2, 0x06, 0x0a, 0x13, 0x56, 0x69, 0x65, 0x77, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
 	0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x49, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x54,
 	0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x53, 0x68, 0x6f, 0x70, 0x73, 0x12, 0x18, 0x2e, 0x47,
 	0x65, 0x74, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x53, 0x68, 0x6f, 0x70, 0x73, 0x52,
@@ -82,11 +82,17 @@ var file_view_provider_service_proto_rawDesc = []byte{
 	0x12, 0x1d, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x46, 0x72, 0x6f, 0x6d, 0x43, 0x61, 0x72,
 	0x74, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
 	0x1e, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x46, 0x72, 0x6f, 0x6d, 0x43, 0x61, 0x72, 0x74,
-	0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42,
-	0x30, 0x0a, 0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61,
-	0x70, 0x61, 0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72,
-	0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50, 0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x34, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x12, 0x11, 0x2e, 0x47,
+	0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x12, 0x2e, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x30, 0x01, 0x12, 0x2e, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x43, 0x61, 0x72, 0x74,
+	0x12, 0x0f, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x10, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x30, 0x01, 0x42, 0x30, 0x0a, 0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70,
+	0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61,
+	0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50,
+	0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_view_provider_service_proto_goTypes = []interface{}{
@@ -100,16 +106,20 @@ var file_view_provider_service_proto_goTypes = []interface{}{
 	(*RemoveFromLikeProductRequest)(nil),      // 7: RemoveFromLikeProductRequest
 	(*AddToCartProductRequest)(nil),           // 8: AddToCartProductRequest
 	(*RemoveFromCartProductRequest)(nil),      // 9: RemoveFromCartProductRequest
-	(*GetTrendingShopsResponse)(nil),          // 10: GetTrendingShopsResponse
-	(*GetTrendingProductsByShopResponse)(nil), // 11: GetTrendingProductsByShopResponse
-	(*GetProductResponse)(nil),                // 12: GetProductResponse
-	(*GetShopResponse)(nil),                   // 13: GetShopResponse
-	(*GetProductsBySearchResponse)(nil),       // 14: GetProductsBySearchResponse
-	(*GetShopsBySearchResponse)(nil),          // 15: GetShopsBySearchResponse
-	(*AddToLikeProductResponse)(nil),          // 16: AddToLikeProductResponse
-	(*RemoveFromLikeProductResponse)(nil),     // 17: RemoveFromLikeProductResponse
-	(*AddToCartProductResponse)(nil),          // 18: AddToCartProductResponse
-	(*RemoveFromCartProductResponse)(nil),     // 19: RemoveFromCartProductResponse
+	(*GetOrdersRequest)(nil),                  // 10: GetOrdersRequest
+	(*GetCartRequest)(nil),                    // 11: GetCartRequest
+	(*GetTrendingShopsResponse)(nil),          // 12: GetTrendingShopsResponse
+	(*GetTrendingProductsByShopResponse)(nil), // 13: GetTrendingProductsByShopResponse
+	(*GetProductResponse)(nil),                // 14: GetProductResponse
+	(*GetShopResponse)(nil),                   // 15: GetShopResponse
+	(*GetProductsBySearchResponse)(nil),       // 16: GetProductsBySearchResponse
+	(*GetShopsBySearchResponse)(nil),          // 17: GetShopsBySearchResponse
+	(*AddToLikeProductResponse)(nil),          // 18: AddToLikeProductResponse
+	(*RemoveFromLikeProductResponse)(nil),     // 19: RemoveFromLikeProductResponse
+	(*AddToCartProductResponse)(nil),          // 20: AddToCartProductResponse
+	(*RemoveFromCartProductResponse)(nil),     // 21: RemoveFromCartProductResponse
+	(*GetOrdersResponse)(nil),                 // 22: GetOrdersResponse
+	(*GetCartResponse)(nil),                   // 23: GetCartResponse
 }
 var file_view_provider_service_proto_depIdxs = []int32{
 	0,  // 0: ViewProviderService.GetTrendingShops:input_type -> GetTrendingShopsRequest
@@ -122,18 +132,22 @@ var file_view_provider_service_proto_depIdxs = []int32{
 	7,  // 7: ViewProviderService.RemoveFromLikeProduct:input_type -> RemoveFromLikeProductRequest
 	8,  // 8: ViewProviderService.AddToCartProduct:input_type -> AddToCartProductRequest
 	9,  // 9: ViewProviderService.RemoveFromCartProduct:input_type -> RemoveFromCartProductRequest
-	10, // 10: ViewProviderService.GetTrendingShops:output_type -> GetTrendingShopsResponse
-	11, // 11: ViewProviderService.GetTrendingProductsByShop:output_type -> GetTrendingProductsByShopResponse
-	12, // 12: ViewProviderService.GetProduct:output_type -> GetProductResponse
-	13, // 13: ViewProviderService.GetShop:output_type -> GetShopResponse
-	14, // 14: ViewProviderService.GetProductsBySearch:output_type -> GetProductsBySearchResponse
-	15, // 15: ViewProviderService.GetShopsBySearch:output_type -> GetShopsBySearchResponse
-	16, // 16: ViewProviderService.AddToLikeProduct:output_type -> AddToLikeProductResponse
-	17, // 17: ViewProviderService.RemoveFromLikeProduct:output_type -> RemoveFromLikeProductResponse
-	18, // 18: ViewProviderService.AddToCartProduct:output_type -> AddToCartProductResponse
-	19, // 19: ViewProviderService.RemoveFromCartProduct:output_type -> RemoveFromCartProductResponse
-	10, // [10:20] is the sub-list for method output_type
-	0,  // [0:10] is the sub-list for method input_type
+	10, // 10: ViewProviderService.GetOrders:input_type -> GetOrdersRequest
+	11, // 11: ViewProviderService.GetCart:input_type -> GetCartRequest
+	12, // 12: ViewProviderService.GetTrendingShops:output_type -> GetTrendingShopsResponse
+	13, // 13: ViewProviderService.GetTrendingProductsByShop:output_type -> GetTrendingProductsByShopResponse
+	14, // 14: ViewProviderService.GetProduct:output_type -> GetProductResponse
+	15, // 15: ViewProviderService.GetShop:output_type -> GetShopResponse
+	16, // 16: ViewProviderService.GetProductsBySearch:output_type -> GetProductsBySearchResponse
+	17, // 17: ViewProviderService.GetShopsBySearch:output_type -> GetShopsBySearchResponse
+	18, // 18: ViewProviderService.AddToLikeProduct:output_type -> AddToLikeProductResponse
+	19, // 19: ViewProviderService.RemoveFromLikeProduct:output_type -> RemoveFromLikeProductResponse
+	20, // 20: ViewProviderService.AddToCartProduct:output_type -> AddToCartProductResponse
+	21, // 21: ViewProviderService.RemoveFromCartProduct:output_type -> RemoveFromCartProductResponse
+	22, // 22: ViewProviderService.GetOrders:output_type -> GetOrdersResponse
+	23, // 23: ViewProviderService.GetCart:output_type -> GetCartResponse
+	12, // [12:24] is the sub-list for method output_type
+	0,  // [0:12] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -189,6 +203,8 @@ type ViewProviderServiceClient interface {
 	RemoveFromLikeProduct(ctx context.Context, in *RemoveFromLikeProductRequest, opts ...grpc.CallOption) (*RemoveFromLikeProductResponse, error)
 	AddToCartProduct(ctx context.Context, in *AddToCartProductRequest, opts ...grpc.CallOption) (*AddToCartProductResponse, error)
 	RemoveFromCartProduct(ctx context.Context, in *RemoveFromCartProductRequest, opts ...grpc.CallOption) (*RemoveFromCartProductResponse, error)
+	GetOrders(ctx context.Context, in *GetOrdersRequest, opts ...grpc.CallOption) (ViewProviderService_GetOrdersClient, error)
+	GetCart(ctx context.Context, in *GetCartRequest, opts ...grpc.CallOption) (ViewProviderService_GetCartClient, error)
 }
 
 type viewProviderServiceClient struct {
@@ -381,6 +397,70 @@ func (c *viewProviderServiceClient) RemoveFromCartProduct(ctx context.Context, i
 	return out, nil
 }
 
+func (c *viewProviderServiceClient) GetOrders(ctx context.Context, in *GetOrdersRequest, opts ...grpc.CallOption) (ViewProviderService_GetOrdersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ViewProviderService_serviceDesc.Streams[4], "/ViewProviderService/GetOrders", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &viewProviderServiceGetOrdersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ViewProviderService_GetOrdersClient interface {
+	Recv() (*GetOrdersResponse, error)
+	grpc.ClientStream
+}
+
+type viewProviderServiceGetOrdersClient struct {
+	grpc.ClientStream
+}
+
+func (x *viewProviderServiceGetOrdersClient) Recv() (*GetOrdersResponse, error) {
+	m := new(GetOrdersResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *viewProviderServiceClient) GetCart(ctx context.Context, in *GetCartRequest, opts ...grpc.CallOption) (ViewProviderService_GetCartClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ViewProviderService_serviceDesc.Streams[5], "/ViewProviderService/GetCart", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &viewProviderServiceGetCartClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ViewProviderService_GetCartClient interface {
+	Recv() (*GetCartResponse, error)
+	grpc.ClientStream
+}
+
+type viewProviderServiceGetCartClient struct {
+	grpc.ClientStream
+}
+
+func (x *viewProviderServiceGetCartClient) Recv() (*GetCartResponse, error) {
+	m := new(GetCartResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ViewProviderServiceServer is the server API for ViewProviderService service.
 type ViewProviderServiceServer interface {
 	GetTrendingShops(*GetTrendingShopsRequest, ViewProviderService_GetTrendingShopsServer) error
@@ -393,6 +473,8 @@ type ViewProviderServiceServer interface {
 	RemoveFromLikeProduct(context.Context, *RemoveFromLikeProductRequest) (*RemoveFromLikeProductResponse, error)
 	AddToCartProduct(context.Context, *AddToCartProductRequest) (*AddToCartProductResponse, error)
 	RemoveFromCartProduct(context.Context, *RemoveFromCartProductRequest) (*RemoveFromCartProductResponse, error)
+	GetOrders(*GetOrdersRequest, ViewProviderService_GetOrdersServer) error
+	GetCart(*GetCartRequest, ViewProviderService_GetCartServer) error
 }
 
 // UnimplementedViewProviderServiceServer can be embedded to have forward compatible implementations.
@@ -428,6 +510,12 @@ func (*UnimplementedViewProviderServiceServer) AddToCartProduct(context.Context,
 }
 func (*UnimplementedViewProviderServiceServer) RemoveFromCartProduct(context.Context, *RemoveFromCartProductRequest) (*RemoveFromCartProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveFromCartProduct not implemented")
+}
+func (*UnimplementedViewProviderServiceServer) GetOrders(*GetOrdersRequest, ViewProviderService_GetOrdersServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
+}
+func (*UnimplementedViewProviderServiceServer) GetCart(*GetCartRequest, ViewProviderService_GetCartServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetCart not implemented")
 }
 
 func RegisterViewProviderServiceServer(s *grpc.Server, srv ViewProviderServiceServer) {
@@ -626,6 +714,48 @@ func _ViewProviderService_RemoveFromCartProduct_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ViewProviderService_GetOrders_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetOrdersRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ViewProviderServiceServer).GetOrders(m, &viewProviderServiceGetOrdersServer{stream})
+}
+
+type ViewProviderService_GetOrdersServer interface {
+	Send(*GetOrdersResponse) error
+	grpc.ServerStream
+}
+
+type viewProviderServiceGetOrdersServer struct {
+	grpc.ServerStream
+}
+
+func (x *viewProviderServiceGetOrdersServer) Send(m *GetOrdersResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ViewProviderService_GetCart_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetCartRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ViewProviderServiceServer).GetCart(m, &viewProviderServiceGetCartServer{stream})
+}
+
+type ViewProviderService_GetCartServer interface {
+	Send(*GetCartResponse) error
+	grpc.ServerStream
+}
+
+type viewProviderServiceGetCartServer struct {
+	grpc.ServerStream
+}
+
+func (x *viewProviderServiceGetCartServer) Send(m *GetCartResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 var _ViewProviderService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ViewProviderService",
 	HandlerType: (*ViewProviderServiceServer)(nil),
@@ -674,6 +804,16 @@ var _ViewProviderService_serviceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetShopsBySearch",
 			Handler:       _ViewProviderService_GetShopsBySearch_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetOrders",
+			Handler:       _ViewProviderService_GetOrders_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetCart",
+			Handler:       _ViewProviderService_GetCart_Handler,
 			ServerStreams: true,
 		},
 	},

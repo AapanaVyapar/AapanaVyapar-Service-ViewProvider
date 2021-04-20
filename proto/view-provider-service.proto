@@ -25,4 +25,7 @@ service ViewProviderService {
   rpc AddToCartProduct (AddToCartProductRequest) returns (AddToCartProductResponse);
   rpc RemoveFromCartProduct (RemoveFromCartProductRequest) returns (RemoveFromCartProductResponse);
 
+  rpc GetOrders(GetOrdersRequest) returns (stream GetOrdersResponse);
+  rpc GetCart(GetCartRequest) returns (stream GetCartResponse);
+
 }

@@ -4,6 +4,8 @@ option go_package = ".;pb";
 option java_multiple_files = true;
 option java_package = "com.aapanavyapar.aapanavyapar.services";
 
+import  "common-message.proto";
+
 message AddToLikeProductRequest {
   string token = 25;
   string apiKey = 26;
@@ -42,4 +44,30 @@ message RemoveFromCartProductRequest {
 
 message RemoveFromCartProductResponse {
   bool status = 40;
+}
+
+message GetOrdersRequest {
+  string token = 96;
+  string apiKey = 97;
+}
+
+message GetOrdersResponse {
+  string orderId = 98;
+  Status status = 99;
+  string productId = 100;
+  string deliveryTimeStamp = 101;
+  string orderTimeStamp = 102;
+  float price = 103;
+  uint32 quantity = 104;
+  string productName = 105;
+  string productImage = 106;
+}
+
+message GetCartRequest {
+  string token = 107;
+  string apiKey = 108;
+}
+
+message GetCartResponse {
+  ProductsOfShopsNearBy products = 109;
 }

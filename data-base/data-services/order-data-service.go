@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId string, productId primitive.ObjectID, quantity uint32, distance int32, address *structs.Address) (primitive.ObjectID, error) {
+func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId string, shopId string, productId primitive.ObjectID, quantity uint32, distance int32, address *structs.Address) (primitive.ObjectID, error) {
 
 	if !dataBase.IsExistInUserData(context, "_id", userId) {
 		return primitive.ObjectID{}, fmt.Errorf("user does not exist")
@@ -34,6 +34,7 @@ func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId strin
 	order.OrderTimeStamp = time.Now().UTC()
 	order.UserId = userId
 	order.Quantity = quantity
+	order.ShopId = shopId
 	order.ProductId = productId
 	order.Address = address
 	order.DeliveryTimeStamp = mapper.CalculateDeliveryTime(distance)

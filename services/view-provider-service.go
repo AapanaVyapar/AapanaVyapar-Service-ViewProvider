@@ -13,7 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -45,33 +44,33 @@ func NewViewProviderService() *ViewProviderService {
 		panic(err)
 	}
 
-	doc := view.Cash.CreateShopDocument("f38d6a51-b961-474b-9be1-6de62ab5c57e", "Milap Store", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 3.3, "ABC Person", 21.246435522726177, 75.29615236552934)
-	doc1 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-9be1-jn362ab5c57e", "Rajkumar Coldrinks", "https://image.com", []pb.Category{pb.Category_FOOD}, 4.2, "ABC Person", 21.246703671726266, 75.29363042248966)
-	doc2 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Laxmi Offset", "https://image.com", []pb.Category{pb.Category_FOOD}, 5.0, "ABC Person", 21.246863857271922, 75.29460006862273)
-	doc3 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-dv1e-jn362ab5c57e", "raza cutlery stores", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.24691956642532, 75.2936569970796)
-	doc4 := view.Cash.CreateShopDocument("f38d6a51-b932-474b-dv1e-jn362ab5c57e", "joshi electrical works", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 3.0, "ABC Person", 21.24663669715862, 75.29432756403227)
-	doc5 := view.Cash.CreateShopDocument("f38d6a51-4432-474b-dv1e-jn362ab5c57e", "chintamani kirana stores", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.24645703702037, 75.29347243866049)
-	doc6 := view.Cash.CreateShopDocument("f38d6a32-4432-474b-dv1e-jn362ab5c57e", "Chandu Dairy", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.246983732987587, 75.29470401626448)
-	doc7 := view.Cash.CreateShopDocument("f68d6a32-4432-474b-dv1e-jn362ab5c57e", "Vegetable Market", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.245561629488762, 75.29823368278593)
+	//doc := view.Cash.CreateShopDocument("f38d6a51-b961-474b-9be1-6de62ab5c57e", "Milap Store", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 3.3, "ABC Person", 21.246435522726177, 75.29615236552934)
+	//doc1 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-9be1-jn362ab5c57e", "Rajkumar Coldrinks", "https://image.com", []pb.Category{pb.Category_FOOD}, 4.2, "ABC Person", 21.246703671726266, 75.29363042248966)
+	//doc2 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Laxmi Offset", "https://image.com", []pb.Category{pb.Category_FOOD}, 5.0, "ABC Person", 21.246863857271922, 75.29460006862273)
+	//doc3 := view.Cash.CreateShopDocument("f38d6a51-b961-474b-dv1e-jn362ab5c57e", "raza cutlery stores", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.24691956642532, 75.2936569970796)
+	//doc4 := view.Cash.CreateShopDocument("f38d6a51-b932-474b-dv1e-jn362ab5c57e", "joshi electrical works", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 3.0, "ABC Person", 21.24663669715862, 75.29432756403227)
+	//doc5 := view.Cash.CreateShopDocument("f38d6a51-4432-474b-dv1e-jn362ab5c57e", "chintamani kirana stores", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.24645703702037, 75.29347243866049)
+	//doc6 := view.Cash.CreateShopDocument("f38d6a32-4432-474b-dv1e-jn362ab5c57e", "Chandu Dairy", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.246983732987587, 75.29470401626448)
+	//doc7 := view.Cash.CreateShopDocument("f68d6a32-4432-474b-dv1e-jn362ab5c57e", "Vegetable Market", "https://image.com", []pb.Category{pb.Category_FOOD}, 3.0, "ABC Person", 21.245561629488762, 75.29823368278593)
+	//
+	//// Index the document. The API accepts multiple documents at a time
+	//if err := view.Cash.ShopClient.Index([]redisearch.Document{doc, doc1, doc2, doc3, doc4, doc5, doc6, doc7}...); err != nil {
+	//	log.Fatal(err)
+	//}
 
-	// Index the document. The API accepts multiple documents at a time
-	if err := view.Cash.ShopClient.Index([]redisearch.Document{doc, doc1, doc2, doc3, doc4, doc5, doc6, doc7}...); err != nil {
-		log.Fatal(err)
-	}
-
-	docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
-	doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
-	doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
-	doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
-	doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
-	doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
-
-	// Index the document. The API accepts multiple documents at a time
-	if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
-		log.Fatal(err)
-	}
+	//docProd := view.Cash.CreateProductDocument("1", "f38d6a51-b961-474b-9be1-6de62ab5c57e", "T-Shirt", "https://image.com", []pb.Category{pb.Category_MENS_CLOTHING}, 20)
+	//doc1Prod := view.Cash.CreateProductDocument("2", "f38d6a51-b961-474b-9be1-jn362ab5c57e", "Samosa", "https://image.com", []pb.Category{pb.Category_FOOD}, 40)
+	//doc2Prod := view.Cash.CreateProductDocument("3", "f38d6a51-b961-474b-d4g2-jn362ab5c57e", "Jalabi", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc3Prod := view.Cash.CreateProductDocument("4", "f38d6a51-b961-474b-dv1e-jn362ab5c57e", "Kachori", "https://image.com", []pb.Category{pb.Category_FOOD}, 50)
+	//doc4Prod := view.Cash.CreateProductDocument("5", "f38d6a51-b932-474b-dv1e-jn362ab5c57e", "Motor", "https://image.com", []pb.Category{pb.Category_ELECTRIC}, 60)
+	//doc5Prod := view.Cash.CreateProductDocument("6", "f38d6a51-4432-474b-dv1e-jn362ab5c57e", "broom", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc6Prod := view.Cash.CreateProductDocument("7", "f38d6a32-4432-474b-dv1e-jn362ab5c57e", "milk", "https://image.com", []pb.Category{pb.Category_FOOD}, 30)
+	//doc7Prod := view.Cash.CreateProductDocument("8", "f68d6a32-4432-474b-dv1e-jn362ab5c57e", "vegetable", "https://image.com", []pb.Category{pb.Category_FOOD}, 60)
+	//
+	//// Index the document. The API accepts multiple documents at a time
+	//if err := view.Cash.ProductClient.Index([]redisearch.Document{docProd, doc1Prod, doc2Prod, doc3Prod, doc4Prod, doc5Prod, doc6Prod, doc7Prod}...); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Hour)
 	defer cancel()

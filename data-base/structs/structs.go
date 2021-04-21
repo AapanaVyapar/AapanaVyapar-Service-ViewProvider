@@ -28,6 +28,7 @@ type ProductIdsForFavAndOrd struct {
 type OrderData struct {
 	OrderId           primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	UserId            string             `bson:"user_id" json:"user_id" validate:"required"`
+	ShopId            string             `bson:"shop_id" json:"shop_id" validate:"required"`
 	Status            pb.Status          `bson:"status" json:"status" validate:"required"`
 	ProductId         primitive.ObjectID `bson:"product_id" json:"product_id" validate:"required"`
 	DeliveryTimeStamp time.Time          `bson:"delivery_time_stamp" json:"delivery_time_stamp" validate:"required"`

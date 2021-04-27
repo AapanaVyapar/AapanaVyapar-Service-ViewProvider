@@ -304,7 +304,7 @@ func (viewServer *ViewProviderService) GetProductsBySearch(request *pb.GetProduc
 
 		likes, err := strconv.ParseUint(document.Properties["likesOfProduct"].(string), 10, 64)
 		if err != nil {
-			return err
+			return status.Errorf(codes.Internal, "Unable To Parse Data")
 		}
 
 		err = stream.Send(&pb.GetProductsBySearchResponse{Products: &pb.ProductsOfShopsNearBy{
@@ -355,7 +355,7 @@ func (viewServer *ViewProviderService) GetShopsBySearch(request *pb.GetShopsBySe
 
 	meter, err := strconv.ParseFloat(request.GetDistanceInMeter(), 64)
 	if err != nil {
-		return status.Errorf(codes.InvalidArgument, "Invalid Location")
+		return status.Errorf(codes.InvalidArgument, "Invalid Distance")
 	}
 
 	err = viewServer.Cash.GetShopByName(processedSearch, latitude, longitude, meter, func(document redisearch.Document) error {
@@ -391,7 +391,7 @@ func (viewServer *ViewProviderService) GetShopsBySearch(request *pb.GetShopsBySe
 
 	})
 	if err != nil {
-		return err
+		return status.Errorf(codes.Internal, "Error While Searching")
 	}
 
 	return nil
@@ -448,7 +448,7 @@ func (viewServer *ViewProviderService) GetShop(ctx context.Context, request *pb.
 
 	data, err := viewServer.Data.GetShopFromShopData(ctx, request.GetShopId())
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, "Unable To Get Product")
+		return nil, status.Errorf(codes.NotFound, "Unable To Get Shop")
 	}
 
 	var rating []*pb.RatingOfShop
@@ -511,17 +511,13 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 
 	meter, err := strconv.ParseFloat(request.GetDistanceInMeter(), 64)
 	if err != nil {
-		return status.Errorf(codes.InvalidArgument, "Invalid Location")
+		return status.Errorf(codes.InvalidArgument, "Invalid Distance")
 	}
-
-	fmt.Println("HI")
 
 	docs, err := viewServer.Cash.GetShopByLocation(latitude, longitude, meter, 20)
 	if err != nil {
-		return status.Errorf(codes.InvalidArgument, "Unable To Get Data For Shop")
+		return status.Errorf(codes.NotFound, "Unable To Get Data For Shop")
 	}
-
-	fmt.Println("HI")
 
 	for _, doc := range docs {
 
@@ -539,7 +535,7 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 
 		rating, err := strconv.ParseFloat(doc.Properties["ratingOfShop"].(string), 32)
 		if err != nil {
-			return err
+			return status.Errorf(codes.Internal, "Unable To Parse Data")
 		}
 
 		err = stream.Send(&pb.GetTrendingShopsResponse{
@@ -557,7 +553,7 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 			},
 		})
 		if err != nil {
-			return status.Errorf(codes.Unknown, "Stream Error", err)
+			return status.Errorf(codes.Unknown, "Stream Error")
 		}
 	}
 
@@ -595,7 +591,7 @@ func (viewServer *ViewProviderService) GetTrendingProductsByShop(request *pb.Get
 
 		likes, err := strconv.ParseUint(doc.Properties["likesOfProduct"].(string), 10, 64)
 		if err != nil {
-			return err
+			return status.Errorf(codes.Internal, "Unable To Parse Data")
 		}
 
 		err = stream.Send(&pb.GetTrendingProductsByShopResponse{
@@ -610,7 +606,7 @@ func (viewServer *ViewProviderService) GetTrendingProductsByShop(request *pb.Get
 		},
 		)
 		if err != nil {
-			return status.Errorf(codes.Unknown, "Stream Error", err)
+			return status.Errorf(codes.Unknown, "Stream Error")
 		}
 	}
 

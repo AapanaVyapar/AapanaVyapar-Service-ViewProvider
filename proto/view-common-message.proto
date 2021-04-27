@@ -23,7 +23,7 @@ enum Category{
 enum Ratings {
   VERY_BAD = 0;
   BAD = 1;
-  OK = 2;
+  OKAY = 2;
   GOOD = 3;
   VERY_GOOD = 4;
 

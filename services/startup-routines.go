@@ -67,7 +67,7 @@ func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) erro
 		}
 
 		var rating float32
-		if data.Ratings != nil {
+		if data.Ratings != nil && len(*data.Ratings) > 0 {
 			var sum int
 			for _, rat := range *data.Ratings {
 				sum += int(rat.Rating)

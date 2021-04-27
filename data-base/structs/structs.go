@@ -40,7 +40,7 @@ type OrderData struct {
 }
 
 type Address struct {
-	FullName      string `bson:"full_name" json:"name" validate:"required,min=2,max=100"`
+	FullName      string `bson:"full_name" json:"full_name" validate:"required,min=2,max=100"`
 	HouseDetails  string `bson:"house_details" json:"house_details" validate:"required,max=100"`
 	StreetDetails string `bson:"street_details" json:"street_details" validate:"required,max=100"`
 	LandMark      string `bson:"land_mark" json:"land_mark" validate:"required,max=100"`
@@ -79,14 +79,14 @@ type ShopData struct {
 	ShopName            string            `bson:"shop_name" json:"shop_name" validate:"required,max=50"`
 	ShopKeeperName      string            `bson:"shop_keeper_name" json:"shop_keeper_name" validate:"required,min=2,max=100"`
 	Images              []string          `bson:"images" json:"images" validate:"required"`
-	PrimaryImage        string            `bson:"primary_image" json:"primary_images" validate:"required,url"`
+	PrimaryImage        string            `bson:"primary_image" json:"primary_image" validate:"required,url"`
 	Address             *Address          `bson:"address" json:"address" validate:"required"`
 	Location            *Location         `bson:"location" json:"location" validate:"required"`
 	Category            []pb.Category     `bson:"category" json:"category" validate:"required"`
 	BusinessInformation string            `bson:"business_information" json:"business_information" validate:"required,max=500"`
 	OperationalHours    *OperationalHours `bson:"operational_hours" json:"operational_hours" validate:"required"`
 	Ratings             *[]Rating         `bson:"ratings,omitempty" json:"ratings"`
-	Timestamp           time.Time         `bson:"timestamp" json:"timestamp" validate:"required"`
+	Timestamp           time.Time         `bson:"timestamp" json:"timestamp"`
 }
 
 type ProductData struct {
@@ -102,7 +102,7 @@ type ProductData struct {
 	Offer        uint32             `bson:"offer" json:"offer" validate:"required,max=100"`
 	Images       []string           `bson:"images" json:"images" validate:"required"`
 	Category     []pb.Category      `bson:"category" json:"category" validate:"required"`
-	Timestamp    time.Time          `bson:"timestamp" json:"timestamp" validate:"required"`
+	Timestamp    time.Time          `bson:"timestamp" json:"timestamp"`
 }
 
 type AnalyticalClickData struct {

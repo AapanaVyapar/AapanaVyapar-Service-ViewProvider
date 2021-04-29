@@ -201,7 +201,7 @@ func (viewServer *ViewProviderService) GetCart(request *pb.GetCartRequest, strea
 
 		likes, err := strconv.ParseUint(data.Properties["likesOfProduct"].(string), 10, 64)
 		if err != nil {
-			return err
+			return status.Errorf(codes.Internal, "Unable To Parse Data")
 		}
 
 		err = stream.Send(&pb.GetCartResponse{Products: &pb.ProductsOfShopsNearBy{
@@ -250,12 +250,12 @@ func (viewServer *ViewProviderService) GetOrders(request *pb.GetOrdersRequest, s
 			ProductImage:      prod.Properties["primaryImage"].(string),
 		})
 		if err != nil {
-			return status.Errorf(codes.Unknown, "Stream Error")
+			return status.Errorf(codes.Unknown, "Error While Sending Data")
 		}
 		return nil
 	})
 	if err != nil {
-		return err
+		return status.Errorf(codes.Unknown, "Stream Error")
 	}
 
 	return nil
@@ -632,7 +632,7 @@ func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context,
 
 	err = viewServer.Cash.AddToFavStream(context, receivedToken.Audience, request.GetProductId())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
+		return nil, status.Errorf(codes.Internal, "Unable To Add Like")
 	}
 
 	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
@@ -669,7 +669,7 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 
 	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
+		return nil, status.Errorf(codes.Internal, "Unable To Parse Data")
 	}
 
 	if likes == 0 {

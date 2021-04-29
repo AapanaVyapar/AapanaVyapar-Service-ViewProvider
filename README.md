@@ -274,22 +274,6 @@ Response
 
 ## Error Codes
 
-
-- **AddToLikeProduct**
-- **RemoveFromLikeProduct**
-
-- **AddToCartProduct**
-- **RemoveFromCartProduct**
-
-- **GetOrders**
-- **GetCart**
-
-- **GetProfile**
-- **UpdateAddress**
-
-- **InitUser**
-
-
 ### 1. GetTrendingShops :
 
 - **Unauthenticated** : No API Key Is Specified  
@@ -340,5 +324,74 @@ Response
 - **Unknown**         : Stream Error
 - **Internal**        : Error While Searching
 
+### 7. AddToLikeProduct :
 
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Product Does Not Exist
+- **Internal**        : Unable To Add Like
+- **Internal**        : Unable To Add Like To Product
 
+### 8. RemoveFromLikeProduct :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Product Does Not Exist
+- **Internal**        : Unable To Parse Data
+- **Internal**        : Unable To Add Like To Product
+- **Internal**        : Unable To UnLike
+
+### 9. AddToCartProduct :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Product Does Not Exist
+- **Internal**        : Unable To Add Product To Cart
+
+### 10. AddToCartProduct :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Product Does Not Exist
+- **Internal**        : Unable To Add Product To Cart
+
+### 11. RemoveFromCartProduct :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **Internal**        : Unable To Remove Product From Cart
+
+### 12. GetOrders :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Product Not Found In Cash
+- **Unknown**         : Stream Error
+- **Unknown**         : Error While Sending Data
+
+### 13. GetCart :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Unable To Get Cart
+- **Internal**        : Unable To Get Product Info
+- **Internal**        : Unable To Parse Data
+- **Unknown**         : Stream Error
+
+### 14. GetProfile :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **NotFound**        : Data Not Found
+
+### 15. UpdateAddress :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **Unknown**         : Unable To Update Address
+
+### 15. InitUser :
+
+- **Unauthenticated** : No API Key Is Specified
+- **Unauthenticated** : Request With Invalid Token
+- **Unknown**         : Unable To Init User

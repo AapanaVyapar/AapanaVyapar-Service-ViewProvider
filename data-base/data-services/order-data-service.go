@@ -24,13 +24,17 @@ func (dataBase *MongoDataBase) CreateOrder(context context.Context, userId strin
 		return primitive.ObjectID{}, fmt.Errorf("user does not exist")
 	}
 
-	if !dataBase.IsExistProductExist(context, "_id", productId) {
+	shopId, productName, productImage, err := dataBase.GetShopDetailsFromProductData(context, productId)
+	if err != nil {
 		return primitive.ObjectID{}, fmt.Errorf("product does not exist")
 	}
 
 	var order structs.OrderData
 
 	productData := mongodb.OpenOrderDataCollection(dataBase.Data)
+	order.ShopId = shopId
+	order.ProductName = productName
+	order.ProductImage = productImage
 	order.OrderTimeStamp = time.Now().UTC()
 	order.UserId = userId
 	order.Quantity = quantity
@@ -130,6 +134,43 @@ func (dataBase *MongoDataBase) GetOrderInfoFromOrderData(context context.Context
 	}
 
 	return data, nil
+
+}
+
+func (dataBase *MongoDataBase) GetOrderInfoByShopIdFromOrderData(context context.Context, shopId string, sendData func(data structs.OrderData) error) error {
+
+	orderData := mongodb.OpenOrderDataCollection(dataBase.Data)
+
+	cursor, err := orderData.Find(context,
+		bson.M{
+			"shop_id": shopId,
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(context)
+
+	for cursor.Next(context) {
+		result := structs.OrderData{}
+		err = cursor.Decode(&result)
+
+		if err != nil {
+			return err
+		}
+
+		if err = sendData(result); err != nil {
+			return err
+		}
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		return err
+	}
+
+	return nil
 
 }
 

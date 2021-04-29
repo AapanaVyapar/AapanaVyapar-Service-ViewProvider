@@ -206,6 +206,23 @@ func (dataBase *MongoDataBase) GetProductFromProductData(context context.Context
 
 }
 
+func (dataBase *MongoDataBase) GetShopDetailsFromProductData(context context.Context, productId primitive.ObjectID) (string, string, string, error) {
+
+	productData := mongodb.OpenProductDataCollection(dataBase.Data)
+
+	filter := bson.D{{"_id", productId}}
+
+	var data structs.ProductData
+	err := productData.FindOne(context, filter).Decode(&data)
+
+	if err != nil {
+		return data.ShopId, data.Title, data.Images[0], err
+	}
+
+	return data.ShopId, data.Title, data.Images[0], nil
+
+}
+
 func (dataBase *MongoDataBase) IsExistProductExist(context context.Context, key string, value interface{}) bool {
 	productData := mongodb.OpenProductDataCollection(dataBase.Data)
 

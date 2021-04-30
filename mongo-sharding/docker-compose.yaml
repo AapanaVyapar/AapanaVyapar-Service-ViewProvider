@@ -11,7 +11,7 @@ services:
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ./shard1/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
-      - ~/TempShard/${SHARD1_SERVER_1_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD1_SERVER_1_CONTAINER}:/data/db
     depends_on:
       - ${SHARD1_SERVER_2_CONTAINER}
       - ${SHARD1_SERVER_3_CONTAINER}
@@ -28,7 +28,7 @@ services:
     command: mongod --shardsvr --replSet ${SHARD1_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${SHARD1_SERVER_2_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD1_SERVER_2_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.12
@@ -42,7 +42,7 @@ services:
     command: mongod --shardsvr --replSet ${SHARD1_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${SHARD1_SERVER_3_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD1_SERVER_3_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.13
@@ -57,7 +57,7 @@ services:
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ./shard2/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
-      - ~/TempShard/${SHARD2_SERVER_1_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD2_SERVER_1_CONTAINER}:/data/db
     depends_on:
       - ${SHARD2_SERVER_2_CONTAINER}
       - ${SHARD2_SERVER_3_CONTAINER}
@@ -74,7 +74,7 @@ services:
     command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${SHARD2_SERVER_2_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD2_SERVER_2_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.15
@@ -88,7 +88,7 @@ services:
     command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${SHARD2_SERVER_3_CONTAINER}:/data/db
+      - ~/ShardData/${SHARD2_SERVER_3_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.16
@@ -109,7 +109,7 @@ services:
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
       - ./config-server/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
-      - ~/TempShard/${CONFIG_SERVER_1_CONTAINER}:/data/db
+      - ~/ShardData/${CONFIG_SERVER_1_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.17
@@ -126,7 +126,7 @@ services:
     command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${CONFIG_SERVER_2_CONTAINER}:/data/db
+      - ~/ShardData/${CONFIG_SERVER_2_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.18
@@ -143,7 +143,7 @@ services:
     command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
     volumes:
       - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
-      - ~/TempShard/${CONFIG_SERVER_3_CONTAINER}:/data/db
+      - ~/ShardData/${CONFIG_SERVER_3_CONTAINER}:/data/db
     networks:
       mongo_cluster:
         ipv4_address: 172.22.0.19

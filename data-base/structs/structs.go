@@ -101,7 +101,7 @@ type ProductData struct {
 	Stock        uint32             `bson:"stock" json:"stock" validate:"max=4294967290"`
 	Likes        uint64             `bson:"likes" json:"likes" validate:"max=4294967290"`
 	Price        float32            `bson:"price" json:"price" validate:"required"`
-	Offer        uint32             `bson:"offer" json:"offer" validate:"required,max=100"`
+	Offer        uint32             `bson:"offer" json:"offer" validate:"min=0,max=100"`
 	Images       []string           `bson:"images" json:"images" validate:"required"`
 	Category     []pb.Category      `bson:"category" json:"category" validate:"required"`
 	Timestamp    time.Time          `bson:"timestamp" json:"timestamp"`

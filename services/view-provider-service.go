@@ -703,7 +703,7 @@ func (viewServer *ViewProviderService) AddToCartProduct(context context.Context,
 
 	fmt.Println(receivedToken)
 
-	_, err = viewServer.Cash.GetProductDataFromCash(context, request.GetProductId())
+	_, err = viewServer.Cash.GetProductById(request.GetProductId())
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
 	}

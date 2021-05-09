@@ -36,12 +36,40 @@ func main() {
 		panic(err)
 	}
 
+	//resp, err := client.InitUser(context.TODO(), &pb.InitUserRequest{
+	//	Token:  token,
+	//	ApiKey: os.Getenv("API_KEY_FOR_WEB"),
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(resp.GetStatus())
+
+	addCartResp, err := client.AddToCartProduct(ctx, &pb.AddToCartProductRequest{
+		Token:     token,
+		ApiKey:    os.Getenv("API_KEY_FOR_WEB"),
+		ProductId: "6097b2e1a9eae2a42076834f",
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(addCartResp.GetStatus())
+
+	getOrderResp, err := client.GetOrders(ctx, &pb.GetOrdersRequest{
+		Token:  token,
+		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(getOrderResp.Recv())
+
 	stream, err := client.GetTrendingShops(ctx, &pb.GetTrendingShopsRequest{
 		ApiKey: os.Getenv("API_KEY_FOR_WEB"),
 		Token:  token,
 		Location: &pb.Location{
-			Latitude:  "21.246571559282682",
-			Longitude: "75.29418652325167",
+			Latitude:  "21.243784586218112",
+			Longitude: "75.29856196795996",
 		},
 		DistanceInMeter: "20",
 	})

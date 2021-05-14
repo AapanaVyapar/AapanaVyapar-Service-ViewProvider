@@ -87,6 +87,34 @@ Response
         string timestamp = 57; 
     }
 
+### GetShop
+
+Request
+
+    message GetShopRequest {
+        string apiKey = 71;
+        string token = 72;
+        string shopId = 73;
+    
+    }
+
+Response
+
+    message GetShopResponse {
+        string shopId = 74;
+        string shopName = 75;
+        string shopKeeperName = 76;
+        repeated string images = 77;
+        string primaryImage = 78;
+        Location location = 79;
+        repeated Category category = 80;
+        string BusinessInformation = 81;
+        OperationalHours operationalHours = 82;
+        repeated RatingOfShop ratings = 83;
+        string timestamp = 84;
+    
+    }
+
 ### GetProductsBySearch
 
 Request
@@ -395,3 +423,95 @@ Response
 - **Unauthenticated** : No API Key Is Specified
 - **Unauthenticated** : Request With Invalid Token
 - **Unknown**         : Unable To Init User
+
+
+## Common Message
+
+    enum Category{
+        SPORTS_AND_FITNESS = 0;
+        ELECTRIC = 1;
+        DEVOTIONAL = 2;
+        AGRICULTURAL = 3;
+        WOMENS_CLOTHING = 4;
+        WOMENS_ACCESSORIES = 5;
+        MENS_CLOTHING = 6;
+        MENS_ACCESSORIES = 7;
+        HOME_GADGETS = 8;
+        TOYS = 9;
+        ELECTRONIC = 10;
+        DECORATION = 11;
+        FOOD = 12;
+        STATIONERY = 13;
+        BAGS = 14;
+        HARDWARE = 15;
+        FURNITURE = 16;
+        PACKAGING_AND_PRINTING = 17;
+        BEAUTY_AND_PERSONAL_CARE = 18;
+        CHEMICALS = 19;
+        GARDEN = 20;
+        KITCHEN = 21;
+        MACHINERY = 22;
+    }
+    
+    enum Ratings {
+        VERY_BAD = 0;
+        BAD = 1;
+        OKAY = 2;
+        GOOD = 3;
+        VERY_GOOD = 4;
+    
+    }
+    
+    enum Status {
+        PENDING = 0;
+        CANCELED = 1;
+        CONFORM = 2;
+        DISPATCHED = 3;
+        DELIVERED = 4;
+    
+    }
+    
+    message Location {
+        string Longitude = 1;
+        string Latitude = 2;
+        
+    }
+    message ShopsNearBy {
+        string shopId = 3;
+        string shopName = 4;
+        string primaryImage = 5;
+        repeated Category category = 6;
+        float rating = 7;
+        string shopkeeper = 8;
+        Location location = 9;
+    
+    }
+    
+    message ProductsOfShopsNearBy {
+        string productId = 15;
+        string shopId = 16;
+        string productName = 17;
+        string primaryImage = 18;
+        repeated Category category = 19;
+        uint64 likes = 20;
+    }
+    
+    message Address {
+        string FullName = 118;
+        string HouseDetails = 119;
+        string StreetDetails = 120;
+        string LandMark = 121;
+        string PinCode = 122;
+        string City = 123;
+        string State = 124;
+        string Country = 125;
+        string PhoneNo = 126;
+    }
+
+    message RatingOfShop {
+        string UserName = 67;
+        string Comment = 68;
+        Ratings Rating = 69;
+        string timestamp = 70;
+    
+    }

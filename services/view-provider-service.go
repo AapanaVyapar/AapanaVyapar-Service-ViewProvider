@@ -80,15 +80,19 @@ func NewViewProviderService() *ViewProviderService {
 		panic(err)
 	}
 
+	fmt.Println("Loaded Basic Category")
+
 	err = view.LoadShopsInCash(ctx)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Loaded Shop")
 
 	err = view.LoadProductsInCash(ctx)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Loaded Products")
 
 	return &view
 }

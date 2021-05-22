@@ -10,10 +10,15 @@ import (
 	"strings"
 )
 
+const (
+	SHOP_ID_CHAR_TO_REPLACE      = "-"
+	SHOP_ID_CHAR_TO_REPLACE_WITH = "a"
+)
+
 func (dataBase *CashDataBase) CreateProductDocument(productId, shopId, productName, primaryImage string, categoryOfProduct []pb.Category, likesOfProduct uint64) redisearch.Document {
 
 	doc := redisearch.NewDocument("product:"+productId, 1.0)
-	doc.Set("shopId", strings.ReplaceAll(shopId, "-", " ")).
+	doc.Set("shopId", strings.ReplaceAll(shopId, SHOP_ID_CHAR_TO_REPLACE, SHOP_ID_CHAR_TO_REPLACE_WITH)).
 		Set("productName", productName).
 		Set("primaryImage", primaryImage).
 		Set("categoryOfProduct", categoryOfProduct).
@@ -179,6 +184,6 @@ func prepareShopIds(shopId []string) (string, error) {
 		shodIdSearchString += shopId[i]
 	}
 
-	shodIdSearchString = strings.ReplaceAll(shodIdSearchString, "-", " ")
+	shodIdSearchString = strings.ReplaceAll(shodIdSearchString, SHOP_ID_CHAR_TO_REPLACE, SHOP_ID_CHAR_TO_REPLACE_WITH)
 	return shodIdSearchString, nil
 }

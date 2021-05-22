@@ -11,7 +11,7 @@ import (
 
 func (dataBase *CashDataBase) CreateShopDocument(shopId, shopName, primaryImage string, categoryOfShop []pb.Category, ratingOfShop float32, shopkeeper string, latitude, longitude float64) redisearch.Document {
 
-	doc := redisearch.NewDocument("shop:"+strings.ReplaceAll(shopId, "-", " "), 1.0)
+	doc := redisearch.NewDocument("shop:"+strings.ReplaceAll(shopId, SHOP_ID_CHAR_TO_REPLACE, SHOP_ID_CHAR_TO_REPLACE_WITH), 1.0)
 	doc.Set("shopName", shopName).
 		Set("primaryImage", primaryImage).
 		Set("categoryOfShop", categoryOfShop).
@@ -23,7 +23,7 @@ func (dataBase *CashDataBase) CreateShopDocument(shopId, shopName, primaryImage 
 }
 
 func (dataBase *CashDataBase) GetShopById(shopId string) (*redisearch.Document, error) {
-	data, err := dataBase.ShopClient.Get("shop:" + strings.ReplaceAll(shopId, "-", " "))
+	data, err := dataBase.ShopClient.Get("shop:" + strings.ReplaceAll(shopId, SHOP_ID_CHAR_TO_REPLACE, SHOP_ID_CHAR_TO_REPLACE_WITH))
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func (dataBase *CashDataBase) GetShopByCategory(categoryOfShop []pb.Category, la
 }
 
 func (dataBase *CashDataBase) DelShop(shopId string) error {
-	err := dataBase.ShopClient.DeleteDocument("shop:" + strings.ReplaceAll(shopId, "-", " "))
+	err := dataBase.ShopClient.DeleteDocument("shop:" + strings.ReplaceAll(shopId, SHOP_ID_CHAR_TO_REPLACE, SHOP_ID_CHAR_TO_REPLACE_WITH))
 	if err != nil {
 		return status.Errorf(codes.Unknown, "Unable To Delete Data From Cash", err)
 	}

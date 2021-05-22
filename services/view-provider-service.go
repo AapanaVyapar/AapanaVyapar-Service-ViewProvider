@@ -518,7 +518,7 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 		return status.Errorf(codes.InvalidArgument, "Invalid Distance")
 	}
 
-	docs, err := viewServer.Cash.GetShopByLocation(latitude, longitude, meter, 20)
+	docs, err := viewServer.Cash.GetShopByLocation(latitude, longitude, meter, 100)
 	if err != nil {
 		return status.Errorf(codes.NotFound, "Unable To Get Data For Shop")
 	}

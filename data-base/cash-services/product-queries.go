@@ -12,7 +12,7 @@ import (
 
 const (
 	SHOP_ID_CHAR_TO_REPLACE      = "-"
-	SHOP_ID_CHAR_TO_REPLACE_WITH = "a"
+	SHOP_ID_CHAR_TO_REPLACE_WITH = "_"
 )
 
 func (dataBase *CashDataBase) CreateProductDocument(productId, shopId, productName, primaryImage string, categoryOfProduct []pb.Category, likesOfProduct uint64) redisearch.Document {

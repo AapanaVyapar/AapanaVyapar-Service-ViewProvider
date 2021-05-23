@@ -210,7 +210,7 @@ func (viewServer *ViewProviderService) GetCart(request *pb.GetCartRequest, strea
 
 		err = stream.Send(&pb.GetCartResponse{Products: &pb.ProductsOfShopsNearBy{
 			ProductId:    product.Hex(),
-			ShopId:       strings.ReplaceAll(data.Properties["shopId"].(string), " ", "-"),
+			ShopId:       strings.ReplaceAll(data.Properties["shopId"].(string), redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
 			ProductName:  data.Properties["productName"].(string),
 			PrimaryImage: data.Properties["primaryImage"].(string),
 			Category:     category,
@@ -312,8 +312,8 @@ func (viewServer *ViewProviderService) GetProductsBySearch(request *pb.GetProduc
 		}
 
 		err = stream.Send(&pb.GetProductsBySearchResponse{Products: &pb.ProductsOfShopsNearBy{
-			ProductId:    document.Id[7:],
-			ShopId:       strings.ReplaceAll(document.Properties["shopId"].(string), " ", "-"),
+			ProductId:    document.Id[8:],
+			ShopId:       strings.ReplaceAll(document.Properties["shopId"].(string), redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
 			ProductName:  document.Properties["productName"].(string),
 			PrimaryImage: document.Properties["primaryImage"].(string),
 			Category:     category,
@@ -380,7 +380,7 @@ func (viewServer *ViewProviderService) GetShopsBySearch(request *pb.GetShopsBySe
 		}
 
 		err = stream.Send(&pb.GetShopsBySearchResponse{Shops: &pb.ShopsNearBy{
-			ShopId:       strings.ReplaceAll(document.Id[5:], " ", "-"),
+			ShopId:       strings.ReplaceAll(document.Id[5:], redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
 			ShopName:     document.Properties["shopName"].(string),
 			PrimaryImage: document.Properties["primaryImage"].(string),
 			Category:     category,
@@ -544,7 +544,7 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 
 		err = stream.Send(&pb.GetTrendingShopsResponse{
 			Shops: &pb.ShopsNearBy{
-				ShopId:       strings.ReplaceAll(doc.Id[5:], " ", "-"),
+				ShopId:       strings.ReplaceAll(doc.Id[5:], redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
 				ShopName:     doc.Properties["shopName"].(string),
 				PrimaryImage: doc.Properties["primaryImage"].(string),
 				Category:     category,
@@ -600,8 +600,8 @@ func (viewServer *ViewProviderService) GetTrendingProductsByShop(request *pb.Get
 
 		err = stream.Send(&pb.GetTrendingProductsByShopResponse{
 			CategoryData: &pb.ProductsOfShopsNearBy{
-				ProductId:    doc.Id[7:],
-				ShopId:       strings.ReplaceAll(doc.Properties["shopId"].(string), " ", "-"),
+				ProductId:    doc.Id[8:],
+				ShopId:       strings.ReplaceAll(doc.Properties["shopId"].(string), redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
 				ProductName:  doc.Properties["productName"].(string),
 				PrimaryImage: doc.Properties["primaryImage"].(string),
 				Category:     category,

@@ -387,11 +387,11 @@ func (viewServer *ViewProviderService) GetShopsBySearch(request *pb.GetShopsBySe
 			Rating:       float32(rating),
 			Shopkeeper:   document.Properties["shopkeeper"].(string),
 			Location: &pb.Location{
-				Latitude:  location[0],
-				Longitude: location[1],
+				Latitude:  location[1],
+				Longitude: location[0],
 			},
 		}})
-		return status.Errorf(codes.Unknown, "Stream Error")
+		return err
 
 	})
 	if err != nil {
@@ -551,8 +551,8 @@ func (viewServer *ViewProviderService) GetTrendingShops(request *pb.GetTrendingS
 				Rating:       float32(rating),
 				Shopkeeper:   doc.Properties["shopkeeper"].(string),
 				Location: &pb.Location{
-					Latitude:  location[0],
-					Longitude: location[1],
+					Latitude:  location[1],
+					Longitude: location[0],
 				},
 			},
 		})

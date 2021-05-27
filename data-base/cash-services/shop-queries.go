@@ -17,7 +17,7 @@ func (dataBase *CashDataBase) CreateShopDocument(shopId, shopName, primaryImage 
 		Set("categoryOfShop", categoryOfShop).
 		Set("ratingOfShop", ratingOfShop).
 		Set("shopkeeper", shopkeeper).
-		Set("location", fmt.Sprintf("%v,%v", latitude, longitude))
+		Set("location", fmt.Sprintf("%v,%v", longitude, latitude))
 
 	return doc
 }
@@ -48,17 +48,7 @@ func (dataBase *CashDataBase) GetShopByName(shopName string, latitude, longitude
 	//docs, total, err := dataBase.ShopClient.Search(redisearch.NewQuery(queryString))
 
 	docs, total, err := dataBase.ShopClient.Search(
-		redisearch.NewQuery("@shopName:(" + searchString + ")").AddFilter(
-			redisearch.Filter{
-				Field: "location",
-				Options: redisearch.GeoFilterOptions{
-					Lon:    latitude,
-					Lat:    longitude,
-					Radius: distanceInMeter,
-					Unit:   redisearch.METERS,
-				},
-			},
-		),
+		redisearch.NewQuery("@shopName:(" + searchString + ")"),
 	)
 	if err != nil {
 		return err
@@ -82,8 +72,8 @@ func (dataBase *CashDataBase) GetShopByLocation(latitude, longitude, distanceInM
 			{
 				Field: "location",
 				Options: redisearch.GeoFilterOptions{
-					Lon:    latitude,
-					Lat:    longitude,
+					Lon:    longitude,
+					Lat:    latitude,
 					Radius: distanceInMeter,
 					Unit:   redisearch.METERS,
 				},
@@ -135,8 +125,8 @@ func (dataBase *CashDataBase) GetShopByCategory(categoryOfShop []pb.Category, la
 			{
 				Field: "location",
 				Options: redisearch.GeoFilterOptions{
-					Lon:    latitude,
-					Lat:    longitude,
+					Lon:    longitude,
+					Lat:    latitude,
 					Radius: distanceInMeter,
 					Unit:   redisearch.METERS,
 				},

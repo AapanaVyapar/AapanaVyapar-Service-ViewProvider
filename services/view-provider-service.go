@@ -634,22 +634,16 @@ func (viewServer *ViewProviderService) AddToLikeProduct(context context.Context,
 		return nil, status.Errorf(codes.NotFound, "Product Does Not Exist")
 	}
 
-	err = viewServer.Cash.AddToFavStream(context, receivedToken.Audience, request.GetProductId())
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Unable To Add Like")
-	}
-
 	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Unable To Add Like To Product")
 	}
 
-	likes += 1
-
-	err = viewServer.Cash.UpdateLikeOfProduct(context, request.GetProductId(), likes)
+	err = viewServer.Cash.AddToFavStream(context, receivedToken.Audience, likes, request.GetProductId())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Unable To Add Like")
 	}
+
 	return &pb.AddToLikeProductResponse{Status: true}, nil
 
 }
@@ -680,17 +674,17 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 		return &pb.RemoveFromLikeProductResponse{Status: true}, nil
 	}
 
-	err = viewServer.Cash.DelToFavStream(context, receivedToken.Audience, request.GetProductId())
+	err = viewServer.Cash.DelToFavStream(context, receivedToken.Audience, likes, request.GetProductId())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Unable To Remove Like To Product")
 	}
 
-	likes -= 1
+	//likes -= 1
 
-	err = viewServer.Cash.UpdateLikeOfProduct(context, request.GetProductId(), likes)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Unable To UnLike")
-	}
+	//err = viewServer.Cash.UpdateLikeOfProduct(context, request.GetProductId(), likes)
+	//if err != nil {
+	//	return nil, status.Errorf(codes.Internal, "Unable To UnLike")
+	//}
 	return &pb.RemoveFromLikeProductResponse{Status: true}, nil
 
 }

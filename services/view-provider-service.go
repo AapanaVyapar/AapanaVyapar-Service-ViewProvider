@@ -130,6 +130,24 @@ func (viewServer *ViewProviderService) GetProfile(ctx context.Context, request *
 		return nil, status.Errorf(codes.NotFound, "Data Not Found")
 	}
 
+	var fav []string
+	for _, product := range user.Favorites.Products {
+		fav = append(fav, product.Hex())
+	}
+
+	var cart []string
+	for _, cartItem := range user.Cart.Products {
+		cart = append(cart, cartItem.Hex())
+	}
+
+	if user.Address == nil {
+		return &pb.GetProfileResponse{
+			UserName:  user.UserName,
+			Address:   nil,
+			Favourite: fav,
+			Cart:      cart,
+		}, nil
+	}
 	return &pb.GetProfileResponse{
 		UserName: user.UserName,
 		Address: &pb.Address{
@@ -143,6 +161,8 @@ func (viewServer *ViewProviderService) GetProfile(ctx context.Context, request *
 			Country:       user.Address.Country,
 			PhoneNo:       user.Address.PhoneNo,
 		},
+		Favourite: fav,
+		Cart:      cart,
 	}, nil
 }
 

@@ -67,15 +67,17 @@ func (viewServer *ViewProviderService) LoadShopsInCash(ctx context.Context) erro
 		}
 
 		var rating float32
+		totalRatings := 0
 		if data.Ratings != nil && len(*data.Ratings) > 0 {
 			var sum int
 			for _, rat := range *data.Ratings {
 				sum += int(rat.Rating)
 			}
-			rating = float32(sum / len(*data.Ratings))
+			totalRatings = len(*data.Ratings)
+			rating = float32(sum / totalRatings)
 		}
 
-		doc := viewServer.Cash.CreateShopDocument(data.ShopId, data.ShopName, data.PrimaryImage, data.Category, rating, data.ShopKeeperName, latitude, longitude)
+		doc := viewServer.Cash.CreateShopDocument(data.ShopId, data.ShopName, data.PrimaryImage, data.Category, rating, totalRatings, data.ShopKeeperName, latitude, longitude)
 		if err := viewServer.Cash.ShopClient.Index([]redisearch.Document{doc}...); err != nil {
 			return err
 		}

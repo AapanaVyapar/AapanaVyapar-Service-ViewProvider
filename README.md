@@ -49,7 +49,7 @@ Request
     message GetTrendingProductsByShopRequest {
         string apiKey = 21;
         string token = 22;
-        repeated string shopId = 23;
+        repeated string shopIdForCache = 23;
     }
 
 Response
@@ -66,14 +66,14 @@ Request
         string apiKey = 41;
         string token = 42;
         string productId = 43;
-        string shopId = 44;
+        string shopIdForCache = 44;
     }
 
 Response
 
     message GetProductResponse {
         string productId = 45;
-        string shopId = 46;
+        string shopIdForCache = 46;
         string shopName = 47;
         string productName = 48;
         string productDescription = 49;
@@ -94,14 +94,14 @@ Request
     message GetShopRequest {
         string apiKey = 71;
         string token = 72;
-        string shopId = 73;
+        string shopIdForCache = 73;
     
     }
 
 Response
 
     message GetShopResponse {
-        string shopId = 74;
+        string shopIdForCache = 74;
         string shopName = 75;
         string shopKeeperName = 76;
         repeated string images = 77;
@@ -477,7 +477,7 @@ Response
         
     }
     message ShopsNearBy {
-        string shopId = 3;
+        string shopIdForCache = 3;
         string shopName = 4;
         string primaryImage = 5;
         repeated Category category = 6;
@@ -489,7 +489,7 @@ Response
     
     message ProductsOfShopsNearBy {
         string productId = 15;
-        string shopId = 16;
+        string shopIdForCache = 16;
         string productName = 17;
         string primaryImage = 18;
         repeated Category category = 19;

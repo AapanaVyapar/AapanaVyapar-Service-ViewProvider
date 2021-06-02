@@ -97,6 +97,64 @@ func NewViewProviderService() *ViewProviderService {
 	return &view
 }
 
+func (viewServer *ViewProviderService) RateShop(ctx context.Context, request *pb.RateShopRequest) (*pb.RateShopResponse, error) {
+	if !helpers.CheckForAPIKey(request.GetApiKey()) {
+		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
+	}
+
+	receivedToken, err := helpers.ValidateToken(ctx, request.GetToken(), os.Getenv("AUTH_TOKEN_SECRETE"), helpers.External)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
+	}
+
+	fmt.Println("\n\n\nShopID : " + request.ShopId)
+
+	shopIdForCache := strings.ReplaceAll(request.GetShopId(), redisDataBase.SHOP_ID_CHAR_TO_REPLACE, redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH)
+
+	fmt.Println("\n\n\nShopID Cache : " + shopIdForCache)
+
+	totalRating, err := viewServer.Cash.GetTotalRating(ctx, shopIdForCache)
+	if err != nil {
+		fmt.Println("Total Rating")
+		return nil, err
+	}
+
+	rating, err := viewServer.Cash.GetRating(ctx, shopIdForCache)
+	if err != nil {
+		fmt.Println("Get Rating")
+		return nil, err
+	}
+
+	err = viewServer.Data.AddRatingInShopData(ctx, request.GetShopId(), structs.Rating{
+		UserId:    receivedToken.Audience,
+		UserName:  receivedToken.Subject,
+		Comment:   request.GetComment(),
+		Rating:    request.GetRatings(),
+		Timestamp: time.Now().UTC(),
+	})
+	if err != nil {
+		fmt.Println("Add Rating")
+		return nil, err
+	}
+
+	i := float32(request.GetRatings().Enum().Number())
+	newRating := rating + ((i - rating) / float32(totalRating+1))
+
+	err = viewServer.Cash.SetTotalRating(ctx, shopIdForCache, totalRating+1)
+	if err != nil {
+		fmt.Println("Total Rating Set")
+		return nil, err
+	}
+
+	err = viewServer.Cash.SetRating(ctx, shopIdForCache, newRating)
+	if err != nil {
+		fmt.Println("Set Rating")
+		return nil, err
+	}
+
+	return &pb.RateShopResponse{Status: true}, err
+}
+
 func (viewServer *ViewProviderService) InitUser(ctx context.Context, request *pb.InitUserRequest) (*pb.InitUserResponse, error) {
 	if !helpers.CheckForAPIKey(request.GetApiKey()) {
 		return nil, status.Errorf(codes.Unauthenticated, "No API Key Is Specified")
@@ -475,15 +533,22 @@ func (viewServer *ViewProviderService) GetShop(ctx context.Context, request *pb.
 		return nil, status.Errorf(codes.NotFound, "Unable To Get Shop")
 	}
 
+	totalRating, err := viewServer.Cash.GetRating(ctx, strings.ReplaceAll(request.GetShopId(), redisDataBase.SHOP_ID_CHAR_TO_REPLACE, redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH))
+	if err != nil {
+		return nil, err
+	}
+
 	var rating []*pb.RatingOfShop
-	for _, rat := range *data.Ratings {
-		ra := pb.RatingOfShop{
-			UserName:  rat.UserName,
-			Comment:   rat.Comment,
-			Rating:    rat.Rating,
-			Timestamp: rat.Timestamp.String(),
+	if data.Ratings != nil && len(*data.Ratings) > 0 {
+		for _, rat := range *data.Ratings {
+			ra := pb.RatingOfShop{
+				UserName:  rat.UserName,
+				Comment:   rat.Comment,
+				Rating:    rat.Rating,
+				Timestamp: rat.Timestamp.String(),
+			}
+			rating = append(rating, &ra)
 		}
-		rating = append(rating, &ra)
 	}
 
 	return &pb.GetShopResponse{
@@ -507,8 +572,9 @@ func (viewServer *ViewProviderService) GetShop(ctx context.Context, request *pb.
 			Friday:    []string{data.OperationalHours.Friday[0], data.OperationalHours.Friday[1]},
 			Saturday:  []string{data.OperationalHours.Saturday[0], data.OperationalHours.Saturday[1]},
 		},
-		Ratings:   rating,
-		Timestamp: data.Timestamp.String(),
+		Ratings:     rating,
+		TotalRating: totalRating,
+		Timestamp:   data.Timestamp.String(),
 	}, nil
 }
 

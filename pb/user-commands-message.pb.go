@@ -1066,6 +1066,132 @@ func (x *InitUserResponse) GetStatus() bool {
 	return false
 }
 
+type RateShopRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token   string  `protobuf:"bytes,134,opt,name=token,proto3" json:"token,omitempty"`
+	ApiKey  string  `protobuf:"bytes,135,opt,name=apiKey,proto3" json:"apiKey,omitempty"`
+	Comment string  `protobuf:"bytes,136,opt,name=comment,proto3" json:"comment,omitempty"`
+	Ratings Ratings `protobuf:"varint,137,opt,name=ratings,proto3,enum=Ratings" json:"ratings,omitempty"`
+	ShopId  string  `protobuf:"bytes,138,opt,name=shopId,proto3" json:"shopId,omitempty"`
+}
+
+func (x *RateShopRequest) Reset() {
+	*x = RateShopRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_commands_message_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RateShopRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateShopRequest) ProtoMessage() {}
+
+func (x *RateShopRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_commands_message_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateShopRequest.ProtoReflect.Descriptor instead.
+func (*RateShopRequest) Descriptor() ([]byte, []int) {
+	return file_user_commands_message_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *RateShopRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *RateShopRequest) GetApiKey() string {
+	if x != nil {
+		return x.ApiKey
+	}
+	return ""
+}
+
+func (x *RateShopRequest) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+func (x *RateShopRequest) GetRatings() Ratings {
+	if x != nil {
+		return x.Ratings
+	}
+	return Ratings_VERY_BAD
+}
+
+func (x *RateShopRequest) GetShopId() string {
+	if x != nil {
+		return x.ShopId
+	}
+	return ""
+}
+
+type RateShopResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status bool `protobuf:"varint,138,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (x *RateShopResponse) Reset() {
+	*x = RateShopResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_commands_message_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RateShopResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateShopResponse) ProtoMessage() {}
+
+func (x *RateShopResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_commands_message_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateShopResponse.ProtoReflect.Descriptor instead.
+func (*RateShopResponse) Descriptor() ([]byte, []int) {
+	return file_user_commands_message_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *RateShopResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
 var File_user_commands_message_proto protoreflect.FileDescriptor
 
 var file_user_commands_message_proto_rawDesc = []byte{
@@ -1174,10 +1300,23 @@ var file_user_commands_message_proto_rawDesc = []byte{
 	0x06, 0x61, 0x70, 0x69, 0x4b, 0x65, 0x79, 0x22, 0x2b, 0x0a, 0x10, 0x49, 0x6e, 0x69, 0x74, 0x55,
 	0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x06, 0x73,
 	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x85, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x42, 0x30, 0x0a, 0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70, 0x61,
-	0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76,
-	0x79, 0x61, 0x70, 0x61, 0x72, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50, 0x01,
-	0x5a, 0x04, 0x2e, 0x3b, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x74, 0x75, 0x73, 0x22, 0x9a, 0x01, 0x0a, 0x0f, 0x52, 0x61, 0x74, 0x65, 0x53, 0x68, 0x6f,
+	0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x15, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x18, 0x86, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x17, 0x0a, 0x06, 0x61, 0x70, 0x69, 0x4b, 0x65, 0x79, 0x18, 0x87, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x61, 0x70, 0x69, 0x4b, 0x65, 0x79, 0x12, 0x19, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x6d,
+	0x65, 0x6e, 0x74, 0x18, 0x88, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x6d,
+	0x65, 0x6e, 0x74, 0x12, 0x23, 0x0a, 0x07, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x89,
+	0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x08, 0x2e, 0x52, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52,
+	0x07, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x17, 0x0a, 0x06, 0x73, 0x68, 0x6f, 0x70,
+	0x49, 0x64, 0x18, 0x8a, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x68, 0x6f, 0x70, 0x49,
+	0x64, 0x22, 0x2b, 0x0a, 0x10, 0x52, 0x61, 0x74, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x17, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18,
+	0x8a, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x30,
+	0x0a, 0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70,
+	0x61, 0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50, 0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1192,7 +1331,7 @@ func file_user_commands_message_proto_rawDescGZIP() []byte {
 	return file_user_commands_message_proto_rawDescData
 }
 
-var file_user_commands_message_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_user_commands_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_user_commands_message_proto_goTypes = []interface{}{
 	(*AddToLikeProductRequest)(nil),       // 0: AddToLikeProductRequest
 	(*AddToLikeProductResponse)(nil),      // 1: AddToLikeProductResponse
@@ -1212,20 +1351,24 @@ var file_user_commands_message_proto_goTypes = []interface{}{
 	(*UpdateAddressResponse)(nil),         // 15: UpdateAddressResponse
 	(*InitUserRequest)(nil),               // 16: InitUserRequest
 	(*InitUserResponse)(nil),              // 17: InitUserResponse
-	(Status)(0),                           // 18: Status
-	(*ProductsOfShopsNearBy)(nil),         // 19: ProductsOfShopsNearBy
-	(*Address)(nil),                       // 20: Address
+	(*RateShopRequest)(nil),               // 18: RateShopRequest
+	(*RateShopResponse)(nil),              // 19: RateShopResponse
+	(Status)(0),                           // 20: Status
+	(*ProductsOfShopsNearBy)(nil),         // 21: ProductsOfShopsNearBy
+	(*Address)(nil),                       // 22: Address
+	(Ratings)(0),                          // 23: Ratings
 }
 var file_user_commands_message_proto_depIdxs = []int32{
-	18, // 0: GetOrdersResponse.status:type_name -> Status
-	19, // 1: GetCartResponse.products:type_name -> ProductsOfShopsNearBy
-	20, // 2: GetProfileResponse.address:type_name -> Address
-	20, // 3: UpdateAddressRequest.address:type_name -> Address
-	4,  // [4:4] is the sub-list for method output_type
-	4,  // [4:4] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	20, // 0: GetOrdersResponse.status:type_name -> Status
+	21, // 1: GetCartResponse.products:type_name -> ProductsOfShopsNearBy
+	22, // 2: GetProfileResponse.address:type_name -> Address
+	22, // 3: UpdateAddressRequest.address:type_name -> Address
+	23, // 4: RateShopRequest.ratings:type_name -> Ratings
+	5,  // [5:5] is the sub-list for method output_type
+	5,  // [5:5] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_user_commands_message_proto_init() }
@@ -1451,6 +1594,30 @@ func file_user_commands_message_proto_init() {
 				return nil
 			}
 		}
+		file_user_commands_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RateShopRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_user_commands_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RateShopResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1458,7 +1625,7 @@ func file_user_commands_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_user_commands_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

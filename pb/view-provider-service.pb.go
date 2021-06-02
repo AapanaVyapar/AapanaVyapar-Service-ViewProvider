@@ -34,7 +34,7 @@ var file_view_provider_service_proto_rawDesc = []byte{
 	0x73, 0x65, 0x72, 0x2d, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x73, 0x2d, 0x6d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x73, 0x65, 0x61, 0x72,
 	0x63, 0x68, 0x2d, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x32, 0x9a, 0x08, 0x0a, 0x13, 0x56, 0x69, 0x65, 0x77, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x32, 0xcb, 0x08, 0x0a, 0x13, 0x56, 0x69, 0x65, 0x77, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
 	0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x49, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x54,
 	0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x53, 0x68, 0x6f, 0x70, 0x73, 0x12, 0x18, 0x2e, 0x47,
 	0x65, 0x74, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x53, 0x68, 0x6f, 0x70, 0x73, 0x52,
@@ -99,11 +99,14 @@ var file_view_provider_service_proto_rawDesc = []byte{
 	0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a, 0x08,
 	0x49, 0x6e, 0x69, 0x74, 0x55, 0x73, 0x65, 0x72, 0x12, 0x10, 0x2e, 0x49, 0x6e, 0x69, 0x74, 0x55,
 	0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x49, 0x6e, 0x69,
-	0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x30, 0x0a,
-	0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61,
-	0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50, 0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70, 0x62, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a,
+	0x08, 0x52, 0x61, 0x74, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x12, 0x10, 0x2e, 0x52, 0x61, 0x74, 0x65,
+	0x53, 0x68, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x52, 0x61,
+	0x74, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x30,
+	0x0a, 0x26, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70,
+	0x61, 0x72, 0x2e, 0x61, 0x61, 0x70, 0x61, 0x6e, 0x61, 0x76, 0x79, 0x61, 0x70, 0x61, 0x72, 0x2e,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x50, 0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_view_provider_service_proto_goTypes = []interface{}{
@@ -122,21 +125,23 @@ var file_view_provider_service_proto_goTypes = []interface{}{
 	(*GetProfileRequest)(nil),                 // 12: GetProfileRequest
 	(*UpdateAddressRequest)(nil),              // 13: UpdateAddressRequest
 	(*InitUserRequest)(nil),                   // 14: InitUserRequest
-	(*GetTrendingShopsResponse)(nil),          // 15: GetTrendingShopsResponse
-	(*GetTrendingProductsByShopResponse)(nil), // 16: GetTrendingProductsByShopResponse
-	(*GetProductResponse)(nil),                // 17: GetProductResponse
-	(*GetShopResponse)(nil),                   // 18: GetShopResponse
-	(*GetProductsBySearchResponse)(nil),       // 19: GetProductsBySearchResponse
-	(*GetShopsBySearchResponse)(nil),          // 20: GetShopsBySearchResponse
-	(*AddToLikeProductResponse)(nil),          // 21: AddToLikeProductResponse
-	(*RemoveFromLikeProductResponse)(nil),     // 22: RemoveFromLikeProductResponse
-	(*AddToCartProductResponse)(nil),          // 23: AddToCartProductResponse
-	(*RemoveFromCartProductResponse)(nil),     // 24: RemoveFromCartProductResponse
-	(*GetOrdersResponse)(nil),                 // 25: GetOrdersResponse
-	(*GetCartResponse)(nil),                   // 26: GetCartResponse
-	(*GetProfileResponse)(nil),                // 27: GetProfileResponse
-	(*UpdateAddressResponse)(nil),             // 28: UpdateAddressResponse
-	(*InitUserResponse)(nil),                  // 29: InitUserResponse
+	(*RateShopRequest)(nil),                   // 15: RateShopRequest
+	(*GetTrendingShopsResponse)(nil),          // 16: GetTrendingShopsResponse
+	(*GetTrendingProductsByShopResponse)(nil), // 17: GetTrendingProductsByShopResponse
+	(*GetProductResponse)(nil),                // 18: GetProductResponse
+	(*GetShopResponse)(nil),                   // 19: GetShopResponse
+	(*GetProductsBySearchResponse)(nil),       // 20: GetProductsBySearchResponse
+	(*GetShopsBySearchResponse)(nil),          // 21: GetShopsBySearchResponse
+	(*AddToLikeProductResponse)(nil),          // 22: AddToLikeProductResponse
+	(*RemoveFromLikeProductResponse)(nil),     // 23: RemoveFromLikeProductResponse
+	(*AddToCartProductResponse)(nil),          // 24: AddToCartProductResponse
+	(*RemoveFromCartProductResponse)(nil),     // 25: RemoveFromCartProductResponse
+	(*GetOrdersResponse)(nil),                 // 26: GetOrdersResponse
+	(*GetCartResponse)(nil),                   // 27: GetCartResponse
+	(*GetProfileResponse)(nil),                // 28: GetProfileResponse
+	(*UpdateAddressResponse)(nil),             // 29: UpdateAddressResponse
+	(*InitUserResponse)(nil),                  // 30: InitUserResponse
+	(*RateShopResponse)(nil),                  // 31: RateShopResponse
 }
 var file_view_provider_service_proto_depIdxs = []int32{
 	0,  // 0: ViewProviderService.GetTrendingShops:input_type -> GetTrendingShopsRequest
@@ -154,23 +159,25 @@ var file_view_provider_service_proto_depIdxs = []int32{
 	12, // 12: ViewProviderService.GetProfile:input_type -> GetProfileRequest
 	13, // 13: ViewProviderService.UpdateAddress:input_type -> UpdateAddressRequest
 	14, // 14: ViewProviderService.InitUser:input_type -> InitUserRequest
-	15, // 15: ViewProviderService.GetTrendingShops:output_type -> GetTrendingShopsResponse
-	16, // 16: ViewProviderService.GetTrendingProductsByShop:output_type -> GetTrendingProductsByShopResponse
-	17, // 17: ViewProviderService.GetProduct:output_type -> GetProductResponse
-	18, // 18: ViewProviderService.GetShop:output_type -> GetShopResponse
-	19, // 19: ViewProviderService.GetProductsBySearch:output_type -> GetProductsBySearchResponse
-	20, // 20: ViewProviderService.GetShopsBySearch:output_type -> GetShopsBySearchResponse
-	21, // 21: ViewProviderService.AddToLikeProduct:output_type -> AddToLikeProductResponse
-	22, // 22: ViewProviderService.RemoveFromLikeProduct:output_type -> RemoveFromLikeProductResponse
-	23, // 23: ViewProviderService.AddToCartProduct:output_type -> AddToCartProductResponse
-	24, // 24: ViewProviderService.RemoveFromCartProduct:output_type -> RemoveFromCartProductResponse
-	25, // 25: ViewProviderService.GetOrders:output_type -> GetOrdersResponse
-	26, // 26: ViewProviderService.GetCart:output_type -> GetCartResponse
-	27, // 27: ViewProviderService.GetProfile:output_type -> GetProfileResponse
-	28, // 28: ViewProviderService.UpdateAddress:output_type -> UpdateAddressResponse
-	29, // 29: ViewProviderService.InitUser:output_type -> InitUserResponse
-	15, // [15:30] is the sub-list for method output_type
-	0,  // [0:15] is the sub-list for method input_type
+	15, // 15: ViewProviderService.RateShop:input_type -> RateShopRequest
+	16, // 16: ViewProviderService.GetTrendingShops:output_type -> GetTrendingShopsResponse
+	17, // 17: ViewProviderService.GetTrendingProductsByShop:output_type -> GetTrendingProductsByShopResponse
+	18, // 18: ViewProviderService.GetProduct:output_type -> GetProductResponse
+	19, // 19: ViewProviderService.GetShop:output_type -> GetShopResponse
+	20, // 20: ViewProviderService.GetProductsBySearch:output_type -> GetProductsBySearchResponse
+	21, // 21: ViewProviderService.GetShopsBySearch:output_type -> GetShopsBySearchResponse
+	22, // 22: ViewProviderService.AddToLikeProduct:output_type -> AddToLikeProductResponse
+	23, // 23: ViewProviderService.RemoveFromLikeProduct:output_type -> RemoveFromLikeProductResponse
+	24, // 24: ViewProviderService.AddToCartProduct:output_type -> AddToCartProductResponse
+	25, // 25: ViewProviderService.RemoveFromCartProduct:output_type -> RemoveFromCartProductResponse
+	26, // 26: ViewProviderService.GetOrders:output_type -> GetOrdersResponse
+	27, // 27: ViewProviderService.GetCart:output_type -> GetCartResponse
+	28, // 28: ViewProviderService.GetProfile:output_type -> GetProfileResponse
+	29, // 29: ViewProviderService.UpdateAddress:output_type -> UpdateAddressResponse
+	30, // 30: ViewProviderService.InitUser:output_type -> InitUserResponse
+	31, // 31: ViewProviderService.RateShop:output_type -> RateShopResponse
+	16, // [16:32] is the sub-list for method output_type
+	0,  // [0:16] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -231,6 +238,7 @@ type ViewProviderServiceClient interface {
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
 	InitUser(ctx context.Context, in *InitUserRequest, opts ...grpc.CallOption) (*InitUserResponse, error)
+	RateShop(ctx context.Context, in *RateShopRequest, opts ...grpc.CallOption) (*RateShopResponse, error)
 }
 
 type viewProviderServiceClient struct {
@@ -514,6 +522,15 @@ func (c *viewProviderServiceClient) InitUser(ctx context.Context, in *InitUserRe
 	return out, nil
 }
 
+func (c *viewProviderServiceClient) RateShop(ctx context.Context, in *RateShopRequest, opts ...grpc.CallOption) (*RateShopResponse, error) {
+	out := new(RateShopResponse)
+	err := c.cc.Invoke(ctx, "/ViewProviderService/RateShop", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ViewProviderServiceServer is the server API for ViewProviderService service.
 type ViewProviderServiceServer interface {
 	GetTrendingShops(*GetTrendingShopsRequest, ViewProviderService_GetTrendingShopsServer) error
@@ -531,6 +548,7 @@ type ViewProviderServiceServer interface {
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
 	InitUser(context.Context, *InitUserRequest) (*InitUserResponse, error)
+	RateShop(context.Context, *RateShopRequest) (*RateShopResponse, error)
 }
 
 // UnimplementedViewProviderServiceServer can be embedded to have forward compatible implementations.
@@ -581,6 +599,9 @@ func (*UnimplementedViewProviderServiceServer) UpdateAddress(context.Context, *U
 }
 func (*UnimplementedViewProviderServiceServer) InitUser(context.Context, *InitUserRequest) (*InitUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitUser not implemented")
+}
+func (*UnimplementedViewProviderServiceServer) RateShop(context.Context, *RateShopRequest) (*RateShopResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RateShop not implemented")
 }
 
 func RegisterViewProviderServiceServer(s *grpc.Server, srv ViewProviderServiceServer) {
@@ -875,6 +896,24 @@ func _ViewProviderService_InitUser_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ViewProviderService_RateShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RateShopRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ViewProviderServiceServer).RateShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ViewProviderService/RateShop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ViewProviderServiceServer).RateShop(ctx, req.(*RateShopRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ViewProviderService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ViewProviderService",
 	HandlerType: (*ViewProviderServiceServer)(nil),
@@ -914,6 +953,10 @@ var _ViewProviderService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "InitUser",
 			Handler:    _ViewProviderService_InitUser_Handler,
+		},
+		{
+			MethodName: "RateShop",
+			Handler:    _ViewProviderService_RateShop_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

@@ -72,7 +72,7 @@ type Rating struct {
 	UserId    string     `bson:"user_id" json:"user_id" validate:"required"`
 	UserName  string     `bson:"user_name" json:"user_name" validate:"required"`
 	Comment   string     `bson:"comment" json:"comment" validate:"required,max=100"`
-	Rating    pb.Ratings `bson:"rating" json:"rating" validate:"required"`
+	Rating    pb.Ratings `bson:"rating" json:"rating"`
 	Timestamp time.Time  `bson:"timestamp" json:"timestamp" validate:"required"`
 }
 

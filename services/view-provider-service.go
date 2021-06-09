@@ -189,13 +189,17 @@ func (viewServer *ViewProviderService) GetProfile(ctx context.Context, request *
 	}
 
 	var fav []string
-	for _, product := range user.Favorites.Products {
-		fav = append(fav, product.Hex())
+	if user.Favorites != nil && len(user.Favorites.Products) > 0 {
+		for _, product := range user.Favorites.Products {
+			fav = append(fav, product.Hex())
+		}
 	}
 
 	var cart []string
-	for _, cartItem := range user.Cart.Products {
-		cart = append(cart, cartItem.Hex())
+	if user.Cart != nil && len(user.Cart.Products) > 0 {
+		for _, cartItem := range user.Cart.Products {
+			cart = append(cart, cartItem.Hex())
+		}
 	}
 
 	if user.Address == nil {
@@ -267,37 +271,39 @@ func (viewServer *ViewProviderService) GetCart(request *pb.GetCartRequest, strea
 		return status.Errorf(codes.NotFound, "Unable To Get Cart")
 	}
 
-	for _, product := range cart.Products {
-		data, err := viewServer.Cash.GetProductById(product.Hex())
-		if err != nil {
-			return status.Errorf(codes.Internal, "Unable To Get Product Info")
-		}
+	if cart != nil {
+		for _, product := range cart.Products {
+			data, err := viewServer.Cash.GetProductById(product.Hex())
+			if err != nil {
+				return status.Errorf(codes.Internal, "Unable To Get Product Info")
+			}
 
-		str := data.Properties["categoryOfProduct"].(string)[1:]
-		str = str[:len(str)-1]
-		catData := strings.Split(str, ",")
-		var category []pb.Category
-		for _, cat := range catData {
-			category = append(category, pb.Category(pb.Category_value[cat]))
-		}
+			str := data.Properties["categoryOfProduct"].(string)[1:]
+			str = str[:len(str)-1]
+			catData := strings.Split(str, ",")
+			var category []pb.Category
+			for _, cat := range catData {
+				category = append(category, pb.Category(pb.Category_value[cat]))
+			}
 
-		likes, err := strconv.ParseUint(data.Properties["likesOfProduct"].(string), 10, 64)
-		if err != nil {
-			return status.Errorf(codes.Internal, "Unable To Parse Data")
-		}
+			likes, err := strconv.ParseUint(data.Properties["likesOfProduct"].(string), 10, 64)
+			if err != nil {
+				return status.Errorf(codes.Internal, "Unable To Parse Data")
+			}
 
-		err = stream.Send(&pb.GetCartResponse{Products: &pb.ProductsOfShopsNearBy{
-			ProductId:    product.Hex(),
-			ShopId:       strings.ReplaceAll(data.Properties["shopId"].(string), redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
-			ProductName:  data.Properties["productName"].(string),
-			PrimaryImage: data.Properties["primaryImage"].(string),
-			Category:     category,
-			Likes:        likes,
-		}})
-		if err != nil {
-			return status.Errorf(codes.Unknown, "Stream Error")
-		}
+			err = stream.Send(&pb.GetCartResponse{Products: &pb.ProductsOfShopsNearBy{
+				ProductId:    product.Hex(),
+				ShopId:       strings.ReplaceAll(data.Properties["shopId"].(string), redisDataBase.SHOP_ID_CHAR_TO_REPLACE_WITH, redisDataBase.SHOP_ID_CHAR_TO_REPLACE),
+				ProductName:  data.Properties["productName"].(string),
+				PrimaryImage: data.Properties["primaryImage"].(string),
+				Category:     category,
+				Likes:        likes,
+			}})
+			if err != nil {
+				return status.Errorf(codes.Unknown, "Stream Error")
+			}
 
+		}
 	}
 
 	return nil

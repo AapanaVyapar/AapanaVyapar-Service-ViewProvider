@@ -321,11 +321,6 @@ func (viewServer *ViewProviderService) GetOrders(request *pb.GetOrdersRequest, s
 
 	err = viewServer.Data.GetMultipleOrdersInfoByUserIdFromOrderData(stream.Context(), receivedToken.Audience, func(data structs.OrderData) error {
 
-		prod, err := viewServer.Cash.GetProductById(data.ProductId.Hex())
-		if err != nil {
-			return status.Errorf(codes.NotFound, "Product Not Found In Cash")
-		}
-
 		err = stream.Send(&pb.GetOrdersResponse{
 			OrderId:           data.OrderId.Hex(),
 			Status:            data.Status,
@@ -334,8 +329,8 @@ func (viewServer *ViewProviderService) GetOrders(request *pb.GetOrdersRequest, s
 			OrderTimeStamp:    data.OrderTimeStamp.String(),
 			Price:             data.Price,
 			Quantity:          data.Quantity,
-			ProductName:       prod.Properties["productName"].(string),
-			ProductImage:      prod.Properties["primaryImage"].(string),
+			ProductName:       data.ProductName,
+			ProductImage:      data.ProductImage,
 		})
 		if err != nil {
 			return status.Errorf(codes.Unknown, "Error While Sending Data")
@@ -750,7 +745,7 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 		return nil, status.Errorf(codes.Unauthenticated, "Request With Invalid Token")
 	}
 
-	fmt.Println("Add Like : ", receivedToken)
+	fmt.Println("Remove Like : ", receivedToken)
 
 	productData, err := viewServer.Cash.GetProductById(request.GetProductId())
 	if err != nil {
@@ -762,9 +757,9 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 		return nil, status.Errorf(codes.Internal, "Unable To Parse Data")
 	}
 
-	if likes == 0 {
-		return &pb.RemoveFromLikeProductResponse{Status: true}, nil
-	}
+	//if likes == 0 {
+	//	return &pb.RemoveFromLikeProductResponse{Status: true}, nil
+	//}
 
 	err = viewServer.Cash.DelToFavStream(context, receivedToken.Audience, likes, request.GetProductId())
 	if err != nil {

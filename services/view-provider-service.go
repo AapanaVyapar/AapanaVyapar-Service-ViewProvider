@@ -754,7 +754,8 @@ func (viewServer *ViewProviderService) RemoveFromLikeProduct(context context.Con
 
 	likes, err := strconv.ParseUint(productData.Properties["likesOfProduct"].(string), 10, 64)
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Unable To Parse Data")
+		return &pb.RemoveFromLikeProductResponse{Status: true}, nil
+		//return nil, status.Errorf(codes.Internal, "Unable To Parse Data")
 	}
 
 	//if likes == 0 {

@@ -98,7 +98,7 @@ func (viewServer *ViewProviderService) LoadProductsInCash(ctx context.Context) e
 	err := viewServer.Data.GetAllProductsFromProductData(ctx, func(data structs.ProductData) error {
 
 		doc := viewServer.Cash.CreateProductDocument(data.ProductId.Hex(), data.ShopId, data.Title, data.Images[0], data.Category, data.Likes)
-		if err := viewServer.Cash.ShopClient.Index([]redisearch.Document{doc}...); err != nil {
+		if err := viewServer.Cash.ProductClient.Index([]redisearch.Document{doc}...); err != nil {
 			return err
 		}
 

@@ -1,3 +1,10 @@
 # Use Below Command Format For CSV Import
 
 mongoimport --type csv -d <db_name> -c <collection_name> --headerline --drop <myCSV.csv> --port <port> -u <userName> -p <password> --authenticationDatabase=<admin>
+
+
+# To import Shop json
+
+mongoimport --jsonArray --type json -d db_aapanavypar -c shopData --drop shopData.json --port 60000 -u api_user -p api_serrate_pass_unknown --authenticationDatabase=admin
+
+# To import Product use product loader script

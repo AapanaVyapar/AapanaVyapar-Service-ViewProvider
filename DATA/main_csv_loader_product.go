@@ -36,8 +36,11 @@ func main() {
 			data := strings.Split(str, ",")
 			var category []pb.Category
 			for _, cat := range data {
-				category = append(category, pb.Category(pb.Category_value[cat]))
+				cat, _ := strconv.ParseInt(cat, 10, 64)
+				category = append(category, pb.Category(cat))
 			}
+
+			fmt.Println(category)
 
 			str = line[10][1:]
 			str = str[:len(str)-1]

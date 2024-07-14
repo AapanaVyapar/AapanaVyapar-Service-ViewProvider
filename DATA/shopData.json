@@ -1,0 +1,1916 @@
+[
+  {
+    "_id": "32d69bf0-3254-4421-9f7a-061c0013198f",
+    "shop_name": "Shah Hardware",
+    "shop_keeper_name": "Rajaram",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/mumbai/i3/022pxx22.xx22.110525141136.r7i3/catalogue/shah-hardware-and-sanitaryware-kemps-corner-mumbai-hardware-shops-0d073.jpg?clr=5c3b0a"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/mumbai/i3/022pxx22.xx22.110525141136.r7i3/catalogue/shah-hardware-and-sanitaryware-kemps-corner-mumbai-hardware-shops-0d073.jpg?clr=5c3b0a",
+    "address": {
+      "full_name": "Rajaram",
+      "house_details": "shah hardware",
+      "street_details": "Sanjivani Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "shah hardware",
+      "code": "425107",
+      "city": "chopda",
+      "state": "andrapradesh",
+      "country": "india",
+      "phone_no": "7890896446"
+    },
+    "location": {
+      "longitude": "75.29856196795996",
+      "latitude": "21.243784586218112"
+    },
+    "category": [
+      15
+    ],
+    "business_information": "Famous Hardware Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:29:56.580Z"
+  },
+  {
+    "_id": "c7fb9cd0-a42f-4a42-bc3d-3c39d414567e",
+    "shop_name": "Rajmudra fashion hub",
+    "shop_keeper_name": "Rajshekhar",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/i8/9999px257.x257.190716192244.b2i8/catalogue/rajmudra-fashion-hub-jalgaon-qn3sn31rwo.jpg",
+      "https://content3.jdmagicbox.com/comp/jalgaon/i8/9999px257.x257.190716192244.b2i8/catalogue/rajmudra-fashion-hub-jalgaon-qn3sn31rwo.jpg"
+    ],
+    "primary_image": "https://images.app.goo.gl/5DpvJzf77HUrd5NAA",
+    "address": {
+      "full_name": "Rajshekhar",
+      "house_details": "Rajmudra fashion hub",
+      "street_details": "Vitthal Complex main road",
+      "land_mark": "Rajmudra fashion hub",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9766714364"
+    },
+    "location": {
+      "longitude": "75.296413",
+      "latitude": "21.246774"
+    },
+    "category": [
+      6
+    ],
+    "business_information": "Best for men clothing",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-27T08:48:07.526Z"
+  },
+  {
+    "_id": "36392c18-2b6b-41d0-a5b5-3b500def2090",
+    "shop_name": "Arihant super shop",
+    "shop_keeper_name": "Prasad",
+    "images": [
+      "https://images.jdmagicbox.com/comp/jalgaon/v6/9999px257.x257.181113142341.c6v6/catalogue/arihant-super-shopy-and-general-store-jalgaon-g4u62c7zdi.jpg"
+    ],
+    "primary_image": "https://images.jdmagicbox.com/comp/jalgaon/v6/9999px257.x257.181113142341.c6v6/catalogue/arihant-super-shopy-and-general-store-jalgaon-g4u62c7zdi.jpg",
+    "address": {
+      "full_name": "Prasad",
+      "house_details": "Arihant super shop",
+      "street_details": "Pankaj Nagar, Khedibhokari, Chopda, Maharashtra 425107",
+      "land_mark": "Pankaj nagar",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9856147230"
+    },
+    "location": {
+      "longitude": "75.303138",
+      "latitude": "21.238715"
+    },
+    "category": [
+      0,
+      9,
+      11,
+      13
+    ],
+    "business_information": "General store",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-27T10:58:11.246Z"
+  },
+  {
+    "_id": "92301efa-aae2-4b6e-a8d5-67279e3d34ad",
+    "shop_name": "Sai General store",
+    "shop_keeper_name": "sai raj",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/z9/9999px257.x257.181128122822.c2z9/catalogue/sai-general-and-coldrinks-jalgaon-htham7fa0a.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/z9/9999px257.x257.181128122822.c2z9/catalogue/sai-general-and-coldrinks-jalgaon-htham7fa0a.jpg",
+    "address": {
+      "full_name": "sai raj",
+      "house_details": "Sai General store",
+      "street_details": "Hatnur Colony, Chopda, Maharashtra 425107",
+      "land_mark": "sai general store",
+      "code": "425107",
+      "city": "chopda",
+      "state": "andrapradesh",
+      "country": "india",
+      "phone_no": "5490852156"
+    },
+    "location": {
+      "longitude": "75.28638838452567",
+      "latitude": "21.243379560758015"
+    },
+    "category": [
+      18,
+      9,
+      11
+    ],
+    "business_information": "General Store",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:38:43.470Z"
+  },
+  {
+    "_id": "b3b4c83d-da01-45a0-a9f7-aaad85ec3904",
+    "shop_name": "Milap stores",
+    "shop_keeper_name": "Milap",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/v3/9999px257.x257.160523114337.y9v3/catalogue/milap-stores-chopda-jalgaon-readymade-garment-retailers-4hn126qkn3-250.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/v3/9999px257.x257.160523114337.y9v3/catalogue/milap-stores-chopda-jalgaon-readymade-garment-retailers-4hn126qkn3-250.jpg",
+    "address": {
+      "full_name": "Milap",
+      "house_details": "Milap stores",
+      "street_details": "Main rd chopda",
+      "land_mark": "Milap collection",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "1234567890"
+    },
+    "location": {
+      "longitude": "75.295481",
+      "latitude": "21.2454435"
+    },
+    "category": [
+      4,
+      6
+    ],
+    "business_information": "Clothing center",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-27T08:13:25.015Z"
+  },
+  {
+    "_id": "40d14ba5-6946-432e-af1e-24fbfdc083cd",
+    "shop_name": "Paradise Sweets",
+    "shop_keeper_name": "Bhagyashri Mahajan",
+    "images": [
+      "https://10619-2.s.cdn12.com/rests/original/104_501313827.jpg"
+    ],
+    "primary_image": "https://10619-2.s.cdn12.com/rests/original/104_501313827.jpg",
+    "address": {
+      "full_name": "Bhagyashri Mahajan",
+      "house_details": "Paradise Sweets",
+      "street_details": "Sahakar colony, In front of BOYs hostel Dharngoan naka, Chopda, Maharashtra 425107",
+      "land_mark": "Paradise Sweets",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "5478078651"
+    },
+    "location": {
+      "longitude": "75.29217884395564",
+      "latitude": "21.237635306147155"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Sweet Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T12:07:55.753Z"
+  },
+  {
+    "_id": "d6264604-7472-4fed-a436-5579d7e3b241",
+    "shop_name": "Bharat general store",
+    "shop_keeper_name": "Dipk patil",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/mumbai/98/022p5438698/catalogue/bharat-general-stores-dadar-west-mumbai-general-stores-0-250.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/mumbai/98/022p5438698/catalogue/bharat-general-stores-dadar-west-mumbai-general-stores-0-250.jpg",
+    "address": {
+      "full_name": "Dipk patil",
+      "house_details": "Bharat general store",
+      "street_details": "near Gol Mandir, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Gol Mandir",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9822427642"
+    },
+    "location": {
+      "longitude": "75.2976959286166",
+      "latitude": "21.24844317140755"
+    },
+    "category": [
+      9,
+      11,
+      13,
+      18
+    ],
+    "business_information": "General store",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T07:04:17.886Z"
+  },
+  {
+    "_id": "f42911f5-7cd1-4a2d-9aa2-bf3e351ab41a",
+    "shop_name": "Kalyani Sweets",
+    "shop_keeper_name": "Kalyani Mahajan",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/i4/9999px257.x257.190830162940.m9i4/catalogue/kalyani-sweets-and-general-jalgaon-15e11inw9s.jpg?clr=333333"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/i4/9999px257.x257.190830162940.m9i4/catalogue/kalyani-sweets-and-general-jalgaon-15e11inw9s.jpg?clr=333333",
+    "address": {
+      "full_name": "Kalyani Mahajan",
+      "house_details": "Kalyani Sweets",
+      "street_details": "Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Kalyni Sweets",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "6547893426"
+    },
+    "location": {
+      "longitude": "75.29712188513847",
+      "latitude": "21.246542960710055"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Best ever products",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T08:49:19.203Z"
+  },
+  {
+    "_id": "546bcd42-834e-455c-8b82-155bfd12d21a",
+    "shop_name": "Bhagwati Sweets",
+    "shop_keeper_name": "Shekhar Prasad",
+    "images": [
+      "https://content.jdmagicbox.com/comp/jalgaon/l6/9999px257.x257.161019110847.h3l6/catalogue/bhagwati-sweet-jalgaon-1fd2fctlbe.jpg"
+    ],
+    "primary_image": "https://content.jdmagicbox.com/comp/jalgaon/l6/9999px257.x257.161019110847.h3l6/catalogue/bhagwati-sweet-jalgaon-1fd2fctlbe.jpg",
+    "address": {
+      "full_name": "Shekhar Prasad",
+      "house_details": "Bhagwati Sweets",
+      "street_details": "Mahabal Road, Mahabal, Samata Nagar, Jalgaon, Maharashtra 425002",
+      "land_mark": "Bhagwati Sweets",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "879065124"
+    },
+    "location": {
+      "longitude": "75.55612002477616",
+      "latitude": "20.990403125697746"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Best Cake For Cellebration",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T08:43:41.998Z"
+  },
+  {
+    "_id": "e2d356b7-0276-4744-8a85-99361983b153",
+    "shop_name": "Bapu milk dairy",
+    "shop_keeper_name": "Rajedra",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/z4/9999px257.x257.110330115156.p4z4/catalogue/bapu-dairy-jalgaon-9zxsrgdjtq.jpg?clr=521429"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/z4/9999px257.x257.110330115156.p4z4/catalogue/bapu-dairy-jalgaon-9zxsrgdjtq.jpg?clr=521429",
+    "address": {
+      "full_name": "Rajedra",
+      "house_details": "Bapu milk dairy",
+      "street_details": "Narayan Wadi, Vidya Vihar Colony, Chopda, Maharashtra 425107, India",
+      "land_mark": "Narayan wadi",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9685741230"
+    },
+    "location": {
+      "longitude": "75.29393304174509",
+      "latitude": "21.23834873009921"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Milk dairy",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-27T10:30:19.988Z"
+  },
+  {
+    "_id": "6828695b-5438-41c4-9527-e95d88099fa7",
+    "shop_name": "Hotel yogi",
+    "shop_keeper_name": "Yogiraj",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/d3/9999px257.x257.110330125706.h6d3/catalogue/yogi-restaurant-chopda-jalgaon-restaurants-3p2hz1d.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/d3/9999px257.x257.110330125706.h6d3/catalogue/yogi-restaurant-chopda-jalgaon-restaurants-3p2hz1d.jpg",
+    "address": {
+      "full_name": "Yogiraj",
+      "house_details": "Hotel yogi",
+      "street_details": "Narayan wadi vidya vihar colony",
+      "land_mark": "Hotel yogi",
+      "code": "425107",
+      "city": "Choda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9865472310"
+    },
+    "location": {
+      "longitude": "75.297374",
+      "latitude": "21.238896"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Delicious and tasty food",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-27T09:46:56.181Z"
+  },
+  {
+    "_id": "1cc2d4ca-346e-4338-8ad8-328fca8b33f6",
+    "shop_name": "Sachin Perfume House",
+    "shop_keeper_name": "Sachin Mali",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/k6/9999px257.x257.171203083824.n2k6/catalogue/sachin-perfume-house-jalgaon-plhzfefqve.jpg?clr=333333",
+      "https://content3.jdmagicbox.com/comp/jalgaon/k6/9999px257.x257.171203083824.n2k6/catalogue/sachin-perfume-house-chopda-jalgaon-car-perfume-dealers-nwdej39jom-250.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/k6/9999px257.x257.171203083824.n2k6/catalogue/sachin-perfume-house-jalgaon-plhzfefqve.jpg?clr=333333",
+    "address": {
+      "full_name": "Sachin Mali",
+      "house_details": "Sachin Perfume House",
+      "street_details": "425107 Shop no-30,new municiple complex, Sirpur Rd, Chopda, Maharashtra 425107",
+      "land_mark": "Sachin Perfume House",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9763632345"
+    },
+    "location": {
+      "longitude": "75.29218807431623",
+      "latitude": "21.24471690378142"
+    },
+    "category": [
+      7,
+      18
+    ],
+    "business_information": "All types of perfume and men accessories are available",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-29T06:39:45.663Z"
+  },
+  {
+    "_id": "bcd5834a-aecc-4915-8d9e-14478c706768",
+    "shop_name": "Suresh Electronic",
+    "shop_keeper_name": "Suresh Bhoi",
+    "images": [
+      "https://images.jdmagicbox.com/comp/jalgaon/r8/9999px257.x257.110310121456.v2r8/catalogue/suresh-electronics-jalgaon-06ovowu8qw.jpg?clr=#0d4d59"
+    ],
+    "primary_image": "https://images.jdmagicbox.com/comp/jalgaon/r8/9999px257.x257.110310121456.v2r8/catalogue/suresh-electronics-jalgaon-06ovowu8qw.jpg?clr=#0d4d59",
+    "address": {
+      "full_name": "Suresh Bhoi",
+      "house_details": "Suresh Electronic",
+      "street_details": "gandhi chowk,chopda, Chopda, Maharashtra 425107",
+      "land_mark": "Suresh Electronic",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "850786396"
+    },
+    "location": {
+      "longitude": "75.2958066021045",
+      "latitude": "21.247537605914108"
+    },
+    "category": [
+      10
+    ],
+    "business_information": "Electronic shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:55:43.012Z"
+  },
+  {
+    "_id": "f222d0f2-a377-47e0-b2f7-f49927a2a3c7",
+    "shop_name": "Tushar Auto Parts and Services",
+    "shop_keeper_name": "tushar Visave",
+    "images": [
+      "https://content.jdmagicbox.com/comp/jalgaon/k1/9999px257.x257.170921024844.q7k1/catalogue/tushar-auto-parts-and-service-jalgaon-mdqogmbgib.jpg?clr=442d22"
+    ],
+    "primary_image": "https://content.jdmagicbox.com/comp/jalgaon/k1/9999px257.x257.170921024844.q7k1/catalogue/tushar-auto-parts-and-service-jalgaon-mdqogmbgib.jpg?clr=442d22",
+    "address": {
+      "full_name": "tushar Visave",
+      "house_details": "Tushar Auto Parts and Services",
+      "street_details": "Vidya Vihar Colony, Chopda",
+      "land_mark": "Tushar Auto Parts and Services",
+      "code": "425107",
+      "city": "choda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9850598313"
+    },
+    "location": {
+      "longitude": "75.30214723067986",
+      "latitude": "21.240440999962015"
+    },
+    "category": [
+      15
+    ],
+    "business_information": "Auto parts and services",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T16:06:00.789Z"
+  },
+  {
+    "_id": "58c2f7a3-0d7a-437f-a12f-10d872bd75ac",
+    "shop_name": "Agrawal Plywood",
+    "shop_keeper_name": "Sameer Agrawal",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/c7/9999px257.x257.171224194252.i1c7/catalogue/agrawal-plywood-chopda-jalgaon-hardware-shops-vhkeo8eocb.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/c7/9999px257.x257.171224194252.i1c7/catalogue/agrawal-plywood-chopda-jalgaon-hardware-shops-vhkeo8eocb.jpg",
+    "address": {
+      "full_name": "Sameer Agrawal",
+      "house_details": "Agrawal Plywood",
+      "street_details": "27, Savitrabai phule shopping complex, Gautam nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Agrawal Plywood",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9875782435"
+    },
+    "location": {
+      "longitude": "75.29321373912502",
+      "latitude": "21.24422318247582"
+    },
+    "category": [
+      16
+    ],
+    "business_information": "Plywood Business",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T08:54:55.091Z"
+  },
+  {
+    "_id": "44c3a399-da8a-40e2-be85-e373eff704cd",
+    "shop_name": "Mahesh Paint House",
+    "shop_keeper_name": "Mahesh Bhavsaar",
+    "images": [
+      "https://images.jdmagicbox.com/comp/jalgaon/e3/9999px257.x257.150129200619.f6e3/catalogue/shraddha-paint-place-enterprises-jalgaon-1qnekel4r7.jpg",
+      "https://images.jdmagicbox.com/comp/jalgaon/m5/9999px257.x257.200116120807.q7m5/catalogue/j-k-paints-jalgaon-18bpo89kxw.jpg?clr="
+    ],
+    "primary_image": "https://images.jdmagicbox.com/comp/jalgaon/e3/9999px257.x257.150129200619.f6e3/catalogue/shraddha-paint-place-enterprises-jalgaon-1qnekel4r7.jpg",
+    "address": {
+      "full_name": "Mahesh Bhavsaar",
+      "house_details": "Mahesh Paint House",
+      "street_details": "bohra Ln, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Mahesh Paint House",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9802672835"
+    },
+    "location": {
+      "longitude": "75.29693558040485",
+      "latitude": "21.246558974960838"
+    },
+    "category": [
+      15
+    ],
+    "business_information": "Paint House",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T14:33:05.024Z"
+  },
+  {
+    "_id": "74e0ea67-5e24-421f-a6d6-40db347ef399",
+    "shop_name": "Balaji Aluminium and Furniture",
+    "shop_keeper_name": "Narayan Mahajan",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/i6/9999px257.x257.190824152309.k5i6/catalogue/balaji-aluminum-furniture-jalgaon-9wyv1tny3s.jpg?clr=333333"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/i6/9999px257.x257.190824152309.k5i6/catalogue/balaji-aluminum-furniture-jalgaon-9wyv1tny3s.jpg?clr=333333",
+    "address": {
+      "full_name": "Narayan Mahajan",
+      "house_details": "Balaji Aluminium and Furniture",
+      "street_details": "Narayan Wadi, Vidya Vihar Colony, Chopda, Maharashtra 425107",
+      "land_mark": "Balaji Aluminium and Furniture",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9890418095"
+    },
+    "location": {
+      "longitude": "75.29347553730781",
+      "latitude": "21.239397409289182"
+    },
+    "category": [
+      16
+    ],
+    "business_information": "Furniture Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-29T06:00:05.374Z"
+  },
+  {
+    "_id": "dfb42a5b-c166-480d-be7e-36c5f12ae967",
+    "shop_name": "Navkar Super Shop",
+    "shop_keeper_name": "narendra mahajan",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/k9/9999px257.x257.190823192814.s9k9/catalogue/navkar-super-shop-general-jalgaon-1zwdyd4lum.jpg?clr=333333"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/k9/9999px257.x257.190823192814.s9k9/catalogue/navkar-super-shop-general-jalgaon-1zwdyd4lum.jpg?clr=333333",
+    "address": {
+      "full_name": "narendra mahajan",
+      "house_details": "Navkar Super Shop",
+      "street_details": "Sanjivani Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Navkar Super Shop",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9078653421"
+    },
+    "location": {
+      "longitude": "75.30027248422148",
+      "latitude": "21.240031499964502"
+    },
+    "category": [
+      2,
+      5,
+      11,
+      12,
+      7
+    ],
+    "business_information": "Most Popular Super Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T07:28:29.895Z"
+  },
+  {
+    "_id": "ba45d360-5f94-4e39-8755-7cc981f7695f",
+    "shop_name": "Ashirwad footwear",
+    "shop_keeper_name": "Jay Rajput",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/r8/9999px257.x257.190720145320.z1r8/catalogue/aashirwad-shoes-chopda-jalgaon-shoe-dealers-1173v4yzby.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/r8/9999px257.x257.190720145320.z1r8/catalogue/aashirwad-shoes-chopda-jalgaon-shoe-dealers-1173v4yzby.jpg",
+    "address": {
+      "full_name": "Jay Rajput",
+      "house_details": "Ashirwad footwear",
+      "street_details": "Gautam Nagar, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Ashirwad footwear",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "8769057832"
+    },
+    "location": {
+      "longitude": "75.29566250526437",
+      "latitude": "21.24432302410218"
+    },
+    "category": [
+      5,
+      7
+    ],
+    "business_information": "Footwear",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:21:38.781Z"
+  },
+  {
+    "_id": "d1c044da-dcd1-46ad-b2a4-1f66dea58126",
+    "shop_name": "Ganesh Electrical and Electronic",
+    "shop_keeper_name": "Ganesh",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/d3/9999px257.x257.181205124550.v7d3/catalogue/ganesh-electrical-and-electronics-jalgaon-cyaxi9vcmy.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/d3/9999px257.x257.181205124550.v7d3/catalogue/ganesh-electrical-and-electronics-jalgaon-cyaxi9vcmy.jpg",
+    "address": {
+      "full_name": "Ganesh",
+      "house_details": "Ganesh Electrical and Electronic",
+      "street_details": "Shri Krishna Mandir Rd, Police Colony, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Ganesh Electrical and Electronic",
+      "code": "425107",
+      "city": "chopda",
+      "state": "andrapradesh",
+      "country": "india",
+      "phone_no": "9876543210"
+    },
+    "location": {
+      "longitude": "75.2942080056918",
+      "latitude": "21.24768759873601"
+    },
+    "category": [
+      1,
+      10
+    ],
+    "business_information": "Electrical and Electronic Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:49:48.933Z"
+  },
+  {
+    "_id": "589c9de6-57b6-4e39-a07e-98da7b01496a",
+    "shop_name": "Priya bakery",
+    "shop_keeper_name": "priya patil",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/a6/9999px257.x257.180910171017.h4a6/catalogue/priya-bakery-chopda-jalgaon-eggless-pastry-retailers-1htxfd67ak.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/a6/9999px257.x257.180910171017.h4a6/catalogue/priya-bakery-chopda-jalgaon-eggless-pastry-retailers-1htxfd67ak.jpg",
+    "address": {
+      "full_name": "priya patil",
+      "house_details": "Priya bakery",
+      "street_details": "Main Rd, Bazaar Peth, Chopda, Maharashtra 425107",
+      "land_mark": "Priya bakery",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "4796056379"
+    },
+    "location": {
+      "longitude": "75.30320435179554",
+      "latitude": "21.24755162752199"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "World' best cake are here",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T12:02:30.933Z"
+  },
+  {
+    "_id": "b54e98ac-8357-42a4-81bd-8e3410c22d72",
+    "shop_name": "Rajendra General Stores",
+    "shop_keeper_name": "Rajendra Mali",
+    "images": [
+      "https://content.jdmagicbox.com/comp/jalgaon/v6/9999px257.x257.181111102345.s8v6/catalogue/rajendra-general-store-and-book-depo-jalgaon-brb7nsrtvi.jpg"
+    ],
+    "primary_image": "https://content.jdmagicbox.com/comp/jalgaon/v6/9999px257.x257.181111102345.s8v6/catalogue/rajendra-general-store-and-book-depo-jalgaon-brb7nsrtvi.jpg",
+    "address": {
+      "full_name": "Rajendra Mali",
+      "house_details": "Rajendra General Stores",
+      "street_details": "Police Colony, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Rajendra General Stores",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "6528764226"
+    },
+    "location": {
+      "longitude": "75.29522422308455",
+      "latitude": "21.245030799541862"
+    },
+    "category": [
+      13
+    ],
+    "business_information": "All type of Stationary",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T14:27:39.144Z"
+  },
+  {
+    "_id": "26cf3f66-8c10-4976-ac98-e1ca0f133736",
+    "shop_name": "Paliwal General Store",
+    "shop_keeper_name": "Paiwal",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/w8/9999px257.x257.181212172641.y4w8/catalogue/paliwal-provision-jalgaon-0kmzke10xa.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/w8/9999px257.x257.181212172641.y4w8/catalogue/paliwal-provision-jalgaon-0kmzke10xa.jpg",
+    "address": {
+      "full_name": "Paiwal",
+      "house_details": "Paliwal General Store",
+      "street_details": "Sanjivani Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Paliwal General Store",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "7690436832"
+    },
+    "location": {
+      "longitude": "75.29706960759049",
+      "latitude": "21.242147645355185"
+    },
+    "category": [
+      0,
+      12,
+      18
+    ],
+    "business_information": "General  Store",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T15:36:15.643Z"
+  },
+  {
+    "_id": "6384b9e3-e5cd-4c3a-8e4b-8fdeb8ff3a25",
+    "shop_name": "Mahaveer Super Shop",
+    "shop_keeper_name": "Amol More",
+    "images": [
+      "https://content.jdmagicbox.com/comp/jalgaon/a7/9999px257.x257.190830111318.i7a7/catalogue/mahaveer-super-shop-jalgaon-tcbaqxzilz.jpg?clr=39392d"
+    ],
+    "primary_image": "https://content.jdmagicbox.com/comp/jalgaon/a7/9999px257.x257.190830111318.i7a7/catalogue/mahaveer-super-shop-jalgaon-tcbaqxzilz.jpg?clr=39392d",
+    "address": {
+      "full_name": "Amol More",
+      "house_details": "Mahaveer Super Shop",
+      "street_details": "Shiv Colony, Hatnur Colony, Chopda, Maharashtra 425107",
+      "land_mark": "Shiv Colony",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "8976543210"
+    },
+    "location": {
+      "longitude": "75.28698690354257",
+      "latitude": "21.245967685796206"
+    },
+    "category": [
+      5,
+      12,
+      13
+    ],
+    "business_information": "Best products are available here!!!!",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T07:19:34.223Z"
+  },
+  {
+    "_id": "cc7711a9-61d7-4319-893e-c9516d9c488d",
+    "shop_name": "Shimla Fruits And Supershopee",
+    "shop_keeper_name": "hemant rathi",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/c4/9999px257.x257.181003063156.l6c4/catalogue/shimla-fruits-and-supershopee-jalgaon-z4g7o6qjsq.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/c4/9999px257.x257.181003063156.l6c4/catalogue/shimla-fruits-and-supershopee-jalgaon-z4g7o6qjsq.jpg",
+    "address": {
+      "full_name": "hemant rathi",
+      "house_details": "Shimla Fruits And Supershopee",
+      "street_details": "Azad Rd, Gautam Nagar, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Shimla Fruits And Supershopee",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "8790658765"
+    },
+    "location": {
+      "longitude": "75.2963977395821",
+      "latitude": "21.244246528860405"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Fruit Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:04:47.806Z"
+  },
+  {
+    "_id": "1905c212-8064-4a3c-8cdb-3ddd3fbb1346",
+    "shop_name": "Chhotu kolhapuri Restaurant",
+    "shop_keeper_name": "chhotu lal",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/g3/9999px257.x257.200621132049.v7g3/catalogue/chhotu-kolhapuri-chopda-7rb4hxm7u0.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/g3/9999px257.x257.200621132049.v7g3/catalogue/chhotu-kolhapuri-chopda-7rb4hxm7u0.jpg",
+    "address": {
+      "full_name": "chhotu lal",
+      "house_details": "Chhotu kolhapuri Restaurant",
+      "street_details": "Chatrapati Shivaji Chowk, Chopda, Maharashtra 425107",
+      "land_mark": "Chhotu kolhapuri Restaurant",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "8906468671"
+    },
+    "location": {
+      "longitude": "75.29487960943179",
+      "latitude": "21.24395653582896"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Kolhapuri Thaskka",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:09:37.553Z"
+  },
+  {
+    "_id": "8a065803-8214-42d3-a417-3a12890ef6a5",
+    "shop_name": "Sonam Electronic",
+    "shop_keeper_name": "Sonam Kapur",
+    "images": [
+      "https://images.jdmagicbox.com/comp/jalgaon/v9/9999px257.x257.191026205032.x5v9/catalogue/jalgaon-ms6g79rmry.jpg?clr="
+    ],
+    "primary_image": "https://images.jdmagicbox.com/comp/jalgaon/v9/9999px257.x257.191026205032.x5v9/catalogue/jalgaon-ms6g79rmry.jpg?clr=",
+    "address": {
+      "full_name": "Sonam Kapur",
+      "house_details": "Sonam Electronic",
+      "street_details": "Police Colony, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Sonam Electronic",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "7494591047"
+    },
+    "location": {
+      "longitude": "75.29475688932955",
+      "latitude": "21.245351429899817"
+    },
+    "category": [
+      1,
+      10
+    ],
+    "business_information": "Electronic Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T12:17:03.321Z"
+  },
+  {
+    "_id": "713789d2-55cb-4097-abac-3e87d3f3a6fe",
+    "shop_name": "Shubham Book Depot",
+    "shop_keeper_name": "Shubham",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/l9/9999px257.x257.161118002957.x2l9/catalogue/shubham-book-depo-jalgaon-hz83qv69kg.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/l9/9999px257.x257.161118002957.x2l9/catalogue/shubham-book-depo-jalgaon-hz83qv69kg.jpg",
+    "address": {
+      "full_name": "Shubham",
+      "house_details": "Shubham Book Depot",
+      "street_details": "Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Shubham Book Depot",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9822051220"
+    },
+    "location": {
+      "longitude": "75.29645203456415",
+      "latitude": "21.246900629405435"
+    },
+    "category": [
+      13
+    ],
+    "business_information": "Stationary Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T14:50:46.942Z"
+  },
+  {
+    "_id": "f16470e8-8116-49da-a50a-f87b823a4465",
+    "shop_name": "Krishna Bag House",
+    "shop_keeper_name": "Krishna",
+    "images": [
+      "https://images.jdmagicbox.com/comp/jalgaon/z9/9999px257.x257.150326202046.t5z9/catalogue/shrikrushna-bag-house-jalgaon-ho-jalgaon-bag-dealers-b4mkaqn.jpg"
+    ],
+    "primary_image": "https://images.jdmagicbox.com/comp/jalgaon/z9/9999px257.x257.150326202046.t5z9/catalogue/shrikrushna-bag-house-jalgaon-ho-jalgaon-bag-dealers-b4mkaqn.jpg",
+    "address": {
+      "full_name": "Krishna",
+      "house_details": "Krishna Bag House",
+      "street_details": "Unnamed Road, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Krishna Bag House",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9827901543"
+    },
+    "location": {
+      "longitude": "75.29550957348185",
+      "latitude": "21.246038885702188"
+    },
+    "category": [
+      14
+    ],
+    "business_information": "Bags for students,travellers!!!",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T14:38:26.919Z"
+  },
+  {
+    "_id": "ee6518b4-0701-4e9a-9ece-fce0847fda68",
+    "shop_name": "Arihant Sweets",
+    "shop_keeper_name": "Arihant",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/u2/9999px257.x257.170329133503.q6u2/catalogue/arihant-sweets-jalgaon-fu64mdu0df.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/u2/9999px257.x257.170329133503.q6u2/catalogue/arihant-sweets-jalgaon-fu64mdu0df.jpg",
+    "address": {
+      "full_name": "Arihant",
+      "house_details": "Arihant Sweets",
+      "street_details": "Gautam Nagar, Panchshil Nagar, Chopda, Maharashtra 425107",
+      "land_mark": "Arihant Sweets",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "6704636378"
+    },
+    "location": {
+      "longitude": "75.29509105262008",
+      "latitude": "21.244084785174493"
+    },
+    "category": [
+      12
+    ],
+    "business_information": "Sweet Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T11:44:28.608Z"
+  },
+  {
+    "_id": "8094a83d-2f47-4f89-b92d-b6a863a8c2ac",
+    "shop_name": "Priya General Store",
+    "shop_keeper_name": "Priya Patil",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/aurangabad-maharashtra/x2/9999px240.x240.121023102910.x8x2/catalogue/priya-general-store-nutan-colony-aurangabad-maharashtra-general-stores-onto7c8-250.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/aurangabad-maharashtra/x2/9999px240.x240.121023102910.x8x2/catalogue/priya-general-store-nutan-colony-aurangabad-maharashtra-general-stores-onto7c8-250.jpg",
+    "address": {
+      "full_name": "Priya Patil",
+      "house_details": "Priya General Store",
+      "street_details": "Main Rd, Bazaar Peth, Chopda, Maharashtra 425107",
+      "land_mark": "Priya General Store",
+      "code": "425107",
+      "city": "chopda",
+      "state": "Maharashtra",
+      "country": "india",
+      "phone_no": "9028333429"
+    },
+    "location": {
+      "longitude": "75.29654389419474",
+      "latitude": "21.246927516438472"
+    },
+    "category": [
+      5,
+      9,
+      12
+    ],
+    "business_information": "General Store",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-28T15:25:48.704Z"
+  },
+  {
+    "_id": "a9a4fdda-db5a-4bdf-b75b-6802e9b85774",
+    "shop_name": "New Paliwal Furniture",
+    "shop_keeper_name": "Mahesh Paliwal",
+    "images": [
+      "https://content3.jdmagicbox.com/comp/jalgaon/z2/9999px257.x257.180307124254.y6z2/catalogue/paliwal-furniture-chopda-jalgaon-furniture-dealers-il5ed3ntdw.jpg"
+    ],
+    "primary_image": "https://content3.jdmagicbox.com/comp/jalgaon/z2/9999px257.x257.180307124254.y6z2/catalogue/paliwal-furniture-chopda-jalgaon-furniture-dealers-il5ed3ntdw.jpg",
+    "address": {
+      "full_name": "Mahesh Paliwal",
+      "house_details": "New Paliwal Furniture",
+      "street_details": "Azad chouk road, near patil darvaja, Chopda, Maharashtra 425107",
+      "land_mark": "New Paliwal Furniture",
+      "code": "425107",
+      "city": "Chopda",
+      "state": "Maharashtra",
+      "country": "India",
+      "phone_no": "9988787698"
+    },
+    "location": {
+      "longitude": "75.29683176118326",
+      "latitude": "21.245166375172108"
+    },
+    "category": [
+      16
+    ],
+    "business_information": "Furniture Shop",
+    "operational_hours" : {
+      "sunday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "monday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "tuesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "wednesday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "thursday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "friday": [
+        "09:00am",
+        "11:30pm"
+      ],
+      "saturday": [
+        "09:00am",
+        "11:30pm"
+      ]
+    },
+    "timestamp": "2021-04-29T05:48:03.283Z"
+  }
+]

@@ -1,0 +1,36 @@
+https://towardsdatascience.com/how-to-deploy-a-mongodb-replica-set-using-docker-6d0b9ac00e49
+https://www.mongodb.com/blog/post/json-schema-validation--locking-down-your-model-the-smart-way
+https://hub.docker.com/r/redislabs/redisearch/
+https://medium.com/@simone.pezzano/quick-docker-and-mongodb-replica-set-on-your-computer-5c2470012a41
+https://docs.mongodb.com/manual/changeStreams/
+https://docs.mongodb.com/manual/core/transactions/#transactions-and-atomicity
+https://docs.mongodb.com/manual/sharding/
+https://docs.mongodb.com/manual/core/sharded-cluster-requirements/#std-label-sharding-operational-restrictions
+https://docs.mongodb.com/manual/core/sharding-shard-key/#std-label-sharding-shard-key-selection
+https://mohewedy.medium.com/redis-geospatial-by-example-f5505a0962ef
+https://levelup.gitconnected.com/tracking-service-with-go-and-redis-efa9f3c1d130
+youtube.com/watch?v=R4MrP9fnA_Q
+https://docs.mongodb.com/manual/reference/operator/query/nearSphere/#mongodb-query-op.-nearSphere
+https://docs.mongodb.com/manual/reference/operator/query/near/#mongodb-query-op.-near
+https://docs.mongodb.com/manual/reference/operator/query/geoWithin/#mongodb-query-op.-geoWithin
+
+
+
+
+https://serverfault.com/questions/711281/authentication-in-a-mongo-sharded-cluster
+https://www.mydbaworld.com/how-authentication-works-shared-mongodb-cluster/
+https://dba.stackexchange.com/questions/194487/mongodb-cluster-cant-access-member-of-shard-with-credentials
+https://bobcares.com/blog/mongodb-error-auth-failed/#:~:text=Securing%20data%20is%20always%20a,and%20then%20enable%20access%20control.
+https://medium.com/the-glitcher/mongodb-sharding-9c5357a95ec1
+https://towardsdatascience.com/how-to-deploy-a-mongodb-replica-set-using-docker-6d0b9ac00e49
+
+//INMPORANT
+https://stackoverflow.com/questions/56393513/docker-and-mongo-go-driver-server-selection-error
+//INMPORANT
+
+
+
+
+
+top corner : 21.260893, 75.277574
+end corner : 21.229901, 75.312120

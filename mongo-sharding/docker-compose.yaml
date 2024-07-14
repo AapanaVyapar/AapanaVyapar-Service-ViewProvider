@@ -1,0 +1,189 @@
+version: '3'
+
+services:
+  shard1Server1:
+    container_name: ${SHARD1_SERVER_1_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD1_SERVER_1_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD1_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ./shard1/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
+      - ~/ShardData/${SHARD1_SERVER_1_CONTAINER}:/data/db
+    depends_on:
+      - ${SHARD1_SERVER_2_CONTAINER}
+      - ${SHARD1_SERVER_3_CONTAINER}
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.11
+
+  shard1Server2:
+    container_name: ${SHARD1_SERVER_2_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD1_SERVER_2_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD1_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${SHARD1_SERVER_2_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.12
+
+  shard1Server3:
+    container_name: ${SHARD1_SERVER_3_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD1_SERVER_3_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD1_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${SHARD1_SERVER_3_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.13
+
+  shard2Server1:
+    container_name: ${SHARD2_SERVER_1_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD2_SERVER_1_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ./shard2/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
+      - ~/ShardData/${SHARD2_SERVER_1_CONTAINER}:/data/db
+    depends_on:
+      - ${SHARD2_SERVER_2_CONTAINER}
+      - ${SHARD2_SERVER_3_CONTAINER}
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.14
+
+  shard2Server2:
+    container_name: ${SHARD2_SERVER_2_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD2_SERVER_2_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${SHARD2_SERVER_2_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.15
+
+  shard2Server3:
+    container_name: ${SHARD2_SERVER_3_CONTAINER}
+    image: mongo:4.4
+    env_file:
+      - .env
+    hostname: ${SHARD2_SERVER_3_CONTAINER}
+    command: mongod --shardsvr --replSet ${SHARD2_SERVER_REPLICASET_NAME} --port 27017 --dbpath /data/db --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${SHARD2_SERVER_3_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.16
+
+  configServer1:
+    container_name: ${CONFIG_SERVER_1_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    depends_on:
+      - ${CONFIG_SERVER_2_CONTAINER}
+      - ${CONFIG_SERVER_3_CONTAINER}
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ./config-server/config_replica.js:/docker-entrypoint-initdb.d/config_replica.js
+      - ~/ShardData/${CONFIG_SERVER_1_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.17
+
+  configServer2:
+    container_name: ${CONFIG_SERVER_2_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${CONFIG_SERVER_2_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.18
+
+  configServer3:
+    container_name: ${CONFIG_SERVER_3_CONTAINER}
+    restart: on-failure
+    image: mongo:4.4
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    command: mongod --configsvr --replSet ${CONFIG_SERVERS_REPLICASET_NAME} --port 27017 --dbpath /data/db --auth --keyFile /opt/mongors/keyfile
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ~/ShardData/${CONFIG_SERVER_3_CONTAINER}:/data/db
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.19
+
+  mongos:
+    image: mongo:4.4
+    container_name: ${MONGOS_CONTAINER_NAME}
+    env_file:
+      - .env
+    command: mongos --configdb ${CONFIG_SERVERS_REPLICASET_NAME}/${CONFIG_SERVER_1_CONTAINER_ADDRESS},${CONFIG_SERVER_2_CONTAINER_ADDRESS},${CONFIG_SERVER_3_CONTAINER_ADDRESS} --bind_ip 0.0.0.0 --port 27017 --keyFile /opt/mongors/keyfile
+    ports:
+      - 60000:27017
+    volumes:
+      - /home/shitij/go/src/aapanavyapar-service-viewprovider/mongo-sharding/keyfile:/opt/mongors/keyfile
+      - ./mongos/make-authorized.js:/docker-entrypoint-initdb.d/make-authorized.js
+    depends_on:
+      - ${SHARD1_SERVER_1_CONTAINER}
+      - ${SHARD2_SERVER_2_CONTAINER}
+      - ${CONFIG_SERVER_1_CONTAINER}
+    networks:
+      mongo_cluster:
+        ipv4_address: 172.22.0.20
+
+
+volumes:
+  shard1Server1: {}
+  shard1Server2: {}
+  shard1Server3: {}
+  shard2Server1: {}
+  shard2Server2: {}
+  shard2Server3: {}
+  configServer1: {}
+  configServer2: {}
+  configServer3: {}
+
+#Docker Networks
+networks:
+  mongo_cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/20

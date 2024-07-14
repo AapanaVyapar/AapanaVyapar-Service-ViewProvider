@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  redis_tls_userview:
+    container_name: redis_tls_userview
+    build:
+      context: ./
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./certs:/etc/certs
+
+
